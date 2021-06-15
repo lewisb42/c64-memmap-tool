@@ -1,14 +1,14 @@
-<mat-grid-list cols="1" rowHeight="100px">
-    <mat-grid-tile>Vic Bank 0</mat-grid-tile>
+<mat-grid-list cols="1" rowHeight="125px">
+    <mat-grid-tile>
+      <mat-grid-tile-header>VIC-II Bank 0</mat-grid-tile-header>
+      this area will be divided horizontally into blocks, each representing a contiguous chunk of memory, with notations (color, text, etc) explaining what it is used for, if it's free to use in programs, etc.
+    </mat-grid-tile>
     <mat-grid-tile>Vic Bank 1</mat-grid-tile>
     <mat-grid-tile>Vic Bank 2</mat-grid-tile>
     <mat-grid-tile>Vic Bank 3</mat-grid-tile>
 </mat-grid-list>    
-    
 
-<h1>Controls area</h1>
-
-<mat-grid-list cols="5" rowHeight="200px">
+<mat-grid-list cols="6" rowHeight="200px" id="controls-area">
     <mat-grid-tile>
         <mat-grid-tile-header>VIC-II Bank Select</mat-grid-tile-header>
         <mat-radio-group 
@@ -36,7 +36,7 @@
         </mat-radio-group>
     </mat-grid-tile>
     
-    <mat-grid-tile>
+    <mat-grid-tile colspan="2">
         <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
         <div class="rom-bank-options">
             <mat-slide-toggle 
@@ -87,13 +87,9 @@
     
 </mat-grid-list>
 
-
-<h1>Output area</h1>
-
-<h1>Debug</h1>
-
-{{ cartRomHi }}
-
-    
-    
-
+<mat-grid-list cols="1" rowHeight="200px" id="output-area">
+  <mat-grid-tile>
+        <mat-grid-tile-header>Computed Values</mat-grid-tile-header>
+        various hex-values, such as the what should go into $0001 in order to select the proper ROM banks, will update and display here
+    </mat-grid-tile>
+</mat-grid-list>
