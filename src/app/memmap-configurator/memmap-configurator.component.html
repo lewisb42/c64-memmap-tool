@@ -47,10 +47,11 @@
         <mat-grid-tile-header>CART ROM HI Options</mat-grid-tile-header>
         <div class="rom-bank-options">
             <div>
-                <mat-radio-group>
-                    <mat-radio-button value="unmapped">unmapped</mat-radio-button>
-                    <mat-radio-button value="1">$A000-$BFFF</mat-radio-button>
-                    <mat-radio-button value="2">$E000-$FFFF</mat-radio-button>
+                <mat-radio-group
+                    [(ngModel)]="cartRomHi"> 
+                    <mat-radio-button [value]="'unmapped'">unmapped</mat-radio-button>
+                    <mat-radio-button [value]="'a000ToBfff'">$A000-$BFFF</mat-radio-button>
+                    <mat-radio-button [value]="'e0000ToFfff'">$E000-$FFFF</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
@@ -60,10 +61,11 @@
         <mat-grid-tile-header>$D000-$DFFF Mapping</mat-grid-tile-header>
         <div class="rom-bank-options">
             <div>
-                <mat-radio-group>
-                    <mat-radio-button value="unmapped">I/O</mat-radio-button>
-                    <mat-radio-button value="1">CHAR ROM</mat-radio-button>
-                    <mat-radio-button value="2">RAM</mat-radio-button>
+                <mat-radio-group
+                    [(ngModel)]="dBankMap">
+                    <mat-radio-button [value]="'IO'">I/O</mat-radio-button>
+                    <mat-radio-button [value]="'CHAR_ROM'">CHAR ROM</mat-radio-button>
+                    <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
