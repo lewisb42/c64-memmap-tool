@@ -20,16 +20,32 @@ export class MemmapConfiguratorComponent implements OnInit, OnChanges {
   cartRomHi: string = "unmapped";
   dBankMap: string = "IO";
   
+  basicMode: boolean = false;
+  
   constructor() { }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    /*
-    if (changes.programmingLanguage.currentValue == 'BASIC') {
-        this.useBasicRom = true;
+    
+    console.log("cartRomHi: " + this.cartRomHi);
+  }
+  
+  onBasicModeSelected(): void {
+    if (this.cartRomHi == 'bankA') {
+      this.cartRomHi = 'unmapped';
     }
-    */
+    this.basicMode = true;
+    console.log("cartRomHi: " + this.cartRomHi);
+  }
+  
+  basicLanguageMode(): boolean {
+    return this.programmingLanguage == 'BASIC';
+  }
+  
+  validCartRomHi(): boolean {
+    if (this.basicLanguageMode() && this.cartRomHi == 'bankA') return false;
+    return true;
   }
 }

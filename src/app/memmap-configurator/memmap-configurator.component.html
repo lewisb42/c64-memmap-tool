@@ -27,19 +27,26 @@
             id="asm-vs-basic-radio-group"
             [(ngModel)]="programmingLanguage">
             
-            <mat-radio-button value="ASM">6502/6510 Assembly</mat-radio-button>
-            <mat-radio-button value="BASIC">C64 BASIC</mat-radio-button>
+            <mat-radio-button 
+              [value]="'ASM'">6502/6510 Assembly</mat-radio-button>
+            <mat-radio-button 
+              [value]="'BASIC'"
+              (change)="onBasicModeSelected()">C64 BASIC</mat-radio-button>
         </mat-radio-group>
     </mat-grid-tile>
     
     <mat-grid-tile>
         <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
         <div class="rom-bank-options">
-            <mat-slide-toggle [(ngModel)]="useKernelRom">Use KERNEL ROM</mat-slide-toggle>
+            <mat-slide-toggle 
+                [(ngModel)]="basicLanguageMode() ? true : useKernelRom"
+                [disabled]="basicMode">
+                
+                Use KERNEL ROM</mat-slide-toggle>
 
             <mat-slide-toggle 
-                [(ngModel)]="programmingLanguage=='BASIC' ? true : useBasicRom"
-                [disabled]="programmingLanguage=='BASIC'">
+                [(ngModel)]="basicLanguageMode() ? true : useBasicRom"
+                [disabled]="basicMode">
                 
                 Use BASIC ROM</mat-slide-toggle>
 
@@ -54,8 +61,10 @@
                 <mat-radio-group
                     [(ngModel)]="cartRomHi"> 
                     <mat-radio-button [value]="'unmapped'">unmapped</mat-radio-button>
-                    <mat-radio-button [value]="'a000ToBfff'">$A000-$BFFF</mat-radio-button>
-                    <mat-radio-button [value]="'e0000ToFfff'">$E000-$FFFF</mat-radio-button>
+                    <mat-radio-button 
+                        [value]="'bankA'"
+                        [disabled]="basicMode">$A000-$BFFF</mat-radio-button>
+                    <mat-radio-button [value]="'bankE'">$E000-$FFFF</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
@@ -79,6 +88,10 @@
 
 
 <h1>Output area</h1>
+
+<h1>Debug</h1>
+
+{{ cartRomHi }}
 
     
     
