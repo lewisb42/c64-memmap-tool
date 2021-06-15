@@ -28,7 +28,8 @@
             [(ngModel)]="programmingLanguage">
             
             <mat-radio-button 
-              [value]="'ASM'">6502/6510 Assembly</mat-radio-button>
+              [value]="'ASM'"
+              (change)="onAssemblyModeSelected()">6502/6510 Assembly</mat-radio-button>
             <mat-radio-button 
               [value]="'BASIC'"
               (change)="onBasicModeSelected()">C64 BASIC</mat-radio-button>
@@ -39,13 +40,13 @@
         <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
         <div class="rom-bank-options">
             <mat-slide-toggle 
-                [(ngModel)]="basicLanguageMode() ? true : useKernelRom"
+                [(ngModel)]="useKernelRom"
                 [disabled]="basicMode">
                 
                 Use KERNEL ROM</mat-slide-toggle>
 
             <mat-slide-toggle 
-                [(ngModel)]="basicLanguageMode() ? true : useBasicRom"
+                [(ngModel)]="useBasicRom"
                 [disabled]="basicMode">
                 
                 Use BASIC ROM</mat-slide-toggle>

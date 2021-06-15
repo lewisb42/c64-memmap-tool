@@ -36,8 +36,14 @@ export class MemmapConfiguratorComponent implements OnInit, OnChanges {
     if (this.cartRomHi == 'bankA') {
       this.cartRomHi = 'unmapped';
     }
+    this.useBasicRom = true;
+    this.useKernelRom = true;
     this.basicMode = true;
     console.log("cartRomHi: " + this.cartRomHi);
+  }
+  
+  onAssemblyModeSelected(): void {
+    this.basicMode = false;
   }
   
   basicLanguageMode(): boolean {
