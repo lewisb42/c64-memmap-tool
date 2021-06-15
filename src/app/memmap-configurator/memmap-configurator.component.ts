@@ -9,6 +9,9 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   vicBank: number = 0;
   programmingLanguage: string = "ASM";
+  useKernelRom: boolean = true;
+  useBasicRom: boolean = true;
+  useCartRomLo: boolean = false;
   
   constructor() { }
 

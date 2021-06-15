@@ -35,11 +35,11 @@
     <mat-grid-tile>
         <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
         <div class="rom-bank-options">
-            <mat-slide-toggle>Use KERNEL ROM</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="useKernelRom">Use KERNEL ROM</mat-slide-toggle>
 
-            <mat-slide-toggle>Use BASIC ROM</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="useBasicRom">Use BASIC ROM</mat-slide-toggle>
 
-            <mat-slide-toggle>Use CART ROM LO ($8000-$9FFF)</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="useCartRomLo">Use CART ROM LO ($8000-$9FFF)</mat-slide-toggle>
         </div>
     </mat-grid-tile>
     
