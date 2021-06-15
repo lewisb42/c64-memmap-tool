@@ -45,13 +45,4 @@ export class MemmapConfiguratorComponent implements OnInit, OnChanges {
   onAssemblyModeSelected(): void {
     this.basicMode = false;
   }
-  
-  basicLanguageMode(): boolean {
-    return this.programmingLanguage == 'BASIC';
-  }
-  
-  validCartRomHi(): boolean {
-    if (this.basicLanguageMode() && this.cartRomHi == 'bankA') return false;
-    return true;
-  }
 }
