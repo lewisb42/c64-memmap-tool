@@ -4,10 +4,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MemmapConfiguratorComponent } from './memmap-configurator/memmap-configurator.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MemmapConfiguratorComponent
   ],
   imports: [
     BrowserModule,
