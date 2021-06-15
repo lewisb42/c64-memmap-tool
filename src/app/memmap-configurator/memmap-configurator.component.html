@@ -7,22 +7,64 @@
     
 
 <h1>Controls area</h1>
-<label id="vic-bank-select-radio-group-label">VIC-II Bank Select</label>
-<mat-radio-group aria-labelled-by="vic-bank-select-radio-group-label" id="vic-bank-select-radio-group">
-    <mat-radio-button value="0">Bank 0</mat-radio-button>
-    <mat-radio-button value="1">Bank 1</mat-radio-button>
-    <mat-radio-button value="2">Bank 2</mat-radio-button>
-    <mat-radio-button value="3">Bank 3</mat-radio-button>
-</mat-radio-group>
 
-<mat-radio-group id="asm-vs-basic-radio-group">
-    <mat-radio-button value="ASM">This is an ASM program</mat-radio-button>
-    <mat-radio-button value="BASIC">This is a BASIC program</mat-radio-button>
-</mat-radio-group>
+<mat-grid-list cols="5" rowHeight="200px">
+    <mat-grid-tile>
+        <mat-grid-tile-header>VIC-II Bank Select</mat-grid-tile-header>
+        <mat-radio-group>
+            <mat-radio-button value="0">Bank 0</mat-radio-button>
+            <mat-radio-button value="1">Bank 1</mat-radio-button>
+            <mat-radio-button value="2">Bank 2</mat-radio-button>
+            <mat-radio-button value="3">Bank 3</mat-radio-button>
+        </mat-radio-group>
+    </mat-grid-tile>
 
-<mat-slide-toggle>Use KERNEL ROM</mat-slide-toggle>
-<mat-slide-toggle>Use BASIC ROM</mat-slide-toggle>
+    <mat-grid-tile>
+        <mat-grid-tile-header>Programming Language</mat-grid-tile-header>
+        <mat-radio-group id="asm-vs-basic-radio-group">
+            <mat-radio-button value="ASM">6502/6510 Assembly</mat-radio-button>
+            <mat-radio-button value="BASIC">C64 BASIC</mat-radio-button>
+        </mat-radio-group>
+    </mat-grid-tile>
+    
+    <mat-grid-tile>
+        <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
+        <div class="rom-bank-options">
+            <mat-slide-toggle>Use KERNEL ROM</mat-slide-toggle>
 
+            <mat-slide-toggle>Use BASIC ROM</mat-slide-toggle>
+
+            <mat-slide-toggle>Use CART ROM LO ($8000-$9FFF)</mat-slide-toggle>
+        </div>
+    </mat-grid-tile>
+    
+    <mat-grid-tile>
+        <mat-grid-tile-header>CART ROM HI Options</mat-grid-tile-header>
+        <div class="rom-bank-options">
+            <div>
+                <mat-radio-group>
+                    <mat-radio-button value="unmapped">unmapped</mat-radio-button>
+                    <mat-radio-button value="1">$A000-$BFFF</mat-radio-button>
+                    <mat-radio-button value="2">$E000-$FFFF</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </mat-grid-tile>
+    
+    <mat-grid-tile>
+        <mat-grid-tile-header>$D000-$DFFF Mapping</mat-grid-tile-header>
+        <div class="rom-bank-options">
+            <div>
+                <mat-radio-group>
+                    <mat-radio-button value="unmapped">I/O</mat-radio-button>
+                    <mat-radio-button value="1">CHAR ROM</mat-radio-button>
+                    <mat-radio-button value="2">RAM</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </mat-grid-tile>
+    
+</mat-grid-list>
 
 
 <h1>Output area</h1>

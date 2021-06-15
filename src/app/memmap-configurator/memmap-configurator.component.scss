@@ -2,8 +2,14 @@ mat-grid-tile {
   background: lightblue;
 }
 
-#vic-bank-select-radio-group {
+mat-radio-group {
   display: flex;
   flex-direction: column;
   margin: 15px 0;
+}
+
+.rom-bank-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
