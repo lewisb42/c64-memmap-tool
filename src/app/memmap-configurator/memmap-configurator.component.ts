@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemmapConfiguratorComponent implements OnInit {
 
+  vicBank: number = 0;
+  programmingLanguage: string = "ASM";
+  
   constructor() { }
 
   ngOnInit(): void {
