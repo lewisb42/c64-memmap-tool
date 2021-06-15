@@ -37,7 +37,11 @@
         <div class="rom-bank-options">
             <mat-slide-toggle [(ngModel)]="useKernelRom">Use KERNEL ROM</mat-slide-toggle>
 
-            <mat-slide-toggle [(ngModel)]="useBasicRom">Use BASIC ROM</mat-slide-toggle>
+            <mat-slide-toggle 
+                [(ngModel)]="useBasicRom"
+                [disabled]="programmingLanguage=='BASIC'">
+                
+                Use BASIC ROM</mat-slide-toggle>
 
             <mat-slide-toggle [(ngModel)]="useCartRomLo">Use CART ROM LO ($8000-$9FFF)</mat-slide-toggle>
         </div>
