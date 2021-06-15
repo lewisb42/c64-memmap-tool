@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 enum ProgrammingLanguage {
     ASM,
@@ -10,7 +10,7 @@ enum ProgrammingLanguage {
   templateUrl: './memmap-configurator.component.html',
   styleUrls: ['./memmap-configurator.component.scss']
 })
-export class MemmapConfiguratorComponent implements OnInit {
+export class MemmapConfiguratorComponent implements OnInit, OnChanges {
 
   vicBank: number = 0;
   programmingLanguage: string = 'ASM';
@@ -25,4 +25,11 @@ export class MemmapConfiguratorComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    /*
+    if (changes.programmingLanguage.currentValue == 'BASIC') {
+        this.useBasicRom = true;
+    }
+    */
+  }
 }

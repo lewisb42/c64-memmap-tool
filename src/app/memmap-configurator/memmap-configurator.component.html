@@ -38,7 +38,7 @@
             <mat-slide-toggle [(ngModel)]="useKernelRom">Use KERNEL ROM</mat-slide-toggle>
 
             <mat-slide-toggle 
-                [(ngModel)]="useBasicRom"
+                [(ngModel)]="programmingLanguage=='BASIC' ? true : useBasicRom"
                 [disabled]="programmingLanguage=='BASIC'">
                 
                 Use BASIC ROM</mat-slide-toggle>
