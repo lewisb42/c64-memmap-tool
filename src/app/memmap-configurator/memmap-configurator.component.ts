@@ -41,7 +41,7 @@ private memChartPrototype: GoogleChartInterface = {
     }
   };
   
-  public memChart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank0Chart: GoogleChartInterface = { ...this.memChartPrototype };
 
   vicBank: number = 0;
   programmingLanguage: string = 'ASM';
@@ -50,11 +50,6 @@ private memChartPrototype: GoogleChartInterface = {
   useCartRomLo: boolean = false;
   cartRomHi: string = "unmapped";
   dBankMap: string = "IO";
-  
-  vicBank0_dataTable: Object[] = [
-      [ 'desc', 'free space', { role: 'annotation' } ],
-      ['VIC Bank 0', 16384, '' ]
-    ];
   
   basicMode: boolean = false;
   
@@ -76,16 +71,13 @@ private memChartPrototype: GoogleChartInterface = {
     // always leave the stack alone
     bank.insertChunk(this.stackChunk);
     
-    this.updateChart(bank);
+    this.updateChart(this.vicBank0Chart, bank);
   }
   
-  private updateChart(bank:MemoryBank) {
-    //var chart: GoogleChartInterface = { ...this.memChartPrototype };
+  private updateChart(chart:GoogleChartInterface, bank:MemoryBank) {
     var dataTable = this.formatAsDataTable(bank);
-    this.memChart.dataTable = dataTable;
-    this.memChart.component!.draw();
-    //this.memChart.wrapper.setDataTable(this.formatAsDataTable(bank));
-    //this.memChart.redraw();
+    chart.dataTable = dataTable;
+    chart.component!.draw();
   }
   
   private formatAsDataTable(bank: MemoryBank): Object[] {
