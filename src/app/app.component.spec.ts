@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { MemmapConfiguratorComponent } from './memmap-configurator/memmap-configurator.component';
@@ -16,6 +17,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        FormsModule,
         MatGridListModule,
         MatCardModule,
         MatFormFieldModule,

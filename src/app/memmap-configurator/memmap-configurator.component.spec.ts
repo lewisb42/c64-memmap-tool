@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { MemmapConfiguratorComponent } from './memmap-configurator.component';
 
@@ -23,6 +24,7 @@ describe('MemmapConfiguratorComponent', () => {
         GoogleChartComponent
       ],
       imports: [ 
+        FormsModule,
         MatGridListModule,
         MatCardModule,
         MatFormFieldModule,
