@@ -74,4 +74,26 @@ describe('Inserting chunks into a bank', () => {
         expect(chunk2.startAddr).toBe(16526);
         expect(chunk2.sizeInBytes).toBe(10);
     });
+    
+    it('should insert in the interior of the bank', () => {
+        let bank = new MemoryBank('joe', 0);
+        let chunk = new MemoryChunk('', 100, 10, MemoryStatus.UNAVAILABLE);
+        let result = bank.insertChunk(chunk);
+        expect(result.success).toBeTruthy(result.reason);
+        
+        let chunks = bank.chunks;
+        expect(chunks.length).toBe(3);
+        
+        let chunk1 = chunks[0];
+        expect(chunk1.startAddr).toBe(0);
+        expect(chunk1.sizeInBytes).toBe(100);
+        
+        let chunk2 = chunks[1];
+        expect(chunk2.startAddr).toBe(100);
+        expect(chunk2.sizeInBytes).toBe(10);
+        
+        let chunk3 = chunks[2];
+        expect(chunk3.startAddr).toBe(110);
+        expect(chunk3.sizeInBytes).toBe(16426);
+    });
 });
