@@ -1,5 +1,9 @@
+  
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { MemoryBank } from './memory-bank';
 import { MemoryStatus, MemoryChunk } from './memory-chunk'
+
 
 describe('MemoryBank', () => {
   it('should create an instance', () => {
