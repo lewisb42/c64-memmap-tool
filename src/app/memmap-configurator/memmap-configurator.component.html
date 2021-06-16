@@ -1,12 +1,5 @@
-<mat-grid-list cols="1" rowHeight="125px">
-    <mat-grid-tile>
-      <mat-grid-tile-header>VIC-II Bank 0</mat-grid-tile-header>
-      this area will be divided horizontally into blocks, each representing a contiguous chunk of memory, with notations (color, text, etc) explaining what it is used for, if it's free to use in programs, etc.
-    </mat-grid-tile>
-    <mat-grid-tile>Vic Bank 1</mat-grid-tile>
-    <mat-grid-tile>Vic Bank 2</mat-grid-tile>
-    <mat-grid-tile>Vic Bank 3</mat-grid-tile>
-</mat-grid-list>    
+<google-chart 
+  [data]="memChart"></google-chart>
 
 <mat-grid-list cols="6" rowHeight="200px" id="controls-area">
     <mat-grid-tile>

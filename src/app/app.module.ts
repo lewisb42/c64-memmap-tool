@@ -13,7 +13,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatDividerModule} from '@angular/material/divider';
 
-
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
 @NgModule({
@@ -31,7 +31,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatFormFieldModule,
     MatRadioModule,
     MatSlideToggleModule,
-    MatDividerModule
+    MatDividerModule,
+    Ng2GoogleChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
