@@ -117,5 +117,16 @@ private memChartPrototype: GoogleChartInterface = {
   
   onAssemblyModeSelected(): void {
     this.basicMode = false;
+    
+    this.configureVicBank0();
+  }
+  
+  onUseKernelRomSelectionChanged(): void {
+    this.configureVicBank0();
+  }
+  
+  onUseBasicRomSelectionChanged(): void {
+    this.useKernelRom = true;
+    this.configureVicBank0();
   }
 }

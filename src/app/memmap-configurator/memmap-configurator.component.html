@@ -34,13 +34,15 @@
         <div class="rom-bank-options">
             <mat-slide-toggle 
                 [(ngModel)]="useKernelRom"
-                [disabled]="basicMode">
+                [disabled]="basicMode||useBasicRom"
+                (change)="onUseKernelRomSelectionChanged()">
                 
                 Use KERNEL ROM</mat-slide-toggle>
 
             <mat-slide-toggle 
                 [(ngModel)]="useBasicRom"
-                [disabled]="basicMode">
+                [disabled]="basicMode"
+                (change)="onUseBasicRomSelectionChanged()">
                 
                 Use BASIC ROM</mat-slide-toggle>
 
