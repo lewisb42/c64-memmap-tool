@@ -50,7 +50,7 @@ export class MemoryBank {
     
     // returns { success: true } if insertion was a success,
     // { success: false, reason: 'message' } if it did not
-    insertChunk(chunk: MemoryChunk): Object {
+    insertChunk(chunk: MemoryChunk) {
         if (chunk.startAddr < this.startAddr) {
             return {
                 success: false,

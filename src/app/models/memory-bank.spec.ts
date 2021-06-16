@@ -1,4 +1,5 @@
 import { MemoryBank } from './memory-bank';
+import { MemoryStatus, MemoryChunk } from './memory-chunk'
 
 describe('MemoryBank', () => {
   it('should create an instance', () => {
@@ -15,6 +16,13 @@ describe('Inserting chunks into a bank', () => {
         let chunk = chunks[0];
         expect(chunk.startAddr).toBe(0);
         expect(chunk.sizeInBytes).toBe(MemoryBank.SIZE);
+    });
+    
+    it('should not allow a chunk with starting address less than that of the bank', () => {
+        let bank = new MemoryBank('joe', 16536);
+        let chunk = new MemoryChunk('', 16535, 10, MemoryStatus.UNAVAILABLE);
+        let result = bank.insertChunk(chunk);
+        expect(result.success).toBeFalsy();
     });
 
 });
