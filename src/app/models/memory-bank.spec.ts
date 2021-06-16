@@ -19,29 +19,29 @@ describe('Inserting chunks into a bank', () => {
     });
     
     it('should not allow a chunk with starting address less than that of the bank', () => {
-        let bank = new MemoryBank('joe', 16536);
-        let chunk = new MemoryChunk('', 16535, 10, MemoryStatus.UNAVAILABLE);
+        let bank = new MemoryBank('joe', 16384);
+        let chunk = new MemoryChunk('', 16383, 10, MemoryStatus.UNAVAILABLE);
         let result = bank.insertChunk(chunk);
         expect(result.success).toBeFalsy();
     });
 
     it('should not allow a chunk with starting address beyond the end of the bank', () => {
         let bank = new MemoryBank('joe', 0);
-        let chunk = new MemoryChunk('', 16537, 10, MemoryStatus.UNAVAILABLE);
+        let chunk = new MemoryChunk('', 16386, 10, MemoryStatus.UNAVAILABLE);
         let result = bank.insertChunk(chunk);
         expect(result.success).toBeFalsy();
     });
     
     it('should not allow a chunk with starting address inside the bank but ending address outside', () => {
         let bank = new MemoryBank('joe', 0);
-        let chunk = new MemoryChunk('', 16535, 10, MemoryStatus.UNAVAILABLE);
+        let chunk = new MemoryChunk('', 16384, 10, MemoryStatus.UNAVAILABLE);
         let result = bank.insertChunk(chunk);
         expect(result.success).toBeFalsy();
     });
     
     it('should insert at the beginning of the bank', () => {
-        let bank = new MemoryBank('joe', 16536);
-        let chunk = new MemoryChunk('', 16536, 10, MemoryStatus.UNAVAILABLE);
+        let bank = new MemoryBank('joe', 16384);
+        let chunk = new MemoryChunk('', 16384, 10, MemoryStatus.UNAVAILABLE);
         let result = bank.insertChunk(chunk);
         expect(result.success).toBeTruthy(result.reason);
         
@@ -49,17 +49,17 @@ describe('Inserting chunks into a bank', () => {
         expect(chunks.length).toBe(2);
         
         let chunk1 = chunks[0];
-        expect(chunk1.startAddr).toBe(16536);
+        expect(chunk1.startAddr).toBe(16384);
         expect(chunk1.sizeInBytes).toBe(10);
         
         let chunk2 = chunks[1];
-        expect(chunk2.startAddr).toBe(16536 + 10);
-        expect(chunk2.sizeInBytes).toBe(16536 - 10);
+        expect(chunk2.startAddr).toBe(16384 + 10);
+        expect(chunk2.sizeInBytes).toBe(16384 - 10);
     });
     
     it('should insert at the end of the bank', () => {
         let bank = new MemoryBank('joe', 0);
-        let chunk = new MemoryChunk('', 16526, 10, MemoryStatus.UNAVAILABLE);
+        let chunk = new MemoryChunk('', 16374, 10, MemoryStatus.UNAVAILABLE);
         let result = bank.insertChunk(chunk);
         expect(result.success).toBeTruthy(result.reason);
         
@@ -68,10 +68,10 @@ describe('Inserting chunks into a bank', () => {
         
         let chunk1 = chunks[0];
         expect(chunk1.startAddr).toBe(0);
-        expect(chunk1.sizeInBytes).toBe(16526);
+        expect(chunk1.sizeInBytes).toBe(16374);
         
         let chunk2 = chunks[1];
-        expect(chunk2.startAddr).toBe(16526);
+        expect(chunk2.startAddr).toBe(16374);
         expect(chunk2.sizeInBytes).toBe(10);
     });
     
@@ -94,7 +94,7 @@ describe('Inserting chunks into a bank', () => {
         
         let chunk3 = chunks[2];
         expect(chunk3.startAddr).toBe(110);
-        expect(chunk3.sizeInBytes).toBe(16426);
+        expect(chunk3.sizeInBytes).toBe(16384 - 110);
     });
     
     it('should insert contiguous chunks', () => {
@@ -125,7 +125,7 @@ describe('Inserting chunks into a bank', () => {
         
         let chunk4 = chunks[3];
         expect(chunk4.startAddr).toBe(120);
-        expect(chunk4.sizeInBytes).toBe(16416);
+        expect(chunk4.sizeInBytes).toBe(16384 - 120);
     });
     
     it('should insert several chunks', () => {
@@ -172,6 +172,6 @@ describe('Inserting chunks into a bank', () => {
         
         let chunk7 = chunks[6];
         expect(chunk7.startAddr).toBe(150);
-        expect(chunk7.sizeInBytes).toBe(16386);
+        expect(chunk7.sizeInBytes).toBe(16384 - 150);
     });
 });

@@ -1,14 +1,14 @@
 import { MemoryChunk, MemoryStatus } from './memory-chunk';
 
 export class MemoryBank {
-    static SIZE: number = 16536;
+    static SIZE: number = 16384;
     readonly startAddr: number;
     readonly endAddr: number; 
     private _chunks: MemoryChunk[] = [];
     
     constructor(readonly name: string, startAddr: number) {
         if (startAddr % MemoryBank.SIZE != 0) {
-            throw new Error('startAddr must be a multiple of 16536');
+            throw new Error('startAddr must be a multiple of 16384');
         }
         this.startAddr = startAddr;
         this.endAddr = this.startAddr + MemoryBank.SIZE - 1; 
