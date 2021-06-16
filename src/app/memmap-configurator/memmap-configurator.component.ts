@@ -12,7 +12,6 @@ function toAddress(x: number): string {
   }
 }
 
-
 @Component({
   selector: 'app-memmap-configurator',
   templateUrl: './memmap-configurator.component.html',
@@ -33,7 +32,7 @@ public memChart: GoogleChartInterface = {
       isStacked: true,
       hAxis: {
         maxValue: 16536,
-        ticks: [...Array(16).keys()].map(i => ({ v:(i*1024), f:toAddress(i*1024) })),
+        ticks: [...Array(17).keys()].map(i => ({ v:(i*1024), f:toAddress(i*1024) })),
         viewWindowMode: 'maximized',
         format: {format:'$xxxx'}
       }
@@ -59,6 +58,7 @@ public memChart: GoogleChartInterface = {
     
     console.log("cartRomHi: " + this.cartRomHi);
   }
+ 
   
   onBasicModeSelected(): void {
     if (this.cartRomHi == 'bankA') {
