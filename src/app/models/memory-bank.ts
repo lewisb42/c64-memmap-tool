@@ -86,15 +86,15 @@ export class MemoryBank {
             
             // starting address falls within an existing chunk
             if (currentStartAddr <= startAddr && startAddr <= currentEndAddr) {
-                return false;
+                return true;
             }
             
             // ending address falls within an exiting chunk
             if (currentStartAddr <= endAddr && endAddr <= currentEndAddr) {
-                return false;
+                return true;
             }
         }
         
-        return true;
+        return false;
     }
 }
