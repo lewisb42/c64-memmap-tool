@@ -170,10 +170,14 @@ export class MemmapConfiguratorComponent implements OnInit {
     return [ labels, values ];
   }
 
-  onBasicModeSelected(): void {
+  private excludeBankAFromCartRomHi(): void {
     if (this.cartRomHi == 'bankA') {
       this.cartRomHi = 'unmapped';
     }
+  }
+
+  onBasicModeSelected(): void {
+    this.excludeBankAFromCartRomHi();
     this.useBasicRom = true;
     this.useKernelRom = true;
     this.basicMode = true;
@@ -188,10 +192,12 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onUseKernelRomSelectionChanged(): void {
+    this.excludeBankAFromCartRomHi();
     this.configureVicBank0();
   }
 
   onUseBasicRomSelectionChanged(): void {
+    this.excludeBankAFromCartRomHi();
     this.useKernelRom = true;
     this.configureVicBank0();
   }
