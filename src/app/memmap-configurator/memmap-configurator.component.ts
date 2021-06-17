@@ -22,11 +22,7 @@ function toAddress(x: number): string {
 export class MemmapConfiguratorComponent implements OnInit {
 
 private memChartPrototype: GoogleChartInterface = {
-    chartType: 'BarChart',
-    dataTable: [
-      [ 'desc', 'free space', { role: 'annotation' } ],
-      ['', 16384, '' ]
-    ]
+    chartType: 'BarChart'
   };
   
   private chartOptionsPrototype = {
@@ -70,9 +66,12 @@ private memChartPrototype: GoogleChartInterface = {
   ngOnInit(): void {
   }
 
-  private configureChart(chart:GoogleChartInterface, title:string): void {
+  private configureChart(chart:GoogleChartInterface, name:string): void {
     chart.options = {...this.chartOptionsPrototype };
-    chart.options.title = title;
+    chart.dataTable = [
+      [ 'desc', 'free space', { role: 'annotation' } ],
+      [ name, 16384, '' ]
+    ];
   }
  
   private configureVicBank0(): void {
