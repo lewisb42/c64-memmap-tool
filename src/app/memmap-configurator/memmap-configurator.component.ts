@@ -34,7 +34,6 @@ private memChartPrototype: GoogleChartInterface = {
         maxValue: 16536,
         ticks: [...Array(17).keys()].map(i => ({ v:(i*1024), f:toAddress(i*1024) })),
         viewWindowMode: 'maximized',
-        format: {format:'$xxxx'}
       }
     };
   
@@ -53,14 +52,19 @@ private memChartPrototype: GoogleChartInterface = {
   
   basicMode: boolean = false;
   
+  private static UNAVAILABLE_COLOR = 'red';
+  private static AVAILABLE_FOR_CODE_COLOR = 'green';
+  private static AVAILABLE_FOR_DATA_COLOR = 'orange';
+  private static RESERVED_FOR_GRAPHICS_COLOR = 'blue';
+  
   private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.UNAVAILABLE);
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
+  
   constructor() { 
     this.configureChart(this.vicBank0Chart, 'VIC Bank 0');
     this.configureChart(this.vicBank1Chart, 'VIC Bank 1');
     this.configureChart(this.vicBank2Chart, 'VIC Bank 2');
     this.configureChart(this.vicBank3Chart, 'VIC Bank 3');
-    
   }
 
   ngOnInit(): void {
@@ -90,8 +94,30 @@ private memChartPrototype: GoogleChartInterface = {
   
   private updateChart(chart:GoogleChartInterface, bank:MemoryBank) {
     var dataTable = this.formatAsDataTable(bank);
+    var seriesOptions = this.formatSeries(bank);
+    chart.options.series = seriesOptions;
     chart.dataTable = dataTable;
     chart.component!.draw();
+  }
+  
+  private formatSeries(bank:MemoryBank): Object[] {
+    let chunks: MemoryChunk[] = bank.chunks;
+    let seriesOptions = new Array(chunks.length);
+    for (let i = 0; i < chunks.length; i++) {
+      seriesOptions[i] = {
+          color: this.getColorOf(chunks[i].memStatus)
+      };
+    }
+    return seriesOptions;
+  }
+  
+  private getColorOf(memStatus:MemoryStatus): string {
+    switch (memStatus) {
+      case MemoryStatus.AVAILABLE_FOR_PROGRAM_CODE: return MemmapConfiguratorComponent.AVAILABLE_FOR_CODE_COLOR;
+      case MemoryStatus.AVAILABLE_FOR_PROGRAM_DATA: return MemmapConfiguratorComponent.AVAILABLE_FOR_DATA_COLOR;
+      case MemoryStatus.GRAPHICS_DATA: return MemmapConfiguratorComponent.RESERVED_FOR_GRAPHICS_COLOR;
+      default: return MemmapConfiguratorComponent.UNAVAILABLE_COLOR;
+    }
   }
   
   private formatAsDataTable(bank: MemoryBank): Object[] {
