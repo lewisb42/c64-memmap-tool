@@ -3,8 +3,8 @@ import { GoogleChartInterface } from 'ng2-google-charts';
 import { MemoryChunk, MemoryStatus } from '../models/memory-chunk';
 import { MemoryBank } from '../models/memory-bank';
 
-function toAddress(x: number): string {
-  let baseHex = x.toString(16).toUpperCase();
+function toAddress(x: number, offset:number): string {
+  let baseHex = (x + offset).toString(16).toUpperCase();
   let numZeroes = 4 - baseHex.length;
   switch (numZeroes) {
     case 1: return "$0" + baseHex;
@@ -30,11 +30,7 @@ private memChartPrototype: GoogleChartInterface = {
       height: 100,
       legend: 'none',
       isStacked: true,
-      hAxis: {
-        maxValue: 16536,
-        ticks: [...Array(17).keys()].map(i => ({ v:(i*1024), f:toAddress(i*1024) })),
-        viewWindowMode: 'maximized',
-      }
+      options: {}
     };
   
   public vicBank0Chart: GoogleChartInterface = { ...this.memChartPrototype };
@@ -61,20 +57,37 @@ private memChartPrototype: GoogleChartInterface = {
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
   
   constructor() { 
-    this.configureChart(this.vicBank0Chart, 'VIC Bank 0');
-    this.configureChart(this.vicBank1Chart, 'VIC Bank 1');
-    this.configureChart(this.vicBank2Chart, 'VIC Bank 2');
-    this.configureChart(this.vicBank3Chart, 'VIC Bank 3');
+    this.configureChart(this.vicBank0Chart, 0);
+    this.configureChart(this.vicBank1Chart, 1);
+    this.configureChart(this.vicBank2Chart, 2);
+    this.configureChart(this.vicBank3Chart, 3);
+    
+    
   }
 
   ngOnInit(): void {
+    this.configureVicBank0();
+    this.configureVicBank1();
+    this.configureVicBank2();
+    this.configureVicBank3();
   }
 
-  private configureChart(chart:GoogleChartInterface, name:string): void {
+  private configureChart(chart:GoogleChartInterface, bankNumber:number): void {
     chart.options = {...this.chartOptionsPrototype };
+    let startAddr = bankNumber * MemoryBank.SIZE;
+    chart.options['hAxis'] = {};
+    //chart.options.hAxis['minValue'] = startAddr;
+    //chart.options.hAxis['maxValue'] = startAddr + MemoryBank.SIZE - 1;
+    chart.options.hAxis['viewWindowMode'] = 'maximized';
+    chart.options.hAxis['ticks'] = [...Array(17).keys()].map(
+      function (i) {
+        let x = (i * 1024);
+        return { v:x, f:toAddress(x, startAddr) };
+      }
+    );
     chart.dataTable = [
       [ 'desc', 'free space', { role: 'annotation' } ],
-      [ name, 16384, '' ]
+      [ 'VIC Bank ' + bankNumber.toString(), MemoryBank.SIZE, '' ]
     ];
   }
  
@@ -90,6 +103,21 @@ private memChartPrototype: GoogleChartInterface = {
     bank.insertChunk(this.stackChunk);
     
     this.updateChart(this.vicBank0Chart, bank);
+  }
+  
+  private configureVicBank1(): void {
+    var bank = new MemoryBank('VIC Bank 1', 0x4000);
+    this.updateChart(this.vicBank1Chart, bank);
+  }
+  
+  private configureVicBank2(): void {
+    var bank = new MemoryBank('VIC Bank 2', 0x8000);
+    this.updateChart(this.vicBank2Chart, bank);
+  }
+  
+  private configureVicBank3(): void {
+    var bank = new MemoryBank('VIC Bank 3', 0xC000);
+    this.updateChart(this.vicBank3Chart, bank);
   }
   
   private updateChart(chart:GoogleChartInterface, bank:MemoryBank) {
