@@ -25,11 +25,13 @@ private memChartPrototype: GoogleChartInterface = {
     chartType: 'BarChart',
     dataTable: [
       [ 'desc', 'free space', { role: 'annotation' } ],
-      ['VIC Bank 0', 16384, '' ]
-    ],
-    options: {
+      ['', 16384, '' ]
+    ]
+  };
+  
+  private chartOptionsPrototype = {
       //width: 600,
-      //height: 400,
+      height: 100,
       legend: 'none',
       isStacked: true,
       hAxis: {
@@ -38,10 +40,12 @@ private memChartPrototype: GoogleChartInterface = {
         viewWindowMode: 'maximized',
         format: {format:'$xxxx'}
       }
-    }
-  };
+    };
   
   public vicBank0Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank1Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank2Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank3Chart: GoogleChartInterface = { ...this.memChartPrototype };
 
   vicBank: number = 0;
   programmingLanguage: string = 'ASM';
@@ -55,9 +59,20 @@ private memChartPrototype: GoogleChartInterface = {
   
   private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.UNAVAILABLE);
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
-  constructor() { }
+  constructor() { 
+    this.configureChart(this.vicBank0Chart, 'VIC Bank 0');
+    this.configureChart(this.vicBank1Chart, 'VIC Bank 1');
+    this.configureChart(this.vicBank2Chart, 'VIC Bank 2');
+    this.configureChart(this.vicBank3Chart, 'VIC Bank 3');
+    
+  }
 
   ngOnInit(): void {
+  }
+
+  private configureChart(chart:GoogleChartInterface, title:string): void {
+    chart.options = {...this.chartOptionsPrototype };
+    chart.options.title = title;
   }
  
   private configureVicBank0(): void {
