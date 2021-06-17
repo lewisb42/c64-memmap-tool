@@ -21,7 +21,7 @@ function toAddress(x: number, offset:number): string {
 })
 export class MemmapConfiguratorComponent implements OnInit {
 
-  private get memChartPrototype(): GoogleChartInterface{
+  private createMemChart(): GoogleChartInterface{
     return {
       chartType: 'BarChart',
 
@@ -38,10 +38,10 @@ export class MemmapConfiguratorComponent implements OnInit {
     }
   };
 
-  public vicBank0Chart: GoogleChartInterface = { ...this.memChartPrototype };
-  public vicBank1Chart: GoogleChartInterface = { ...this.memChartPrototype };
-  public vicBank2Chart: GoogleChartInterface = { ...this.memChartPrototype };
-  public vicBank3Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank0Chart: GoogleChartInterface = this.createMemChart();
+  public vicBank1Chart: GoogleChartInterface = this.createMemChart();
+  public vicBank2Chart: GoogleChartInterface = this.createMemChart();
+  public vicBank3Chart: GoogleChartInterface = this.createMemChart();
 
   vicBank: number = 0;
   programmingLanguage: string = 'ASM';
@@ -129,7 +129,9 @@ export class MemmapConfiguratorComponent implements OnInit {
     var seriesOptions = this.formatSeries(bank);
     chart.options.series = seriesOptions;
     chart.dataTable = dataTable;
-    chart.component!.draw();
+    if (chart.component) {
+      chart.component.draw();
+    }
   }
 
   private formatSeries(bank:MemoryBank): Object[] {
