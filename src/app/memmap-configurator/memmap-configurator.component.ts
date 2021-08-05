@@ -56,6 +56,7 @@ private memChartPrototype: GoogleChartInterface = {
   private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.UNAVAILABLE);
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
   private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.UNAVAILABLE);
+  private kernelRomChunk: MemoryChunk = new MemoryChunk('KERNEL ROM', 0xE000, 8192, MemoryStatus.UNAVAILABLE);
 
   constructor() {
     this.configureChart(this.vicBank0Chart, 0);
@@ -123,6 +124,11 @@ private memChartPrototype: GoogleChartInterface = {
 
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
+
+    if (this.useKernelRom) {
+      bank.insertChunk(this.kernelRomChunk);
+    }
+
     this.updateChart(this.vicBank3Chart, bank);
   }
 
@@ -180,6 +186,7 @@ private memChartPrototype: GoogleChartInterface = {
 
     this.configureVicBank0();
     this.configureVicBank2();
+    this.configureVicBank3();
   }
 
   onAssemblyModeSelected(): void {
@@ -191,6 +198,7 @@ private memChartPrototype: GoogleChartInterface = {
 
   onUseKernelRomSelectionChanged(): void {
     this.configureVicBank0();
+    this.configureVicBank3();
   }
 
   onUseBasicRomSelectionChanged(): void {
