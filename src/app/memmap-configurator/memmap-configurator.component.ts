@@ -24,7 +24,7 @@ export class MemmapConfiguratorComponent implements OnInit {
 private memChartPrototype: GoogleChartInterface = {
     chartType: 'BarChart'
   };
-  
+
   private chartOptionsPrototype = {
       //width: 600,
       height: 100,
@@ -32,7 +32,7 @@ private memChartPrototype: GoogleChartInterface = {
       isStacked: true,
       options: {}
     };
-  
+
   public vicBank0Chart: GoogleChartInterface = { ...this.memChartPrototype };
   public vicBank1Chart: GoogleChartInterface = { ...this.memChartPrototype };
   public vicBank2Chart: GoogleChartInterface = { ...this.memChartPrototype };
@@ -45,24 +45,25 @@ private memChartPrototype: GoogleChartInterface = {
   useCartRomLo: boolean = false;
   cartRomHi: string = "unmapped";
   dBankMap: string = "IO";
-  
+
   basicMode: boolean = false;
-  
+
   private static UNAVAILABLE_COLOR = 'red';
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
   private static AVAILABLE_FOR_DATA_COLOR = 'orange';
   private static RESERVED_FOR_GRAPHICS_COLOR = 'blue';
-  
+
   private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.UNAVAILABLE);
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
-  
-  constructor() { 
+  private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.UNAVAILABLE);
+
+  constructor() {
     this.configureChart(this.vicBank0Chart, 0);
     this.configureChart(this.vicBank1Chart, 1);
     this.configureChart(this.vicBank2Chart, 2);
     this.configureChart(this.vicBank3Chart, 3);
-    
-    
+
+
   }
 
   ngOnInit(): void {
@@ -90,36 +91,41 @@ private memChartPrototype: GoogleChartInterface = {
       [ 'VIC Bank ' + bankNumber.toString(), MemoryBank.SIZE, '' ]
     ];
   }
- 
+
   private configureVicBank0(): void {
     var bank = new MemoryBank('VIC Bank 0', 0);
-    
+
     // kernel & basic use the zero page for stuff
     if (this.useBasicRom || this.useKernelRom) {
       bank.insertChunk(this.zeroPageChunk);
     }
-    
+
     // always leave the stack alone
     bank.insertChunk(this.stackChunk);
-    
+
     this.updateChart(this.vicBank0Chart, bank);
   }
-  
+
   private configureVicBank1(): void {
     var bank = new MemoryBank('VIC Bank 1', 0x4000);
     this.updateChart(this.vicBank1Chart, bank);
   }
-  
+
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
+
+    if (this.useBasicRom) {
+      bank.insertChunk(this.basicRomChunk);
+    }
+
     this.updateChart(this.vicBank2Chart, bank);
   }
-  
+
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
     this.updateChart(this.vicBank3Chart, bank);
   }
-  
+
   private updateChart(chart:GoogleChartInterface, bank:MemoryBank) {
     var dataTable = this.formatAsDataTable(bank);
     var seriesOptions = this.formatSeries(bank);
@@ -127,7 +133,7 @@ private memChartPrototype: GoogleChartInterface = {
     chart.dataTable = dataTable;
     chart.component!.draw();
   }
-  
+
   private formatSeries(bank:MemoryBank): Object[] {
     let chunks: MemoryChunk[] = bank.chunks;
     let seriesOptions = new Array(chunks.length);
@@ -138,7 +144,7 @@ private memChartPrototype: GoogleChartInterface = {
     }
     return seriesOptions;
   }
-  
+
   private getColorOf(memStatus:MemoryStatus): string {
     switch (memStatus) {
       case MemoryStatus.AVAILABLE_FOR_PROGRAM_CODE: return MemmapConfiguratorComponent.AVAILABLE_FOR_CODE_COLOR;
@@ -147,23 +153,23 @@ private memChartPrototype: GoogleChartInterface = {
       default: return MemmapConfiguratorComponent.UNAVAILABLE_COLOR;
     }
   }
-  
+
   private formatAsDataTable(bank: MemoryBank): Object[] {
     var labels: Object[] = [ 'desc' ];
     var values: Object[] = [ bank.name ];
     var chunks = bank.chunks;
-    
+
     for (let chunk of chunks) {
       values.push(chunk.sizeInBytes);
       labels.push(chunk.desc);
     }
-    
+
     labels.push( {role: 'annotation' } );
     values.push('');
-    
+
     return [ labels, values ];
   }
-  
+
   onBasicModeSelected(): void {
     if (this.cartRomHi == 'bankA') {
       this.cartRomHi = 'unmapped';
@@ -171,22 +177,24 @@ private memChartPrototype: GoogleChartInterface = {
     this.useBasicRom = true;
     this.useKernelRom = true;
     this.basicMode = true;
-    
+
     this.configureVicBank0();
+    this.configureVicBank2();
   }
-  
+
   onAssemblyModeSelected(): void {
     this.basicMode = false;
-    
+
     this.configureVicBank0();
+    this.configureVicBank2();
   }
-  
+
   onUseKernelRomSelectionChanged(): void {
     this.configureVicBank0();
   }
-  
+
   onUseBasicRomSelectionChanged(): void {
-    this.useKernelRom = true;
     this.configureVicBank0();
+    this.configureVicBank2();
   }
 }
