@@ -1,21 +1,21 @@
-<google-chart 
+<google-chart
   [data]="vicBank0Chart"></google-chart>
-  
+
 <google-chart
   [data]="vicBank1Chart"></google-chart>
-  
+
 <google-chart
   [data]="vicBank2Chart"></google-chart>
-  
+
 <google-chart
   [data]="vicBank3Chart"></google-chart>
 
 <mat-grid-list cols="6" rowHeight="200px" id="controls-area">
     <mat-grid-tile>
         <mat-grid-tile-header>VIC-II Bank Select</mat-grid-tile-header>
-        <mat-radio-group 
+        <mat-radio-group
             [(ngModel)]="vicBank">
-            
+
             <mat-radio-button [value]="0">Bank 0</mat-radio-button>
             <mat-radio-button [value]="1">Bank 1</mat-radio-button>
             <mat-radio-button [value]="2">Bank 2</mat-radio-button>
@@ -25,56 +25,56 @@
 
     <mat-grid-tile>
         <mat-grid-tile-header>Programming Language</mat-grid-tile-header>
-        <mat-radio-group 
+        <mat-radio-group
             id="asm-vs-basic-radio-group"
             [(ngModel)]="programmingLanguage">
-            
-            <mat-radio-button 
+
+            <mat-radio-button
               [value]="'ASM'"
               (change)="onAssemblyModeSelected()">6502/6510 Assembly</mat-radio-button>
-            <mat-radio-button 
+            <mat-radio-button
               [value]="'BASIC'"
               (change)="onBasicModeSelected()">C64 BASIC</mat-radio-button>
         </mat-radio-group>
     </mat-grid-tile>
-    
+
     <mat-grid-tile colspan="2">
         <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
         <div class="rom-bank-options">
-            <mat-slide-toggle 
+            <mat-slide-toggle
                 [(ngModel)]="useKernelRom"
                 [disabled]="basicMode||useBasicRom"
                 (change)="onUseKernelRomSelectionChanged()">
-                
+
                 Use KERNEL ROM</mat-slide-toggle>
 
-            <mat-slide-toggle 
+            <mat-slide-toggle
                 [(ngModel)]="useBasicRom"
                 [disabled]="basicMode"
                 (change)="onUseBasicRomSelectionChanged()">
-                
+
                 Use BASIC ROM</mat-slide-toggle>
 
             <mat-slide-toggle [(ngModel)]="useCartRomLo">Use CART ROM LO ($8000-$9FFF)</mat-slide-toggle>
         </div>
     </mat-grid-tile>
-    
+
     <mat-grid-tile>
         <mat-grid-tile-header>CART ROM HI Options</mat-grid-tile-header>
         <div class="rom-bank-options">
             <div>
                 <mat-radio-group
-                    [(ngModel)]="cartRomHi"> 
+                    [(ngModel)]="cartRomHi">
                     <mat-radio-button [value]="'unmapped'">unmapped</mat-radio-button>
-                    <mat-radio-button 
+                    <mat-radio-button
                         [value]="'bankA'"
-                        [disabled]="basicMode">$A000-$BFFF</mat-radio-button>
+                        [disabled]="useBasicRom">$A000-$BFFF</mat-radio-button>
                     <mat-radio-button [value]="'bankE'">$E000-$FFFF</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
     </mat-grid-tile>
-    
+
     <mat-grid-tile>
         <mat-grid-tile-header>$D000-$DFFF Mapping</mat-grid-tile-header>
         <div class="rom-bank-options">
@@ -88,7 +88,7 @@
             </div>
         </div>
     </mat-grid-tile>
-    
+
 </mat-grid-list>
 
 <mat-grid-list cols="1" rowHeight="200px" id="output-area">

@@ -177,12 +177,11 @@ private memChartPrototype: GoogleChartInterface = {
   }
 
   onBasicModeSelected(): void {
-    if (this.cartRomHi == 'bankA') {
-      this.cartRomHi = 'unmapped';
-    }
     this.useBasicRom = true;
     this.useKernelRom = true;
     this.basicMode = true;
+
+    this.disableCartHiWhenBasicRomInUse();
 
     this.configureVicBank0();
     this.configureVicBank2();
@@ -202,7 +201,16 @@ private memChartPrototype: GoogleChartInterface = {
   }
 
   onUseBasicRomSelectionChanged(): void {
+
+    this.disableCartHiWhenBasicRomInUse();
+
     this.configureVicBank0();
     this.configureVicBank2();
+  }
+
+  disableCartHiWhenBasicRomInUse(): void {
+    if (this.useBasicRom && this.cartRomHi == 'bankA') {
+      this.cartRomHi = 'unmapped';
+    }
   }
 }
