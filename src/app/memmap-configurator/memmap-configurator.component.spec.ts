@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { DebugElement } from '@angular/core';
 
 import { MemmapConfiguratorComponent } from './memmap-configurator.component';
 
@@ -24,6 +26,7 @@ describe('MemmapConfiguratorComponent', () => {
   let fixture: ComponentFixture<MemmapConfiguratorComponent>;
   let loader: HarnessLoader;
   let rootLoader: HarnessLoader;
+  let component: MemmapConfiguratorComponent;
 
   beforeAll(() => {
     //TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
@@ -36,7 +39,8 @@ describe('MemmapConfiguratorComponent', () => {
         MatSlideToggleModule,
         MatRadioModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        
       ],
       declarations: [
         MemmapConfiguratorComponent,
@@ -44,17 +48,26 @@ describe('MemmapConfiguratorComponent', () => {
        ]
     }).compileComponents();
     fixture = TestBed.createComponent(MemmapConfiguratorComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
+    
   });
 
   it('should create', () => {
     expect(fixture).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
 
-    it('should change from ASM to BASiC', () => {
-
+    it('should change from ASM to BASIC', () => {
+        //component.ngOnInit();
+        //component.onAssemblyModeSelected();
+        //expect(component["basicMode"]).toBeFalsy();
+        
+        const debugElement: DebugElement = fixture.debugElement;
+        debugElement.query(By.css('#useAsmOption'))!.triggerEventHandler('click', null);
+        expect(component["basicMode"]).toBeFalsy();
     });
 
 });
