@@ -38,10 +38,20 @@ export class MemmapConfiguratorComponent implements OnInit {
     }
   };
 
-  public vicBank0Chart: GoogleChartInterface = this.createMemChart();
-  public vicBank1Chart: GoogleChartInterface = this.createMemChart();
-  public vicBank2Chart: GoogleChartInterface = this.createMemChart();
-  public vicBank3Chart: GoogleChartInterface = this.createMemChart();
+
+  private chartOptionsPrototype = {
+      //width: 600,
+      height: 100,
+      legend: 'none',
+      isStacked: true,
+      options: {}
+    };
+
+  public vicBank0Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank1Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank2Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank3Chart: GoogleChartInterface = { ...this.memChartPrototype };
+
 
   vicBank: number = 0;
   programmingLanguage: string = 'ASM';
@@ -60,6 +70,10 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.UNAVAILABLE);
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
+
+  private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.UNAVAILABLE);
+  private kernelRomChunk: MemoryChunk = new MemoryChunk('KERNEL ROM', 0xE000, 8192, MemoryStatus.UNAVAILABLE);
+
 
   constructor() {
     this.configureChart(this.vicBank0Chart, 0);
@@ -116,11 +130,21 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
+
+    if (this.useBasicRom) {
+      bank.insertChunk(this.basicRomChunk);
+    }
+
     this.updateChart(this.vicBank2Chart, bank);
   }
 
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
+
+    if (this.useKernelRom) {
+      bank.insertChunk(this.kernelRomChunk);
+    }
+
     this.updateChart(this.vicBank3Chart, bank);
   }
 
@@ -170,35 +194,43 @@ export class MemmapConfiguratorComponent implements OnInit {
     return [ labels, values ];
   }
 
-  private excludeBankAFromCartRomHi(): void {
-    if (this.cartRomHi == 'bankA') {
-      this.cartRomHi = 'unmapped';
-    }
-  }
-
   onBasicModeSelected(): void {
-    this.excludeBankAFromCartRomHi();
+
     this.useBasicRom = true;
     this.useKernelRom = true;
     this.basicMode = true;
 
+    this.disableCartHiWhenBasicRomInUse();
+
     this.configureVicBank0();
+    this.configureVicBank2();
+    this.configureVicBank3();
   }
 
   onAssemblyModeSelected(): void {
     this.basicMode = false;
 
     this.configureVicBank0();
+    this.configureVicBank2();
   }
 
   onUseKernelRomSelectionChanged(): void {
     this.excludeBankAFromCartRomHi();
     this.configureVicBank0();
+    this.configureVicBank3();
   }
 
   onUseBasicRomSelectionChanged(): void {
-    this.excludeBankAFromCartRomHi();
-    this.useKernelRom = true;
+
+    this.disableCartHiWhenBasicRomInUse();
+
     this.configureVicBank0();
+    this.configureVicBank2();
+  }
+
+  disableCartHiWhenBasicRomInUse(): void {
+    if (this.useBasicRom && this.cartRomHi == 'bankA') {
+      this.cartRomHi = 'unmapped';
+    }
   }
 }

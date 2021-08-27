@@ -1,48 +1,59 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { MemmapConfiguratorComponent } from './memmap-configurator.component';
 
 import {MatGridListModule} from '@angular/material/grid-list';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatRadioModule} from '@angular/material/radio';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatDividerModule} from '@angular/material/divider';
 
 import { GoogleChartComponent } from 'ng2-google-charts';
 
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {MatRadioButtonHarness, MatRadioGroupHarness} from '@angular/material/radio/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+import {MatRadioModule} from '@angular/material/radio';
+import {ReactiveFormsModule} from '@angular/forms';
+
+
 
 describe('MemmapConfiguratorComponent', () => {
-  let component: MemmapConfiguratorComponent;
   let fixture: ComponentFixture<MemmapConfiguratorComponent>;
+  let loader: HarnessLoader;
+  let rootLoader: HarnessLoader;
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ 
+      imports: [
+        MatGridListModule,
+        MatSlideToggleModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [
         MemmapConfiguratorComponent,
         GoogleChartComponent
-      ],
-      imports: [ 
-        FormsModule,
-        MatGridListModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatRadioModule,
-        MatSlideToggleModule,
-        MatDividerModule,
-        ]
-    })
-    .compileComponents();
-    
+       ]
+    }).compileComponents();
     fixture = TestBed.createComponent(MemmapConfiguratorComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-    
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
-
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(fixture).toBeTruthy();
   });
+
+
+    it('should change from ASM to BASiC', () => {
+
+    });
+
 });
