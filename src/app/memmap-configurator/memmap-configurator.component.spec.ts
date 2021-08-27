@@ -58,10 +58,23 @@ describe('MemmapConfiguratorComponent', () => {
     
   });
 
+    function findRadioButtonById(id:string): Promise<MatRadioButtonHarness> {
+        return loader.getHarness(MatRadioButtonHarness.with({selector: id}));
+    }
+    
+    function findSlideToggleById(id:string): Promise<MatSlideToggleHarness> {
+        return loader.getHarness(MatSlideToggleHarness.with({selector: id}));
+    }
+    
+    function findRadioGroupById(id:string): Promise<MatRadioGroupHarness> {
+        return loader.getHarness(MatRadioGroupHarness.with({selector: id}));
+    }
 
-    it('should change from ASM to BASIC', async () => {
-      
-        const useAsmRadioButton = await loader.getHarness(MatRadioButtonHarness.with({selector: '#useAsmOption'}));
+    it('should change to ASM mode', async () => {
+        const useBasicRadioButton = await findRadioButtonById('#useBasicOption');
+        await useBasicRadioButton.check();
+    
+        const useAsmRadioButton = await findRadioButtonById('#useAsmOption');
         await useAsmRadioButton.check();
         expect(component["basicMode"]).toBeFalsy();
         
@@ -69,19 +82,21 @@ describe('MemmapConfiguratorComponent', () => {
     
     it('should change to BASIC mode', async () => {
         
-        const useBasicRadioButton = await loader.getHarness(MatRadioButtonHarness.with({selector: '#useBasicOption'}));
+        const useBasicRadioButton = await findRadioButtonById('#useBasicOption');
         await useBasicRadioButton.check();
         
-        const basicRomToggle = await loader.getHarness(MatSlideToggleHarness.with({ selector: "#useBasicRomToggle" }));
+        const basicRomToggle = await findSlideToggleById('#useBasicRomToggle');
         expect(await basicRomToggle.isChecked()).toBeTruthy();
         expect(await basicRomToggle.isDisabled()).toBeDefined();
         
-        const kernelRomToggle = await loader.getHarness(MatSlideToggleHarness.with({ selector: "#useKernelRomToggle" }));
+        const kernelRomToggle = await findSlideToggleById('#useKernelRomToggle');
         expect(await kernelRomToggle.isChecked()).toBeTruthy();
         expect(await kernelRomToggle.isDisabled()).toBeDefined();
         
-        const romHiRadioGroup = await loader.getHarness(MatRadioGroupHarness.with({selector: '#cartRomHiRadioGroup'}));
-        expect(await romHiRadioGroup.getCheckedValue()).toBe('unmapped');
+        const romHiRadioGroup = await findRadioGroupById('#cartRomHiRadioGroup');
+        expect(await romHiRadioGroup.getCheckedValue()).not.toBe('bankA');
     });
 
 });
+
+
