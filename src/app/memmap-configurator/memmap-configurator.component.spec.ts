@@ -69,34 +69,75 @@ describe('MemmapConfiguratorComponent', () => {
     function findRadioGroupById(id:string): Promise<MatRadioGroupHarness> {
         return loader.getHarness(MatRadioGroupHarness.with({selector: '#'+id}));
     }
-
-    it('should change to ASM mode', async () => {
-        const useBasicRadioButton = await findRadioButtonById('useBasicOption');
-        await useBasicRadioButton.check();
     
+    async function selectAssemblyLanguage(): Promise<void> {
         const useAsmRadioButton = await findRadioButtonById('useAsmOption');
         await useAsmRadioButton.check();
+    }
+    
+    async function selectBasicLanguage(): Promise<void> {
+        const useBasicRadioButton = await findRadioButtonById('useBasicOption');
+        await useBasicRadioButton.check();
+    }
+    
+    async function findBasicRomSlideToggle(): Promise<MatSlideToggleHarness> {
+        return findSlideToggleById('useBasicRomToggle');
+        
+    }
+    
+    async function findCartRomHiRadioGroup(): Promise<MatRadioGroupHarness> {
+        return findRadioGroupById('cartRomHiRadioGroup');
+        
+    }
+    
+    async function findKernelRomSlideToggle(): Promise<MatSlideToggleHarness> {
+        return findSlideToggleById('useKernelRomToggle');
+        
+    }
+    
+    async function findBankARadioButton(): Promise<MatRadioButtonHarness> {
+        return findRadioButtonById('bankARadioButton');
+    }
+    
+    async function selectBasicRom(): Promise<void> {
+        const basicRomSlideToggle = await findBasicRomSlideToggle();
+        await basicRomSlideToggle.check();
+    }
+
+    it('should change to ASM mode', async () => {
+        await selectBasicLanguage();
+        await selectAssemblyLanguage();
         expect(component["basicMode"]).toBeFalsy();
         
     });
     
     it('should change to BASIC mode', async () => {
+        await selectBasicLanguage();
+   
+        const basicRomSlideToggle = await findBasicRomSlideToggle();
+        expect(await basicRomSlideToggle.isChecked()).toBeTruthy();
+        expect(await basicRomSlideToggle.isDisabled()).toBeDefined();
         
-        const useBasicRadioButton = await findRadioButtonById('useBasicOption');
-        await useBasicRadioButton.check();
+        const kernelRomSlideToggle = await findKernelRomSlideToggle();
+        expect(await kernelRomSlideToggle.isChecked()).toBeTruthy();
+        expect(await kernelRomSlideToggle.isDisabled()).toBeDefined();
         
-        const basicRomToggle = await findSlideToggleById('useBasicRomToggle'); 
-        expect(await basicRomToggle.isChecked()).toBeTruthy();
-        expect(await basicRomToggle.isDisabled()).toBeDefined();
+        const cartRomHiRadioGroup = await findCartRomHiRadioGroup();
+        expect(await cartRomHiRadioGroup.getCheckedValue()).not.toBe('bankA');
         
-        const kernelRomToggle = await findSlideToggleById('useKernelRomToggle');
+        const bankARadioButton = await findBankARadioButton();
+        expect(await bankARadioButton.isChecked()).toBeFalsy();
+        expect(await bankARadioButton.isDisabled()).toBeTrue();
+    });
+    
+    it('should use BASIC ROM', async () => {
+        await selectBasicRom();
+        
+        const kernelRomToggle = await findKernelRomSlideToggle()
         expect(await kernelRomToggle.isChecked()).toBeTruthy();
         expect(await kernelRomToggle.isDisabled()).toBeDefined();
         
-        const romHiRadioGroup = await findRadioGroupById('cartRomHiRadioGroup');
-        expect(await romHiRadioGroup.getCheckedValue()).not.toBe('bankA');
-        
-        const bankARadioButton = await findRadioButtonById('bankARadioButton');
+        const bankARadioButton = await findBankARadioButton();
         expect(await bankARadioButton.isChecked()).toBeFalsy();
         expect(await bankARadioButton.isDisabled()).toBeTrue();
     });
