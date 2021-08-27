@@ -26,7 +26,7 @@ describe('MemmapConfiguratorComponent', () => {
   let rootLoader: HarnessLoader;
 
   beforeAll(() => {
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+    //TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
   });
 
   beforeEach(async () => {
@@ -36,6 +36,7 @@ describe('MemmapConfiguratorComponent', () => {
         MatSlideToggleModule,
         MatRadioModule,
         ReactiveFormsModule,
+        FormsModule
       ],
       declarations: [
         MemmapConfiguratorComponent,
