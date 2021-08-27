@@ -175,6 +175,7 @@ describe('MemmapConfiguratorComponent', () => {
         
         const bankARadioButton = await findBankARadioButton();
         expect(await bankARadioButton.isChecked()).toBeTruthy();
+        expect(await bankARadioButton.isDisabled()).toBeFalsy();
         
         const bankERadioButton = await findBankERadioButton();
         expect(await bankERadioButton.isChecked()).toBeFalsy();
@@ -187,6 +188,7 @@ describe('MemmapConfiguratorComponent', () => {
         
         const unmappedRomHiRadioButton = await findUnmappedRomHiRadioButton();
         expect(await unmappedRomHiRadioButton.isChecked()).toBeTruthy();
+        expect(await unmappedRomHiRadioButton.isDisabled()).toBeFalsy();
         
         const bankERadioButton = await findBankERadioButton();
         expect(await bankERadioButton.isChecked()).toBeFalsy();
