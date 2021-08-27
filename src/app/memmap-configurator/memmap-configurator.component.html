@@ -70,7 +70,10 @@
                 <mat-radio-group
                     id="cartRomHiRadioGroup"
                     [(ngModel)]="cartRomHi">
-                    <mat-radio-button [value]="'unmapped'">unmapped</mat-radio-button>
+                    <mat-radio-button 
+                        id='unmappedRadioButton'
+                        [value]="'unmapped'">unmapped
+                        </mat-radio-button>
                     <mat-radio-button
                         id='bankARadioButton'
                         [value]="'bankA'"

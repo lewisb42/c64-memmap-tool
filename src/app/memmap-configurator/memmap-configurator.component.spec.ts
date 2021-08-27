@@ -99,9 +99,32 @@ describe('MemmapConfiguratorComponent', () => {
         return findRadioButtonById('bankARadioButton');
     }
     
+    async function findBankERadioButton(): Promise<MatRadioButtonHarness> {
+        return findRadioButtonById('bankERadioButton');
+    }
+    
+    async function findUnmappedRomHiRadioButton(): Promise<MatRadioButtonHarness> {
+        return findRadioButtonById('unmappedRadioButton');
+    }
+    
     async function selectBasicRom(): Promise<void> {
         const basicRomSlideToggle = await findBasicRomSlideToggle();
         await basicRomSlideToggle.check();
+    }
+    
+    async function selectKernelRom(): Promise<void> {
+        const kernelRomSlideToggle = await findKernelRomSlideToggle();
+        await kernelRomSlideToggle.check();
+    }
+    
+    async function selectBankE(): Promise<void> {
+        const bankERadioButton = await findBankERadioButton();
+        await bankERadioButton.check();
+    }
+    
+    async function selectBankA(): Promise<void> {
+        const bankARadioButton = await findBankARadioButton();
+        await bankARadioButton.check();
     }
 
     it('should change to ASM mode', async () => {
@@ -140,8 +163,35 @@ describe('MemmapConfiguratorComponent', () => {
         const bankARadioButton = await findBankARadioButton();
         expect(await bankARadioButton.isChecked()).toBeFalsy();
         expect(await bankARadioButton.isDisabled()).toBeTrue();
+        
+        const bankERadioButton = await findBankERadioButton();
+        expect(await bankERadioButton.isChecked()).toBeFalsy();
+        expect(await bankERadioButton.isDisabled()).toBeTrue();
     });
 
+    it('should not affect bank A when only kernel ROM is selected', async () => {
+        await selectBankA();
+        await selectKernelRom();
+        
+        const bankARadioButton = await findBankARadioButton();
+        expect(await bankARadioButton.isChecked()).toBeTruthy();
+        
+        const bankERadioButton = await findBankERadioButton();
+        expect(await bankERadioButton.isChecked()).toBeFalsy();
+        expect(await bankERadioButton.isDisabled()).toBeTrue();
+    });
+    
+    it('should switch from bank E to unmapped when kernel ROM is selected', async () => {
+        await selectBankE();
+        await selectKernelRom();
+        
+        const unmappedRomHiRadioButton = await findUnmappedRomHiRadioButton();
+        expect(await unmappedRomHiRadioButton.isChecked()).toBeTruthy();
+        
+        const bankERadioButton = await findBankERadioButton();
+        expect(await bankERadioButton.isChecked()).toBeFalsy();
+        expect(await bankERadioButton.isDisabled()).toBeTrue();
+    });
 });
 
 
