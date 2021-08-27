@@ -72,9 +72,16 @@ describe('MemmapConfiguratorComponent', () => {
         const useBasicRadioButton = await loader.getHarness(MatRadioButtonHarness.with({selector: '#useBasicOption'}));
         await useBasicRadioButton.check();
         
+        const basicRomToggle = await loader.getHarness(MatSlideToggleHarness.with({ selector: "#useBasicRomToggle" }));
+        expect(await basicRomToggle.isChecked()).toBeTruthy();
+        expect(await basicRomToggle.isDisabled()).toBeDefined();
+        
         const kernelRomToggle = await loader.getHarness(MatSlideToggleHarness.with({ selector: "#useKernelRomToggle" }));
         expect(await kernelRomToggle.isChecked()).toBeTruthy();
         expect(await kernelRomToggle.isDisabled()).toBeDefined();
+        
+        const romHiRadioGroup = await loader.getHarness(MatRadioGroupHarness.with({selector: '#cartRomHiRadioGroup'}));
+        expect(await romHiRadioGroup.getCheckedValue()).toBe('unmapped');
     });
 
 });
