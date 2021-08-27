@@ -34,6 +34,7 @@
               [value]="'ASM'"
               (change)="onAssemblyModeSelected()">6502/6510 Assembly</mat-radio-button>
             <mat-radio-button
+              id="useBasicOption"
               [value]="'BASIC'"
               (change)="onBasicModeSelected()">C64 BASIC</mat-radio-button>
         </mat-radio-group>
@@ -43,6 +44,7 @@
         <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
         <div class="rom-bank-options">
             <mat-slide-toggle
+                id="useKernelRomToggle"
                 [(ngModel)]="useKernelRom"
                 [disabled]="basicMode||useBasicRom"
                 (change)="onUseKernelRomSelectionChanged()">
@@ -50,6 +52,7 @@
                 Use KERNEL ROM</mat-slide-toggle>
 
             <mat-slide-toggle
+                id="useBasicRomToggle"
                 [(ngModel)]="useBasicRom"
                 [disabled]="basicMode"
                 (change)="onUseBasicRomSelectionChanged()">
@@ -65,6 +68,7 @@
         <div class="rom-bank-options">
             <div>
                 <mat-radio-group
+                    id="cartRomHiRadioGroup"
                     [(ngModel)]="cartRomHi">
                     <mat-radio-button [value]="'unmapped'">unmapped</mat-radio-button>
                     <mat-radio-button

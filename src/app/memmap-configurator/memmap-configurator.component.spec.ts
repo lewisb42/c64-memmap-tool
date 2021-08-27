@@ -61,13 +61,20 @@ describe('MemmapConfiguratorComponent', () => {
 
 
     it('should change from ASM to BASIC', () => {
-        //component.ngOnInit();
-        //component.onAssemblyModeSelected();
-        //expect(component["basicMode"]).toBeFalsy();
-        
         const debugElement: DebugElement = fixture.debugElement;
         debugElement.query(By.css('#useAsmOption'))!.triggerEventHandler('click', null);
         expect(component["basicMode"]).toBeFalsy();
+    });
+    
+    it('should change to BASIC mode', () => {
+        const debugElement: DebugElement = fixture.debugElement;
+        debugElement.query(By.css('#useBasicOption'))!.triggerEventHandler('click', null);
+        
+        fixture.detectChanges();
+        
+        const kernelRomToggle = debugElement.query(By.css('#useKernelRomToggle'));
+        expect(kernelRomToggle.attributes['checked']).toBeTruthy();
+        expect(kernelRomToggle.attributes['disabled']).toBeDefined();
     });
 
 });
