@@ -11,7 +11,11 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { GoogleChartComponent } from 'ng2-google-charts';
 
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {MatRadioButtonHarness, MatRadioGroupHarness} from '@angular/material/radio/testing';
+import { 
+    MatRadioButtonHarness, 
+    MatRadioGroupHarness,
+    } from '@angular/material/radio/testing';
+import {MatSlideToggleHarness} from '@angular/material/slide-toggle/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {
   BrowserDynamicTestingModule,
@@ -54,27 +58,23 @@ describe('MemmapConfiguratorComponent', () => {
     
   });
 
-  it('should create', () => {
-    expect(fixture).toBeTruthy();
-    expect(component).toBeDefined();
-  });
 
-
-    it('should change from ASM to BASIC', () => {
-        const debugElement: DebugElement = fixture.debugElement;
-        debugElement.query(By.css('#useAsmOption'))!.triggerEventHandler('click', null);
+    it('should change from ASM to BASIC', async () => {
+      
+        const useAsmRadioButton = await loader.getHarness(MatRadioButtonHarness.with({selector: '#useAsmOption'}));
+        await useAsmRadioButton.check();
         expect(component["basicMode"]).toBeFalsy();
+        
     });
     
-    it('should change to BASIC mode', () => {
-        const debugElement: DebugElement = fixture.debugElement;
-        debugElement.query(By.css('#useBasicOption'))!.triggerEventHandler('click', null);
+    it('should change to BASIC mode', async () => {
         
-        fixture.detectChanges();
+        const useBasicRadioButton = await loader.getHarness(MatRadioButtonHarness.with({selector: '#useBasicOption'}));
+        await useBasicRadioButton.check();
         
-        const kernelRomToggle = debugElement.query(By.css('#useKernelRomToggle'));
-        expect(kernelRomToggle.attributes['checked']).toBeTruthy();
-        expect(kernelRomToggle.attributes['disabled']).toBeDefined();
+        const kernelRomToggle = await loader.getHarness(MatSlideToggleHarness.with({ selector: "#useKernelRomToggle" }));
+        expect(await kernelRomToggle.isChecked()).toBeTruthy();
+        expect(await kernelRomToggle.isDisabled()).toBeDefined();
     });
 
 });
