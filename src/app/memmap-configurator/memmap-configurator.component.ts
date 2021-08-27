@@ -47,10 +47,10 @@ export class MemmapConfiguratorComponent implements OnInit {
       options: {}
     };
 
-  public vicBank0Chart: GoogleChartInterface = { ...this.memChartPrototype };
-  public vicBank1Chart: GoogleChartInterface = { ...this.memChartPrototype };
-  public vicBank2Chart: GoogleChartInterface = { ...this.memChartPrototype };
-  public vicBank3Chart: GoogleChartInterface = { ...this.memChartPrototype };
+  public vicBank0Chart: GoogleChartInterface = this.createMemChart();
+  public vicBank1Chart: GoogleChartInterface = this.createMemChart();
+  public vicBank2Chart: GoogleChartInterface = this.createMemChart();
+  public vicBank3Chart: GoogleChartInterface = this.createMemChart();
 
 
   vicBank: number = 0;
@@ -230,6 +230,12 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   disableCartHiWhenBasicRomInUse(): void {
     if (this.useBasicRom && this.cartRomHi == 'bankA') {
+      this.cartRomHi = 'unmapped';
+    }
+  }
+  
+  private excludeBankAFromCartRomHi(): void {
+    if (this.cartRomHi == 'bankA') {
       this.cartRomHi = 'unmapped';
     }
   }
