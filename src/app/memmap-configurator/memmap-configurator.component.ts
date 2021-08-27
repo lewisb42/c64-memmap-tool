@@ -73,6 +73,8 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.UNAVAILABLE);
   private kernelRomChunk: MemoryChunk = new MemoryChunk('KERNEL ROM', 0xE000, 8192, MemoryStatus.UNAVAILABLE);
+  
+  private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.UNAVAILABLE);
 
 
   constructor() {
@@ -133,6 +135,10 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     if (this.useBasicRom) {
       bank.insertChunk(this.basicRomChunk);
+    }
+    
+    if (this.useCartRomLo) {
+      bank.insertChunk(this.cartRomLoChunk);
     }
 
     this.updateChart(this.vicBank2Chart, bank);
@@ -229,6 +235,10 @@ export class MemmapConfiguratorComponent implements OnInit {
     this.configureVicBank0();
     this.configureVicBank2();
     this.configureVicBank3();
+  }
+
+  onUseCartRomLoChanged(): void {
+    this.configureVicBank2();
   }
 
   private unselectBankAWhenBasicRomInUse(): void {
