@@ -98,6 +98,7 @@ describe('MemmapConfiguratorComponent', () => {
         
         const bankARadioButton = await findRadioButtonById('bankARadioButton');
         expect(await bankARadioButton.isChecked()).toBeFalsy();
+        expect(await bankARadioButton.isDisabled()).toBeTrue();
     });
 
 });
