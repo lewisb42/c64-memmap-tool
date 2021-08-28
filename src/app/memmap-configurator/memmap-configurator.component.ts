@@ -70,6 +70,10 @@ export class MemmapConfiguratorComponent implements OnInit {
   private bankAChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
   
   private bankEChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.UNAVAILABLE);
+  
+  private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
+  
+  private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
 
   constructor() {
   }
@@ -152,6 +156,17 @@ export class MemmapConfiguratorComponent implements OnInit {
     
     if (this.cartRomHi === "bankE") {
         bank.insertChunk(this.bankEChunk);
+    }
+    
+    switch(this.dBankMap) {
+        case "IO":
+            bank.insertChunk(this.ioChunk);
+            break;
+        case "CHAR_ROM":
+            bank.insertChunk(this.charRomChunk);
+            break;
+        default: // RAM, do nothing
+            break;
     }
 
     this.updateChart(this.vicBank3Chart, bank);
@@ -247,6 +262,10 @@ export class MemmapConfiguratorComponent implements OnInit {
   
   onCartRomHiChanged(): void {
     this.configureVicBank2();
+    this.configureVicBank3();
+  }
+  
+  onDBankMappingChanged(): void {
     this.configureVicBank3();
   }
 

@@ -100,7 +100,8 @@
         <div class="rom-bank-options">
             <div>
                 <mat-radio-group
-                    [(ngModel)]="dBankMap">
+                    [(ngModel)]="dBankMap"
+                    (change)="onDBankMappingChanged()">
                     <mat-radio-button [value]="'IO'">I/O</mat-radio-button>
                     <mat-radio-button [value]="'CHAR_ROM'">CHAR ROM</mat-radio-button>
                     <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
