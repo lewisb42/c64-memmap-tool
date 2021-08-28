@@ -13,8 +13,9 @@ export class MemoryChunk {
     readonly memStatus:MemoryStatus) {}
     
     static compareAscendingByStartAddr(mb1:MemoryChunk, mb2:MemoryChunk) {
-        if (mb1.startAddr < mb2.startAddr) return 0;
-        return +1;
+        if (mb1.startAddr < mb2.startAddr) return -1;
+        if (mb1.startAddr > mb2.startAddr) return +1;
+        return 0;
     }
     
     get endAddr(): number {

@@ -23,10 +23,10 @@ export class MemoryBank {
         // note this method "fills in the gaps" that are unallocated by this._chunks
         
         let results: MemoryChunk[] = [];
-        this._chunks.sort(MemoryChunk.compareAscendingByStartAddr);
+        let chunks = this._chunks.sort(MemoryChunk.compareAscendingByStartAddr);
         let currentAddr = this.startAddr;
         
-        for (let currentChunk of this._chunks) {
+        for (let currentChunk of chunks) {
             if (currentChunk.startAddr > currentAddr) {
                 let size = currentChunk.startAddr - currentAddr;
                 results.push(new MemoryChunk(

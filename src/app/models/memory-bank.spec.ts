@@ -132,6 +132,37 @@ describe('Inserting chunks into a bank', () => {
         expect(chunk4.sizeInBytes).toBe(16384 - 120);
     });
     
+    it('should insert out-of-order chunks', () => {
+        let bank = new MemoryBank('joe', 0);
+        
+        let chunkB = new MemoryChunk('', 110, 10, MemoryStatus.UNAVAILABLE);
+        let result = bank.insertChunk(chunkB);
+        expect(result.success).toBeTruthy(result.reason);
+        
+        let chunkA = new MemoryChunk('', 100, 10, MemoryStatus.UNAVAILABLE);
+        result = bank.insertChunk(chunkA);
+        expect(result.success).toBeTruthy(result.reason);
+        
+        let chunks = bank.chunks;
+        expect(chunks.length).toBe(4);
+        
+        let chunk1 = chunks[0];
+        expect(chunk1.startAddr).toBe(0);
+        expect(chunk1.sizeInBytes).toBe(100);
+        
+        let chunk2 = chunks[1];
+        expect(chunk2.startAddr).toBe(100);
+        expect(chunk2.sizeInBytes).toBe(10);
+        
+        let chunk3 = chunks[2];
+        expect(chunk3.startAddr).toBe(110);
+        expect(chunk3.sizeInBytes).toBe(10);
+        
+        let chunk4 = chunks[3];
+        expect(chunk4.startAddr).toBe(120);
+        expect(chunk4.sizeInBytes).toBe(16384 - 120);
+    });
+    
     it('should insert several chunks', () => {
         let bank = new MemoryBank('joe', 0);
         
