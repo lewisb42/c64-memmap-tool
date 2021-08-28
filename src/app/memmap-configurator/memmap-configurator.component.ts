@@ -38,15 +38,6 @@ export class MemmapConfiguratorComponent implements OnInit {
     }
   };
 
-
-  private chartOptionsPrototype = {
-      //width: 600,
-      height: 100,
-      legend: 'none',
-      isStacked: true,
-      options: {}
-    };
-
   public vicBank0Chart: GoogleChartInterface = this.createMemChart();
   public vicBank1Chart: GoogleChartInterface = this.createMemChart();
   public vicBank2Chart: GoogleChartInterface = this.createMemChart();
@@ -78,15 +69,14 @@ export class MemmapConfiguratorComponent implements OnInit {
 
 
   constructor() {
+  }
+
+  ngOnInit(): void {
     this.configureChart(this.vicBank0Chart, 0);
     this.configureChart(this.vicBank1Chart, 1);
     this.configureChart(this.vicBank2Chart, 2);
     this.configureChart(this.vicBank3Chart, 3);
-
-
-  }
-
-  ngOnInit(): void {
+    
     this.configureVicBank0();
     this.configureVicBank1();
     this.configureVicBank2();
@@ -95,16 +85,18 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private configureChart(chart:GoogleChartInterface, bankNumber:number): void {
     let startAddr = bankNumber * MemoryBank.SIZE;
-    chart.options['hAxis'] = {};
-    //chart.options.hAxis['minValue'] = startAddr;
-    //chart.options.hAxis['maxValue'] = startAddr + MemoryBank.SIZE - 1;
-    chart.options.hAxis['viewWindowMode'] = 'maximized';
-    chart.options.hAxis['ticks'] = [...Array(17).keys()].map(
-      function (i) {
-        let x = (i * 1024);
-        return { v:x, f:toAddress(x, startAddr) };
-      }
-    );
+    chart.options['hAxis'] = {
+        textPosition: 'out',
+        viewWindowMode: 'maximized',
+        ticks: [...Array(17).keys()].map(
+          i => {
+            let x = (i * 1024);
+            return { v:x, f:toAddress(x, startAddr) };
+          }
+        ),
+        textStyle: { fontSize: 15 },
+    };
+    
     chart.dataTable = [
       [ 'desc', 'free space', { role: 'annotation' } ],
       [ 'VIC Bank ' + bankNumber.toString(), MemoryBank.SIZE, '' ]
