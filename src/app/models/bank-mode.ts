@@ -157,7 +157,37 @@ export class BankMode {
                 Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ZERO, 
                 BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
                 
-            
+            new BankMode(7,
+                Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ONE, 
+                BankState.RAM, BankState.CART_ROM_LO, BankState.CART_ROM_HI, BankState.RAM, BankState.IO, BankState.KERNAL_ROM),
+                
+            new BankMode(6,
+                Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.CART_ROM_HI, BankState.RAM, BankState.IO, BankState.KERNAL_ROM),
+                
+            new BankMode(5,
+                Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ONE, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.IO, BankState.RAM),
+                
+            new BankMode(4,
+                Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
+                
+            new BankMode(3,
+                Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ONE, 
+                BankState.RAM, BankState.CART_ROM_LO, BankState.CART_ROM_HI, BankState.RAM, BankState.CHAR_ROM, BankState.KERNAL_ROM),
+                
+            new BankMode(2,
+                Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.CART_ROM_HI, BankState.RAM, BankState.CHAR_ROM, BankState.KERNAL_ROM),
+                
+            new BankMode(1,
+                Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ONE, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
+                
+            new BankMode(0,
+                Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM) 
         ];
 }
 

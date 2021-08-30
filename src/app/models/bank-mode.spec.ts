@@ -26,8 +26,8 @@ describe('BankMode', () => {
         BankState.RAM
     ); 
  
-    expect(modes.length).toEqual(4);
+    expect(modes.length).toEqual(7);
     let ids = modes.map(m => m.id).sort();
-    expect(ids).toEqual([12, 24, 28, 8]); // remember that JS sort() is stupid and defaults to sorting by toString()
+    expect(ids).toEqual([0, 1, 12, 24, 28, 4, 8]); // remember that JS sort() is stupid and defaults to sorting by toString()
   });
 });
