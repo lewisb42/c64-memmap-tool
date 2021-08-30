@@ -92,6 +92,56 @@ export class BankMode {
             new BankMode(24,
                 Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ZERO, 
                 BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
+                
+            new BankMode(23,
+                Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ONE, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(22,
+                Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ZERO, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(21,
+                Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ONE, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(20,
+                Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ZERO, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(19,
+                Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ONE, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(18,
+                Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ONE, Bit.ZERO, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(17,
+                Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ONE, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(16,
+                Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ZERO, 
+                BankState.UNAVAILABLE, BankState.CART_ROM_LO, BankState.UNAVAILABLE, BankState.UNAVAILABLE, BankState.IO, BankState.CART_ROM_HI),
+                
+            new BankMode(15,
+                Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ONE, Bit.ONE, 
+                BankState.RAM, BankState.CART_ROM_LO, BankState.BASIC_ROM, BankState.RAM, BankState.IO, BankState.KERNAL_ROM),
+                
+            new BankMode(14,
+                Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ONE, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.IO, BankState.KERNAL_ROM),
+                
+            new BankMode(13,
+                Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ONE, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.IO, BankState.RAM),
+                
+            new BankMode(12,
+                Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
+                
+            
         ];
 }
 

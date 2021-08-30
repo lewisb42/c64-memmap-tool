@@ -24,11 +24,10 @@ describe('BankMode', () => {
         BankState.RAM,
         BankState.RAM,
         BankState.RAM
-    );
-    
-    expect(modes.length).toEqual(2);
-    let ids = modes.map(m => m.id);
-    expect(ids.includes(28)).toBeTruthy();
-    expect(ids.includes(24)).toBeTruthy();
+    ); 
+
+    expect(modes.length).toEqual(3);
+    let ids = modes.map(m => m.id).sort();
+    expect(ids).toEqual([12, 24, 28]);
   });
 });
