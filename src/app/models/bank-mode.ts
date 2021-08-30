@@ -48,9 +48,37 @@ export class BankMode {
         bankE: BankState
     ): BankMode[] {
         let modes = [
-            new BankMode(   31, 
+            new BankMode(31, 
                 Bit.ONE, Bit.ONE, Bit.ONE, Bit.ONE, Bit.ONE, 
-                BankState.RAM, BankState.RAM, BankState.BASIC_ROM, BankState.RAM, BankState.IO, BankState.KERNAL_ROM)
+                BankState.RAM, BankState.RAM, BankState.BASIC_ROM, BankState.RAM, BankState.IO, BankState.KERNAL_ROM),
+                
+            new BankMode(30,
+                Bit.ONE, Bit.ONE, Bit.ONE, Bit.ONE, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.IO, BankState.KERNAL_ROM),
+                
+            new BankMode(29,
+                Bit.ONE, Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ONE, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.IO, BankState.RAM),
+                
+            new BankMode(28,
+                Bit.ONE, Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
+                
+            new BankMode(27,
+                Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ONE, 
+                BankState.RAM, BankState.RAM, BankState.BASIC_ROM, BankState.RAM, BankState.CHAR_ROM, BankState.KERNAL_ROM),
+                
+            new BankMode(26,
+                Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.CHAR_ROM, BankState.KERNAL_ROM),
+                
+            new BankMode(25,
+                Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ONE, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.CHAR_ROM, BankState.RAM),
+                
+            new BankMode(24,
+                Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
         ];
         return modes.filter(
             (m) => m.x8000to9fff==bank8 && m.xA000toBfff===bankA && m.xD000toDfff===bankD && m.xE000toFfff===bankE);
