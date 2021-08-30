@@ -41,13 +41,26 @@ export class BankMode {
         readonly xE000toFfff: BankState    
     ) {}
   
+  
+
+  
     public static fromMemoryMap(
         bank8: BankState, 
         bankA: BankState,
         bankD: BankState,
         bankE: BankState
     ): BankMode[] {
-        let modes = [
+        return BankMode.modes.filter(
+            (m) => m.x8000to9fff==bank8 && m.xA000toBfff===bankA && m.xD000toDfff===bankD && m.xE000toFfff===bankE);
+    }
+    
+    asBits(): number {
+        return this.charen * 4
+            + this.hiram * 2
+            + this.loram * 1;
+    } 
+    
+        private static modes = [
             new BankMode(31, 
                 Bit.ONE, Bit.ONE, Bit.ONE, Bit.ONE, Bit.ONE, 
                 BankState.RAM, BankState.RAM, BankState.BASIC_ROM, BankState.RAM, BankState.IO, BankState.KERNAL_ROM),
@@ -80,14 +93,5 @@ export class BankMode {
                 Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ZERO, 
                 BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
         ];
-        return modes.filter(
-            (m) => m.x8000to9fff==bank8 && m.xA000toBfff===bankA && m.xD000toDfff===bankD && m.xE000toFfff===bankE);
-    }
-    
-    asBits(): number {
-        return this.charen * 4
-            + this.hiram * 2
-            + this.loram * 1;
-    } 
 }
 
