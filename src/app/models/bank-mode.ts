@@ -141,6 +141,22 @@ export class BankMode {
                 Bit.ZERO, Bit.ONE, Bit.ONE, Bit.ZERO, Bit.ZERO, 
                 BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
                 
+            new BankMode(11,
+                Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ONE, 
+                BankState.RAM, BankState.CART_ROM_LO, BankState.BASIC_ROM, BankState.RAM, BankState.CHAR_ROM, BankState.KERNAL_ROM),
+                
+            new BankMode(10,
+                Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.CHAR_ROM, BankState.KERNAL_ROM),
+                
+            new BankMode(9,
+                Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ONE, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.CHAR_ROM, BankState.RAM),
+                
+            new BankMode(8,
+                Bit.ZERO, Bit.ONE, Bit.ZERO, Bit.ZERO, Bit.ZERO, 
+                BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM),
+                
             
         ];
 }
