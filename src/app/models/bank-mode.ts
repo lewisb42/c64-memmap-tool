@@ -54,6 +54,10 @@ export class BankMode {
             (m) => m.x8000to9fff==bank8 && m.xA000toBfff===bankA && m.xD000toDfff===bankD && m.xE000toFfff===bankE);
     }
     
+    public static allModes(): BankMode[] {
+        return BankMode.modes;
+    }
+    
     asBits(): number {
         return this.charen * 4
             + this.hiram * 2
