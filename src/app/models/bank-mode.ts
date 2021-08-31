@@ -61,7 +61,7 @@ export class BankMode {
 
     // returns a number representing bits 2, 1, and 0 of the PLA latch bits,
     // i.e., it can be bitwise-and'ed with the latch bits to set the mode
-    asBits(): number {
+    asInt(): number {
         return this.charen * 4
             + this.hiram * 2
             + this.loram * 1;

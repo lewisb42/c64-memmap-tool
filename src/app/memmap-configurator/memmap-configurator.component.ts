@@ -2,6 +2,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { GoogleChartInterface, GoogleChartWrapper } from 'ng2-google-charts';
 import { MemoryChunk, MemoryStatus } from '../models/memory-chunk';
 import { MemoryBank } from '../models/memory-bank';
+import { BankMode, BankState } from '../models/bank-mode'
 
 function toAddress(x: number, offset:number): string {
   let baseHex = (x + offset).toString(16).toUpperCase();
@@ -44,6 +45,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   public vicBank3Chart: GoogleChartInterface = this.createMemChart();
 
 
+
   vicBank: number = 0;
   programmingLanguage: string = 'ASM';
   useKernelRom: boolean = false;
@@ -53,6 +55,8 @@ export class MemmapConfiguratorComponent implements OnInit {
   dBankMap: string = "IO";
 
   basicMode: boolean = false;
+
+  bankMode: BankMode = this.calculateBankMode();
 
   private static UNAVAILABLE_COLOR = 'red';
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
@@ -64,15 +68,15 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.UNAVAILABLE);
   private kernelRomChunk: MemoryChunk = new MemoryChunk('KERNEL ROM', 0xE000, 8192, MemoryStatus.UNAVAILABLE);
-  
+
   private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.UNAVAILABLE);
 
   private bankAChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
-  
+
   private bankEChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.UNAVAILABLE);
-  
+
   private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
-  
+
   private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
 
   constructor() {
@@ -83,7 +87,7 @@ export class MemmapConfiguratorComponent implements OnInit {
     this.configureChart(this.vicBank1Chart, 1);
     this.configureChart(this.vicBank2Chart, 2);
     this.configureChart(this.vicBank3Chart, 3);
-    
+
     this.configureVicBank0();
     this.configureVicBank1();
     this.configureVicBank2();
@@ -103,7 +107,7 @@ export class MemmapConfiguratorComponent implements OnInit {
         ),
         textStyle: { fontSize: 15 },
     };
-    
+
     chart.dataTable = [
       [ 'desc', 'free space', { role: 'annotation' } ],
       [ 'VIC Bank ' + bankNumber.toString(), MemoryBank.SIZE, '' ]
@@ -135,11 +139,11 @@ export class MemmapConfiguratorComponent implements OnInit {
     if (this.useBasicRom) {
       bank.insertChunk(this.basicRomChunk);
     }
-    
+
     if (this.useCartRomLo) {
       bank.insertChunk(this.cartRomLoChunk);
     }
-    
+
     if (this.cartRomHi === "bankA") {
       bank.insertChunk(this.bankAChunk);
     }
@@ -153,11 +157,11 @@ export class MemmapConfiguratorComponent implements OnInit {
     if (this.useKernelRom) {
       bank.insertChunk(this.kernelRomChunk);
     }
-    
+
     if (this.cartRomHi === "bankE") {
         bank.insertChunk(this.bankEChunk);
     }
-    
+
     switch(this.dBankMap) {
         case "IO":
             bank.insertChunk(this.ioChunk);
@@ -226,7 +230,7 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     this.unselectBankAWhenBasicRomInUse();
     this.unselectBankEWhenKernelRomInUse();
-    
+    this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
     this.configureVicBank3();
@@ -234,39 +238,89 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   onAssemblyModeSelected(): void {
     this.basicMode = false;
-
+    this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
   }
 
   onUseKernelRomSelectionChanged(): void {
     this.unselectBankEWhenKernelRomInUse();
+    this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank3();
   }
 
   onUseBasicRomSelectionChanged(): void {
     this.useKernelRom = true;
-
     this.unselectBankAWhenBasicRomInUse();
-
+    this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
     this.configureVicBank3();
   }
 
   onUseCartRomLoChanged(): void {
+    this.recalculatePlaBits();
     this.configureVicBank2();
     this.configureVicBank3();
   }
-  
+
   onCartRomHiChanged(): void {
+    this.recalculatePlaBits();
     this.configureVicBank2();
     this.configureVicBank3();
   }
-  
+
   onDBankMappingChanged(): void {
+    this.recalculatePlaBits();
     this.configureVicBank3();
+  }
+
+  private recalculatePlaBits(): void {
+    this.bankMode = this.calculateBankMode();
+  }
+
+  private calculateBankMode(): BankMode {
+      let bank8: BankState;
+      if (this.useCartRomLo) {
+        bank8 = BankState.CART_ROM_LO;
+      } else {
+        bank8 = BankState.RAM;
+      }
+
+      let bankA: BankState;
+      if (this.useBasicRom) {
+        bankA = BankState.BASIC_ROM;
+      } else if (this.cartRomHi == 'bankA') {
+        bankA = BankState.CART_ROM_HI;
+      } else {
+        bankA = BankState.RAM;
+      }
+
+      let bankD: BankState;
+      if (this.dBankMap == 'IO') {
+        bankD = BankState.IO;
+      } else if (this.dBankMap == 'CHAR_ROM') {
+        bankD = BankState.CHAR_ROM;
+      } else {
+        bankD = BankState.RAM;
+      }
+
+      let bankE: BankState;
+      if (this.useKernelRom) {
+        bankE = BankState.KERNAL_ROM;
+      } else if (this.cartRomHi == 'bankE') {
+        bankE = BankState.CART_ROM_HI;
+      } else {
+        bankE = BankState.RAM;
+      }
+
+      return BankMode.fromMemoryMap(
+        bank8,
+        bankA,
+        bankD,
+        bankE
+      )[0];
   }
 
   private unselectBankAWhenBasicRomInUse(): void {
@@ -274,7 +328,7 @@ export class MemmapConfiguratorComponent implements OnInit {
       this.cartRomHi = 'unmapped';
     }
   }
-  
+
   private unselectBankEWhenKernelRomInUse(): void {
     if (this.useKernelRom && this.cartRomHi == 'bankE') {
       this.cartRomHi = 'unmapped';

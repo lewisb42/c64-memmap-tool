@@ -61,7 +61,7 @@
 
                 Use BASIC ROM</mat-slide-toggle>
 
-            <mat-slide-toggle 
+            <mat-slide-toggle
                 id="useCartRomLoToggle"
                 [(ngModel)]="useCartRomLo"
                 (change)="onUseCartRomLoChanged()">Use CART ROM LO ($8000-$9FFF)</mat-slide-toggle>
@@ -76,7 +76,7 @@
                     id="cartRomHiRadioGroup"
                     [(ngModel)]="cartRomHi"
                     (change)="onCartRomHiChanged()">
-                    <mat-radio-button 
+                    <mat-radio-button
                         id='unmappedRadioButton'
                         [value]="'unmapped'">unmapped
                         </mat-radio-button>
@@ -85,7 +85,7 @@
                         [value]="'bankA'"
                         [disabled]="useBasicRom">$A000-$BFFF
                         </mat-radio-button>
-                    <mat-radio-button 
+                    <mat-radio-button
                         id='bankERadioButton'
                         [value]="'bankE'"
                         [disabled]="useKernelRom">$E000-$FFFF
@@ -113,8 +113,13 @@
 </mat-grid-list>
 
 <mat-grid-list cols="1" rowHeight="200px" id="output-area">
-  <mat-grid-tile>
-        <mat-grid-tile-header>Computed Values</mat-grid-tile-header>
-        various hex-values, such as the what should go into $0001 in order to select the proper ROM banks, will update and display here
+    <mat-grid-tile>
+      <mat-grid-tile-header>Bank Mode(s)</mat-grid-tile-header>
+      <pre>
+      Mode#: {{ bankMode.id }}
+      _CHAREN {{ bankMode.charen }}
+      _HIRAM  {{ bankMode.hiram }}
+      _LORAM  {{ bankMode.loram }}
+      As int: {{ bankMode.asInt() }} (bitwise-and with the PLA)</pre>
     </mat-grid-tile>
 </mat-grid-list>
