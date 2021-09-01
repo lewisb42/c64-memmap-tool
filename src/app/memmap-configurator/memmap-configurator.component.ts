@@ -230,7 +230,7 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     this.unselectBankAWhenBasicRomInUse();
     this.unselectBankEWhenKernelRomInUse();
-    this.recalculatePlaBits();
+    //this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
     this.configureVicBank3();
@@ -238,21 +238,21 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   onAssemblyModeSelected(): void {
     this.basicMode = false;
-    this.recalculatePlaBits();
+    //this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
   }
 
   onUseKernelRomSelectionChanged(): void {
     this.unselectBankEWhenKernelRomInUse();
-    this.recalculatePlaBits();
+    //this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank3();
   }
 
   onUseBasicRomSelectionChanged(): void {
     this.useKernelRom = true;
-    this.unselectBankAWhenBasicRomInUse();
+    //this.unselectBankAWhenBasicRomInUse();
     this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
@@ -260,24 +260,29 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onUseCartRomLoChanged(): void {
-    this.recalculatePlaBits();
+    //this.recalculatePlaBits();
     this.configureVicBank2();
     this.configureVicBank3();
   }
 
   onCartRomHiChanged(): void {
-    this.recalculatePlaBits();
     this.configureVicBank2();
     this.configureVicBank3();
+    //this.recalculatePlaBits();
   }
 
   onDBankMappingChanged(): void {
-    this.recalculatePlaBits();
+    //this.recalculatePlaBits();
     this.configureVicBank3();
   }
 
   private recalculatePlaBits(): void {
-    this.bankMode = this.calculateBankMode();
+    let mode = this.calculateBankMode();
+    if (mode == undefined) {
+      console.log("found our undefined mode");
+      return;
+    }
+    this.bankMode = mode;
   }
 
   private calculateBankMode(): BankMode {
