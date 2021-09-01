@@ -121,6 +121,7 @@ describe('MemmapConfiguratorComponent', () => {
     describe('when basic rom selected', () => {
 
       beforeEach(async () => {
+        await setBankAValueTo('RAM');
         await setBankEValueTo('RAM');
         await setBankDValueTo('RAM');
         await setBankAValueTo('BASIC ROM');

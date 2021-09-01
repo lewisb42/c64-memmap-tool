@@ -228,6 +228,10 @@ export class MemmapConfiguratorComponent implements OnInit {
   onBankAChanged() {
     if (this.bankA == 'BASIC_ROM') {
       this.bankE = 'KERNAL_ROM';
+
+      if (this.bankD == 'RAM') {
+        this.bankD = 'IO'; // not specifically required, but safe value
+      }
     }
 
     if (this.bankA == 'CART_ROM_HI') {
