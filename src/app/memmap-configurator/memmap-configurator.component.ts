@@ -189,6 +189,10 @@ export class MemmapConfiguratorComponent implements OnInit {
     return [ labels, values ];
   }
 
+  onBank8Changed() {
+    this.recalculatePlaBits();
+  }
+  
   onBankAChanged() {
     if (this.bankA == 'BASIC_ROM') {
       this.bankE = 'KERNAL_ROM';
@@ -201,10 +205,11 @@ export class MemmapConfiguratorComponent implements OnInit {
     if (this.bankA == 'CART_ROM_HI') {
       this.bankE = 'KERNAL_ROM';
     }
+    this.recalculatePlaBits();
   }
 
   onBankDChanged() {
-
+    this.recalculatePlaBits();
   }
 
   onBankEChanged() {
@@ -212,6 +217,7 @@ export class MemmapConfiguratorComponent implements OnInit {
       this.bankA = 'UNAVAILABLE';
       this.bankD = 'IO';
     }
+    this.recalculatePlaBits();
   }
 
   private recalculatePlaBits(): void {
