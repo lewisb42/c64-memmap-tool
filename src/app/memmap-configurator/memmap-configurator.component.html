@@ -87,6 +87,8 @@
               <mat-radio-button
                 [value]="'KERNAL_ROM'">KERNAL ROM</mat-radio-button>
               <mat-radio-button
+                id='bankE_cart_rom_hi'
+                [disabled]="bankD=='CHAR_ROM'"
                 [value]="'CART_ROM_HI'">CART ROM HI</mat-radio-button>
               <mat-radio-button
                 [value]="'RAM'">RAM</mat-radio-button>

@@ -153,9 +153,16 @@ describe('MemmapConfiguratorComponent', () => {
         expect(await getBankDValue()).toBe('IO');
         fixture.detectChanges();
         let bankDGroup = fixture.debugElement.query(By.css('#bankD'));
-        expect(bankDGroup.attributes['ng-reflect-is-disabled']).toBeTruthy();
+        expect(bankDGroup.attributes['ng-reflect-disabled']).toBeTruthy();
       });
     });
 
-
+    it('should disable CART_ROM_HI in $E000-$FFFF when $D000-$DFFF is CHAR_ROM', async () => {
+      await setBankAValueTo('RAM'); // enables bank E
+      await setBankEValueTo('KERNAL ROM');
+      await setBankDValueTo('CHAR ROM');
+      fixture.detectChanges();
+      let bankECartRomHi = fixture.debugElement.query(By.css('#bankE_cart_rom_hi'));
+      expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
+    });
 });
