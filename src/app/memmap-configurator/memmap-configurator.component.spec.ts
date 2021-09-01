@@ -90,6 +90,10 @@ describe('MemmapConfiguratorComponent', () => {
 
     }
 
+    async function findDBankRadioGroup(): Promise<MatRadioGroupHarness> {
+      return findRadioGroupById('dBankRadioGroup');
+    }
+
     async function findKernelRomSlideToggle(): Promise<MatSlideToggleHarness> {
         return findSlideToggleById('useKernelRomToggle');
 
@@ -101,6 +105,10 @@ describe('MemmapConfiguratorComponent', () => {
 
     async function findBankERadioButton(): Promise<MatRadioButtonHarness> {
         return findRadioButtonById('bankERadioButton');
+    }
+
+    async function findBankDRamRadioButton(): Promise<MatRadioButtonHarness> {
+        return findRadioButtonById('bankDRamRadioButton');
     }
 
     async function findUnmappedRomHiRadioButton(): Promise<MatRadioButtonHarness> {
@@ -127,6 +135,11 @@ describe('MemmapConfiguratorComponent', () => {
         await bankARadioButton.check();
     }
 
+    async function selectRamInBankD(): Promise<void> {
+        const dBankRamRadioButton = await findBankDRamRadioButton();
+        await dBankRamRadioButton.check();
+    }
+
     it('should change to ASM mode', async () => {
         await selectBasicLanguage();
         await selectAssemblyLanguage();
@@ -151,6 +164,9 @@ describe('MemmapConfiguratorComponent', () => {
         const bankARadioButton = await findBankARadioButton();
         expect(await bankARadioButton.isChecked()).toBeFalsy();
         expect(await bankARadioButton.isDisabled()).toBeTrue();
+
+        const dBankRadioGroup = await findDBankRadioGroup();
+        expect(await dBankRadioGroup.getCheckedValue()).not.toBe('RAM');
     });
 
     it('should use BASIC ROM', async () => {
@@ -167,6 +183,21 @@ describe('MemmapConfiguratorComponent', () => {
         const bankERadioButton = await findBankERadioButton();
         expect(await bankERadioButton.isChecked()).toBeFalsy();
         expect(await bankERadioButton.isDisabled()).toBeTrue();
+
+        const dBankRadioGroup = await findDBankRadioGroup();
+        expect(await dBankRadioGroup.getCheckedValue()).not.toBe('RAM');
+    });
+
+    it('should not allow RAM in bank D when using BASIC ROM', async () => {
+        await selectRamInBankD();
+        await selectBasicRom();
+        let dBankRadioGroup = await findDBankRadioGroup();
+        expect(await dBankRadioGroup.getCheckedValue()).not.toBe('RAM');
+
+        await selectRamInBankD();
+        await selectBasicLanguage();
+        dBankRadioGroup = await findDBankRadioGroup();
+        expect(await dBankRadioGroup.getCheckedValue()).not.toBe('RAM');
     });
 
     it('should not affect bank A when only kernel ROM is selected', async () => {

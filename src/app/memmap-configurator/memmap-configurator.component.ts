@@ -227,28 +227,28 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     this.unselectBankAWhenBasicRomInUse();
     this.unselectBankEWhenKernelRomInUse();
-    //this.recalculatePlaBits();
+    this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
     this.configureVicBank3();
   }
 
   onAssemblyModeSelected(): void {
-    //this.recalculatePlaBits();
+    this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
   }
 
   onUseKernelRomSelectionChanged(): void {
     this.unselectBankEWhenKernelRomInUse();
-    //this.recalculatePlaBits();
+    this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank3();
   }
 
   onUseBasicRomSelectionChanged(): void {
     this.useKernelRom = true;
-    //this.unselectBankAWhenBasicRomInUse();
+    this.unselectBankAWhenBasicRomInUse();
     this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
@@ -256,26 +256,29 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onUseCartRomLoChanged(): void {
-    //this.recalculatePlaBits();
+    this.recalculatePlaBits();
     this.configureVicBank2();
     this.configureVicBank3();
   }
 
   onCartRomHiChanged(): void {
+    this.recalculatePlaBits();
     this.configureVicBank2();
     this.configureVicBank3();
-    //this.recalculatePlaBits();
   }
 
   onDBankMappingChanged(): void {
-    //this.recalculatePlaBits();
+    this.recalculatePlaBits();
     this.configureVicBank3();
   }
 
   private recalculatePlaBits(): void {
     let mode = this.calculateBankMode();
     if (mode == undefined) {
-      console.log("found our undefined mode");
+      // this *shouldn't* happen, but has been known
+      // to do so. I think I got it debugged, but
+      // submit a ticket if this happens
+      console.log("found an undefined mode");
       return;
     }
     this.bankMode = mode;
