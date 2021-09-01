@@ -225,58 +225,10 @@ export class MemmapConfiguratorComponent implements OnInit {
     return [ labels, values ];
   }
 
-  onBasicModeSelected(): void {
-
-    this.useBasicRom = true;
-    this.useKernelRom = true;
-
-    this.unselectBankAWhenBasicRomInUse();
-    this.unselectBankEWhenKernelRomInUse();
-    this.unselectBankDRamWhenBasicRomInUse();
-    this.recalculatePlaBits();
-    this.configureVicBank0();
-    this.configureVicBank2();
-    this.configureVicBank3();
-  }
-
-  onAssemblyModeSelected(): void {
-    this.recalculatePlaBits();
-    this.configureVicBank0();
-    this.configureVicBank2();
-  }
-
-  onUseKernelRomSelectionChanged(): void {
-    this.unselectBankEWhenKernelRomInUse();
-    this.recalculatePlaBits();
-    this.configureVicBank0();
-    this.configureVicBank3();
-  }
-
-  onUseBasicRomSelectionChanged(): void {
-    this.useKernelRom = true;
-    this.unselectBankAWhenBasicRomInUse();
-    this.unselectBankDRamWhenBasicRomInUse();
-    this.recalculatePlaBits();
-    this.configureVicBank0();
-    this.configureVicBank2();
-    this.configureVicBank3();
-  }
-
-  onUseCartRomLoChanged(): void {
-    this.recalculatePlaBits();
-    this.configureVicBank2();
-    this.configureVicBank3();
-  }
-
-  onCartRomHiChanged(): void {
-    this.recalculatePlaBits();
-    this.configureVicBank2();
-    this.configureVicBank3();
-  }
-
-  onDBankMappingChanged(): void {
-    this.recalculatePlaBits();
-    this.configureVicBank3();
+  onBankAChanged() {
+    if (this.bankA == 'BASIC_ROM') {
+      this.bankE = 'KERNAL_ROM';
+    }
   }
 
   private recalculatePlaBits(): void {
