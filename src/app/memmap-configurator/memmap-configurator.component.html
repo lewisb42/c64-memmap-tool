@@ -12,9 +12,9 @@
 <google-chart
   [data]="vicBank3Chart"></google-chart>
 
-<mat-grid-list cols="6" rowHeight="200px" id="controls-area">
+<mat-grid-list cols="5" rowHeight="190px" id="controls-area">
     <mat-grid-tile>
-        <mat-grid-tile-header>VIC-II Bank Select</mat-grid-tile-header>
+        <mat-grid-tile-header>VIC-II Bank</mat-grid-tile-header>
         <mat-radio-group
             [(ngModel)]="vicBank">
 
@@ -26,91 +26,53 @@
     </mat-grid-tile>
 
     <mat-grid-tile>
-        <mat-grid-tile-header>Programming Language</mat-grid-tile-header>
+      <mat-grid-tile-header>Bank $8000-$9FFF</mat-grid-tile-header>
+      <div class="rom-bank-options">
         <mat-radio-group
-            id="asm-vs-basic-radio-group"
-            [(ngModel)]="programmingLanguage">
-
-            <mat-radio-button
-              id="useAsmOption"
-              [value]="'ASM'"
-              (change)="onAssemblyModeSelected()">6502/6510 Assembly</mat-radio-button>
-            <mat-radio-button
-              id="useBasicOption"
-              [value]="'BASIC'"
-              (change)="onBasicModeSelected()">C64 BASIC</mat-radio-button>
+            id="bank8"
+            [(ngModel)]="bank8">
+            <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
+            <mat-radio-button [value]="'CART_ROM_LO'">CART ROM LO</mat-radio-button>
         </mat-radio-group>
+      </div>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="2">
-        <mat-grid-tile-header>Misc ROM Options</mat-grid-tile-header>
+    <mat-grid-tile>
+        <mat-grid-tile-header>Bank $A000-$BFFF</mat-grid-tile-header>
         <div class="rom-bank-options">
-            <mat-slide-toggle
-                id="useKernelRomToggle"
-                [(ngModel)]="useKernelRom"
-                [disabled]="useBasicRom"
-                (change)="onUseKernelRomSelectionChanged()">
-
-                Use KERNEL ROM</mat-slide-toggle>
-
-            <mat-slide-toggle
-                id="useBasicRomToggle"
-                [(ngModel)]="useBasicRom"
-                [disabled]="programmingLanguage=='BASIC'"
-                (change)="onUseBasicRomSelectionChanged()">
-
-                Use BASIC ROM</mat-slide-toggle>
-
-            <mat-slide-toggle
-                id="useCartRomLoToggle"
-                [(ngModel)]="useCartRomLo"
-                (change)="onUseCartRomLoChanged()">Use CART ROM LO ($8000-$9FFF)</mat-slide-toggle>
+          <mat-radio-group
+              id="bankA"
+              [(ngModel)]="bankA">
+              <mat-radio-button [value]="'BASIC_ROM'">BASIC ROM</mat-radio-button>
+              <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
+              <mat-radio-button [value]="'CART_ROM_HI'">CART ROM LO</mat-radio-button>
+          </mat-radio-group>
         </div>
     </mat-grid-tile>
 
     <mat-grid-tile>
-        <mat-grid-tile-header>CART ROM HI Options</mat-grid-tile-header>
+        <mat-grid-tile-header>Bank $D000-$DFFF</mat-grid-tile-header>
         <div class="rom-bank-options">
-            <div>
-                <mat-radio-group
-                    id="cartRomHiRadioGroup"
-                    [(ngModel)]="cartRomHi"
-                    (change)="onCartRomHiChanged()">
-                    <mat-radio-button
-                        id='unmappedRadioButton'
-                        [value]="'unmapped'">unmapped
-                        </mat-radio-button>
-                    <mat-radio-button
-                        id='bankARadioButton'
-                        [value]="'bankA'"
-                        [disabled]="useBasicRom">$A000-$BFFF
-                        </mat-radio-button>
-                    <mat-radio-button
-                        id='bankERadioButton'
-                        [value]="'bankE'"
-                        [disabled]="useKernelRom">$E000-$FFFF
-                        </mat-radio-button>
-                </mat-radio-group>
-            </div>
+          <mat-radio-group
+              id="bankD"
+              [(ngModel)]="bankD">
+              <mat-radio-button [value]="'IO'">I/O</mat-radio-button>
+              <mat-radio-button [value]="'CHAR_ROM'">CHAR ROM</mat-radio-button>
+              <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
+          </mat-radio-group>
         </div>
     </mat-grid-tile>
 
     <mat-grid-tile>
-        <mat-grid-tile-header>$D000-$DFFF Mapping</mat-grid-tile-header>
+        <mat-grid-tile-header>Bank $E000-$FFFF</mat-grid-tile-header>
         <div class="rom-bank-options">
-            <div>
-                <mat-radio-group
-                    id='dBankRadioGroup'
-                    [(ngModel)]="dBankMap"
-                    (change)="onDBankMappingChanged()">
-                    <mat-radio-button [value]="'IO'">I/O</mat-radio-button>
-                    <mat-radio-button [value]="'CHAR_ROM'">CHAR ROM</mat-radio-button>
-                    <mat-radio-button
-                      id='bankDRamRadioButton'
-                      [disabled]="useBasicRom"
-                      [value]="'RAM'">RAM</mat-radio-button>
-                </mat-radio-group>
-            </div>
+          <mat-radio-group
+              id="bankE"
+              [(ngModel)]="bankE">
+              <mat-radio-button [value]="'KERNAL_ROM'">KERNEL ROM</mat-radio-button>
+              <mat-radio-button [value]="'CART_ROM_HI'">CHAR ROM</mat-radio-button>
+              <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
+          </mat-radio-group>
         </div>
     </mat-grid-tile>
 

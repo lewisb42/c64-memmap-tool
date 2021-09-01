@@ -54,6 +54,11 @@ export class MemmapConfiguratorComponent implements OnInit {
   cartRomHi: string = "unmapped";
   dBankMap: string = "IO";
 
+  bank8: string = 'RAM';
+  bankA: string = 'BASIC_ROM';
+  bankD: string = 'IO';
+  bankE: string = 'KERNAL_ROM';
+
   bankMode: BankMode = this.calculateBankMode();
 
   private static UNAVAILABLE_COLOR = 'red';
@@ -280,7 +285,7 @@ export class MemmapConfiguratorComponent implements OnInit {
       // this *shouldn't* happen, but has been known
       // to do so. I think I got it debugged, but
       // submit a ticket if this happens
-      console.log("found an undefined mode");
+      this.dumpUndefinedModeInfo();
       return;
     }
     this.bankMode = mode;
@@ -345,5 +350,17 @@ export class MemmapConfiguratorComponent implements OnInit {
     if (this.useKernelRom && this.cartRomHi == 'bankE') {
       this.cartRomHi = 'unmapped';
     }
+  }
+
+  private dumpUndefinedModeInfo(): void {
+    console.log("If you get this message, please include the following info in any issue ticket:")
+    console.log("--- begin debug info ---");
+    console.log("programming language: " + this.programmingLanguage);
+    console.log("cartRomHi: " + this.cartRomHi);
+    console.log("dBankMap: " + this.dBankMap);
+    console.log("useBasicRom: " + this.useBasicRom.toString());
+    console.log("useCartRomLo: " + this.useCartRomLo.toString());
+    console.log("useKernelRom: " + this.useKernelRom.toString());
+    console.log("--- end debug info ---");
   }
 }
