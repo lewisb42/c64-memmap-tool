@@ -106,6 +106,11 @@ describe('MemmapConfiguratorComponent', () => {
       await bank.checkRadioButton({ label: value });
     }
 
+    async function setBankDValueTo(value: string): Promise<void> {
+      const bank = await findBankDRadioGroup();
+      await bank.checkRadioButton({ label: value });
+    }
+
     it('should default to mode 31', async () => {
       expect(await getBank8Value()).toBe('RAM');
       expect(await getBankAValue()).toBe('BASIC_ROM');
@@ -113,11 +118,24 @@ describe('MemmapConfiguratorComponent', () => {
       expect(await getBankEValue()).toBe('KERNAL_ROM');
     });
 
-    it('should select kernal rom alongside basic rom', async () => {
-      await setBankEValueTo('RAM');
-      await setBankAValueTo('BASIC ROM');
-      expect(await getBankEValue()).toBe('KERNAL_ROM');
+    describe('when basic rom selected', () => {
+
+      beforeEach(async () => {
+        await setBankEValueTo('RAM');
+        await setBankDValueTo('RAM');
+        await setBankAValueTo('BASIC ROM');
+      });
+
+      it('should select kernal rom alongside basic rom', async () => {
+        expect(await getBankEValue()).toBe('KERNAL_ROM');
+      });
+
+      it('should disallow RAM in $D000-$DFFF', async () => {
+        expect(await getBankDValue()).not.toBe('RAM');
+      });
     });
+
+
 
     it('should make $A000-$BFFF unvailable when $E000-$FFFF is CART ROM HI', async () => {
       await setBankAValueTo('RAM'); // enables bank E
