@@ -54,8 +54,6 @@ export class MemmapConfiguratorComponent implements OnInit {
   cartRomHi: string = "unmapped";
   dBankMap: string = "IO";
 
-  basicMode: boolean = false;
-
   bankMode: BankMode = this.calculateBankMode();
 
   private static UNAVAILABLE_COLOR = 'red';
@@ -226,7 +224,6 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     this.useBasicRom = true;
     this.useKernelRom = true;
-    this.basicMode = true;
 
     this.unselectBankAWhenBasicRomInUse();
     this.unselectBankEWhenKernelRomInUse();
@@ -237,7 +234,6 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onAssemblyModeSelected(): void {
-    this.basicMode = false;
     //this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
