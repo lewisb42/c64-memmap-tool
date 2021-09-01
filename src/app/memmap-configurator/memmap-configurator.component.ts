@@ -227,6 +227,7 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     this.unselectBankAWhenBasicRomInUse();
     this.unselectBankEWhenKernelRomInUse();
+    this.unselectBankDRamWhenBasicRomInUse();
     this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
@@ -249,6 +250,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   onUseBasicRomSelectionChanged(): void {
     this.useKernelRom = true;
     this.unselectBankAWhenBasicRomInUse();
+    this.unselectBankDRamWhenBasicRomInUse();
     this.recalculatePlaBits();
     this.configureVicBank0();
     this.configureVicBank2();
@@ -330,6 +332,12 @@ export class MemmapConfiguratorComponent implements OnInit {
   private unselectBankAWhenBasicRomInUse(): void {
     if (this.useBasicRom && this.cartRomHi == 'bankA') {
       this.cartRomHi = 'unmapped';
+    }
+  }
+
+  private unselectBankDRamWhenBasicRomInUse(): void {
+    if (this.useBasicRom && this.dBankMap == 'RAM') {
+      this.dBankMap = 'IO';
     }
   }
 
