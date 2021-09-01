@@ -96,10 +96,26 @@ describe('MemmapConfiguratorComponent', () => {
       return await bank.getCheckedValue();
     }
 
+    async function setBankAValueTo(value: string): Promise<void> {
+      const bank = await findBankARadioGroup();
+      await bank.checkRadioButton({ label: value });
+    }
+
+    async function setBankEValueTo(value: string): Promise<void> {
+      const bank = await findBankERadioGroup();
+      await bank.checkRadioButton({ label: value });
+    }
+
     it('should default to mode 31', async () => {
       expect(await getBank8Value()).toBe('RAM');
       expect(await getBankAValue()).toBe('BASIC_ROM');
       expect(await getBankDValue()).toBe('IO');
+      expect(await getBankEValue()).toBe('KERNAL_ROM');
+    });
+
+    it('should select kernal rom alongside basic rom', async () => {
+      await setBankEValueTo('RAM');
+      await setBankAValueTo('BASIC ROM');
       expect(await getBankEValue()).toBe('KERNAL_ROM');
     });
 });

@@ -69,9 +69,14 @@
           <mat-radio-group
               id="bankE"
               [(ngModel)]="bankE">
-              <mat-radio-button [value]="'KERNAL_ROM'">KERNEL ROM</mat-radio-button>
-              <mat-radio-button [value]="'CART_ROM_HI'">CHAR ROM</mat-radio-button>
-              <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
+              <mat-radio-button
+                name="KERNAL_ROM"
+                [value]="'KERNAL_ROM'">KERNAL ROM</mat-radio-button>
+              <mat-radio-button
+                name="CART_ROM_HI"
+                [value]="'CART_ROM_HI'">CHAR ROM</mat-radio-button>
+              <mat-radio-button
+                [value]="'RAM'">RAM</mat-radio-button>
           </mat-radio-group>
         </div>
     </mat-grid-tile>
