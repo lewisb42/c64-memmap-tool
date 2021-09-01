@@ -239,9 +239,14 @@ export class MemmapConfiguratorComponent implements OnInit {
     }
   }
 
+  onBankDChanged() {
+    
+  }
+
   onBankEChanged() {
     if (this.bankE == 'CART_ROM_HI') {
       this.bankA = 'UNAVAILABLE';
+      this.bankD = 'IO';
     }
   }
 

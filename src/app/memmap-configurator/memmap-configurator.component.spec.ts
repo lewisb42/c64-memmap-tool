@@ -137,12 +137,25 @@ describe('MemmapConfiguratorComponent', () => {
     });
 
 
+    describe('when $E000-$FFFF is CART ROM HI', () => {
+      beforeEach(async () => {
+        await setBankAValueTo('RAM'); // enables bank E
+        await setBankEValueTo('CART ROM HI');
+      });
 
-    it('should make $A000-$BFFF unvailable when $E000-$FFFF is CART ROM HI', async () => {
-      await setBankAValueTo('RAM'); // enables bank E
-      await setBankEValueTo('CART ROM HI');
-      fixture.detectChanges();
-      let bankAGroup = fixture.debugElement.query(By.css('#bankA'));
-      expect(bankAGroup).toBeNull();
+      it('should make $A000-$BFFF unvailable', async () => {
+        fixture.detectChanges();
+        let bankAGroup = fixture.debugElement.query(By.css('#bankA'));
+        expect(bankAGroup).toBeNull();
+      });
+
+      it('should force $D000-$DFFF to IO and disable it', async () => {
+        expect(await getBankDValue()).toBe('IO');
+        fixture.detectChanges();
+        let bankDGroup = fixture.debugElement.query(By.css('#bankD'));
+        expect(bankDGroup.attributes['ng-reflect-is-disabled']).toBeTruthy();
+      });
     });
+
+
 });
