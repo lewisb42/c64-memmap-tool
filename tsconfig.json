@@ -7,6 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
+    "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
@@ -22,6 +23,7 @@
     ]
   },
   "angularCompilerOptions": {
+    "suppressImplicitAnyErrors": true,
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,

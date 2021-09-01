@@ -47,12 +47,6 @@ export class MemmapConfiguratorComponent implements OnInit {
 
 
   vicBank: number = 0;
-  programmingLanguage: string = 'ASM';
-  useKernelRom: boolean = false;
-  useBasicRom: boolean = false;
-  useCartRomLo: boolean = false;
-  cartRomHi: string = "unmapped";
-  dBankMap: string = "IO";
 
   bank8: string = 'RAM';
   bankA: string = 'BASIC_ROM';
@@ -120,10 +114,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank0(): void {
     var bank = new MemoryBank('VIC Bank 0', 0);
 
-    // kernel & basic use the zero page for stuff
-    if (this.useBasicRom || this.useKernelRom) {
-      bank.insertChunk(this.zeroPageChunk);
-    }
+    // TODO: configure based on fields
 
     // always leave the stack alone
     bank.insertChunk(this.stackChunk);
@@ -139,17 +130,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
 
-    if (this.useBasicRom) {
-      bank.insertChunk(this.basicRomChunk);
-    }
-
-    if (this.useCartRomLo) {
-      bank.insertChunk(this.cartRomLoChunk);
-    }
-
-    if (this.cartRomHi === "bankA") {
-      bank.insertChunk(this.bankAChunk);
-    }
+    // TODO: configure based on fields
 
     this.updateChart(this.vicBank2Chart, bank);
   }
@@ -157,24 +138,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
 
-    if (this.useKernelRom) {
-      bank.insertChunk(this.kernelRomChunk);
-    }
-
-    if (this.cartRomHi === "bankE") {
-        bank.insertChunk(this.bankEChunk);
-    }
-
-    switch(this.dBankMap) {
-        case "IO":
-            bank.insertChunk(this.ioChunk);
-            break;
-        case "CHAR_ROM":
-            bank.insertChunk(this.charRomChunk);
-            break;
-        default: // RAM, do nothing
-            break;
-    }
+    // TODO: configure based on fields
 
     this.updateChart(this.vicBank3Chart, bank);
   }
@@ -240,7 +204,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onBankDChanged() {
-    
+
   }
 
   onBankEChanged() {
@@ -263,75 +227,17 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   private calculateBankMode(): BankMode {
-      let bank8: BankState;
-      if (this.useCartRomLo) {
-        bank8 = BankState.CART_ROM_LO;
-      } else {
-        bank8 = BankState.RAM;
-      }
-
-      let bankA: BankState;
-      if (this.useBasicRom) {
-        bankA = BankState.BASIC_ROM;
-      } else if (this.cartRomHi == 'bankA') {
-        bankA = BankState.CART_ROM_HI;
-      } else {
-        bankA = BankState.RAM;
-      }
-
-      let bankD: BankState;
-      if (this.dBankMap == 'IO') {
-        bankD = BankState.IO;
-      } else if (this.dBankMap == 'CHAR_ROM') {
-        bankD = BankState.CHAR_ROM;
-      } else {
-        bankD = BankState.RAM;
-      }
-
-      let bankE: BankState;
-      if (this.useKernelRom) {
-        bankE = BankState.KERNAL_ROM;
-      } else if (this.cartRomHi == 'bankE') {
-        bankE = BankState.CART_ROM_HI;
-      } else {
-        bankE = BankState.RAM;
-      }
-
       return BankMode.fromMemoryMap(
-        bank8,
-        bankA,
-        bankD,
-        bankE
+        BankState[this.bank8 as keyof typeof BankState],
+        BankState[this.bankA as keyof typeof BankState],
+        BankState[this.bankD as keyof typeof BankState],
+        BankState[this.bankE as keyof typeof BankState]
       )[0];
-  }
-
-  private unselectBankAWhenBasicRomInUse(): void {
-    if (this.useBasicRom && this.cartRomHi == 'bankA') {
-      this.cartRomHi = 'unmapped';
-    }
-  }
-
-  private unselectBankDRamWhenBasicRomInUse(): void {
-    if (this.useBasicRom && this.dBankMap == 'RAM') {
-      this.dBankMap = 'IO';
-    }
-  }
-
-  private unselectBankEWhenKernelRomInUse(): void {
-    if (this.useKernelRom && this.cartRomHi == 'bankE') {
-      this.cartRomHi = 'unmapped';
-    }
   }
 
   private dumpUndefinedModeInfo(): void {
     console.log("If you get this message, please include the following info in any issue ticket:")
     console.log("--- begin debug info ---");
-    console.log("programming language: " + this.programmingLanguage);
-    console.log("cartRomHi: " + this.cartRomHi);
-    console.log("dBankMap: " + this.dBankMap);
-    console.log("useBasicRom: " + this.useBasicRom.toString());
-    console.log("useCartRomLo: " + this.useCartRomLo.toString());
-    console.log("useKernelRom: " + this.useKernelRom.toString());
     console.log("--- end debug info ---");
   }
 }
