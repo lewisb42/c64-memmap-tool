@@ -118,4 +118,12 @@ describe('MemmapConfiguratorComponent', () => {
       await setBankAValueTo('BASIC ROM');
       expect(await getBankEValue()).toBe('KERNAL_ROM');
     });
+
+    it('should make $A000-$BFFF unvailable when $E000-$FFFF is CART ROM HI', async () => {
+      await setBankAValueTo('RAM'); // enables bank E
+      await setBankEValueTo('CART ROM HI');
+      fixture.detectChanges();
+      let bankAGroup = fixture.debugElement.query(By.css('#bankA'));
+      expect(bankAGroup).toBeNull();
+    });
 });

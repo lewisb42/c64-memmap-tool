@@ -229,6 +229,16 @@ export class MemmapConfiguratorComponent implements OnInit {
     if (this.bankA == 'BASIC_ROM') {
       this.bankE = 'KERNAL_ROM';
     }
+
+    if (this.bankA == 'CART_ROM_HI') {
+      this.bankE = 'KERNAL_ROM';
+    }
+  }
+
+  onBankEChanged() {
+    if (this.bankE == 'CART_ROM_HI') {
+      this.bankA = 'UNAVAILABLE';
+    }
   }
 
   private recalculatePlaBits(): void {
