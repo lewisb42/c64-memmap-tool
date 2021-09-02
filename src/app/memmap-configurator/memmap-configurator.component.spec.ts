@@ -180,5 +180,17 @@ describe('MemmapConfiguratorComponent', () => {
       expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
     });
 
+    describe('when KERNAL ROM selected', async () => {
+      beforeEach(async () => {
+        await setBankAValueTo('RAM'); // enables bank E
+        await setBankEValueTo('KERNAL ROM');
+      });
 
+      it('should disable RAM in $D000-$DFFF', async () => {
+        expect(await getBankDValue()).not.toBe('RAM');
+        fixture.detectChanges();
+        let bankECartRomHi = fixture.debugElement.query(By.css('#bankD_ram'));
+        expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
+      });
+    });
 });

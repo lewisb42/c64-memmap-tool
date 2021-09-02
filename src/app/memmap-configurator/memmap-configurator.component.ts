@@ -284,6 +284,10 @@ export class MemmapConfiguratorComponent implements OnInit {
       this.bankD = this.IO;
       this.bank8 = this.CART_ROM_LO;
     }
+
+    if (this.bankE == this.KERNAL_ROM && this.bankD == this.RAM) {
+      this.bankD = this.IO;
+    }
     this.configureAllVicBanks();
     this.recalculatePlaBits();
   }

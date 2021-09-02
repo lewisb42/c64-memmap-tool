@@ -73,7 +73,8 @@
               <mat-radio-button [value]="IO">I/O</mat-radio-button>
               <mat-radio-button [value]="CHAR_ROM">CHAR ROM</mat-radio-button>
               <mat-radio-button
-                [disabled]="bankA==BASIC_ROM"
+                id="bankD_ram"
+                [disabled]="bankE==KERNAL_ROM"
                 [value]="RAM">RAM</mat-radio-button>
           </mat-radio-group>
         </div>
