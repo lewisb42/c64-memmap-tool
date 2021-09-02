@@ -311,6 +311,10 @@ export class MemmapConfiguratorComponent implements OnInit {
   private dumpUndefinedModeInfo(): void {
     console.log("If you get this message, please include the following info in any issue ticket:")
     console.log("--- begin debug info ---");
+    console.log("Bank $8000-$9FFF: " + this.bank8);
+    console.log("Bank $A000-$BFFF: " + this.bankA);
+    console.log("Bank $D000-$DFFF: " + this.bankD);
+    console.log("Bank $E000-$FFFF: " + this.bankE);
     console.log("--- end debug info ---");
   }
 }

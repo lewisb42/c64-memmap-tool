@@ -165,4 +165,11 @@ describe('MemmapConfiguratorComponent', () => {
       let bankECartRomHi = fixture.debugElement.query(By.css('#bankE_cart_rom_hi'));
       expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
     });
+
+    it("should disable $E000-$FFFF's CART ROM HI when $A000-$BFFF's CART ROM HI is selected", async () => {
+      await setBankAValueTo('CART ROM HI');
+      fixture.detectChanges();
+      let bankECartRomHi = fixture.debugElement.query(By.css('#bankE_cart_rom_hi'));
+      expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
+    });
 });
