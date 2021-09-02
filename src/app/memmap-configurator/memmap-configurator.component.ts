@@ -68,9 +68,9 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.UNAVAILABLE);
 
-  private bankAChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
+  private bankACartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
 
-  private bankEChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.UNAVAILABLE);
+  private bankECartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.UNAVAILABLE);
 
   private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
 
@@ -114,7 +114,11 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank0(): void {
     var bank = new MemoryBank('VIC Bank 0', 0);
 
-    // TODO: configure based on fields
+    // reserve the zero page if kernal in use
+    // note that using basic rom implies the kernel 
+    if (this.bankE == 'KERNAL_ROM') {
+      bank.insertChunk(this.zeroPageChunk);
+    }
 
     // always leave the stack alone
     bank.insertChunk(this.stackChunk);
@@ -130,7 +134,15 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
 
-    // TODO: configure based on fields
+    if (this.bank8 == 'CART_ROM_LO') {
+      bank.insertChunk(this.cartRomLoChunk);
+    }
+
+    if (this.bankA == 'BASIC_ROM') {
+      bank.insertChunk(this.basicRomChunk);
+    } else if (this.bankA == 'CART_ROM_HI') {
+      bank.insertChunk(this.bankACartRomHiChunk);
+    }
 
     this.updateChart(this.vicBank2Chart, bank);
   }
@@ -138,9 +150,26 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
 
-    // TODO: configure based on fields
+    if (this.bankD == 'IO') {
+      bank.insertChunk(this.ioChunk);
+    } else if (this.bankD == 'CHAR_ROM') {
+      bank.insertChunk(this.charRomChunk);
+    }
+
+    if (this.bankE == 'KERNAL_ROM') {
+      bank.insertChunk(this.kernelRomChunk);
+    } else if (this.bankE == 'CART_ROM_HI') {
+      bank.insertChunk(this.bankECartRomHiChunk);
+    }
 
     this.updateChart(this.vicBank3Chart, bank);
+  }
+
+  private configureAllVicBanks() {
+    this.configureVicBank0();
+    this.configureVicBank1();
+    this.configureVicBank2();
+    this.configureVicBank3();
   }
 
   private updateChart(chart:GoogleChartInterface, bank:MemoryBank) {
@@ -190,9 +219,10 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onBank8Changed() {
+    this.configureAllVicBanks();
     this.recalculatePlaBits();
   }
-  
+
   onBankAChanged() {
     if (this.bankA == 'BASIC_ROM') {
       this.bankE = 'KERNAL_ROM';
@@ -205,10 +235,12 @@ export class MemmapConfiguratorComponent implements OnInit {
     if (this.bankA == 'CART_ROM_HI') {
       this.bankE = 'KERNAL_ROM';
     }
+    this.configureAllVicBanks();
     this.recalculatePlaBits();
   }
 
   onBankDChanged() {
+    this.configureAllVicBanks();
     this.recalculatePlaBits();
   }
 
@@ -217,6 +249,7 @@ export class MemmapConfiguratorComponent implements OnInit {
       this.bankA = 'UNAVAILABLE';
       this.bankD = 'IO';
     }
+    this.configureAllVicBanks();
     this.recalculatePlaBits();
   }
 
