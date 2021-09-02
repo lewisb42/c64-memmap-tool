@@ -95,6 +95,7 @@
                 [disabled]="bankD==CHAR_ROM || bankA==CART_ROM_HI"
                 [value]="CART_ROM_HI">CART ROM HI</mat-radio-button>
               <mat-radio-button
+                [disabled]="bankA==CART_ROM_HI"
                 [value]="RAM">RAM</mat-radio-button>
           </mat-radio-group>
         </div>

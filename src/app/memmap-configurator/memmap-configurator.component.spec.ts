@@ -173,11 +173,20 @@ describe('MemmapConfiguratorComponent', () => {
       expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
     });
 
-    it("should disable $E000-$FFFF's CART ROM HI when $A000-$BFFF's CART ROM HI is selected", async () => {
-      await setBankAValueTo('CART ROM HI');
-      fixture.detectChanges();
-      let bankECartRomHi = fixture.debugElement.query(By.css('#bankE_cart_rom_hi'));
-      expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
+    describe("when $A000-$BFFF's CART ROM HI is selected", () => {
+      beforeEach(async () => {
+        await setBankAValueTo('CART ROM HI');
+      });
+
+      it("should disable $E000-$FFFF's CART ROM HI", async () => {
+        fixture.detectChanges();
+        let bankECartRomHi = fixture.debugElement.query(By.css('#bankE_cart_rom_hi'));
+        expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
+      });
+
+      it("should select KERNEL ROM", async () => {
+        expect(await getBankEValue()).toBe('KERNAL_ROM');
+      });
     });
 
     describe('when KERNAL ROM selected', async () => {
