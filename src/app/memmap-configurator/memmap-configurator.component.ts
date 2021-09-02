@@ -66,22 +66,26 @@ export class MemmapConfiguratorComponent implements OnInit {
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
   private static AVAILABLE_FOR_DATA_COLOR = 'orange';
   private static RESERVED_FOR_GRAPHICS_COLOR = 'blue';
+  private static OS_COLOR = 'yellow'; // used for both basic and kernel roms (incl. zero page)
+  private static CART_ROM_COLOR = 'gray';
+  private static IO_COLOR = 'purple';
+  private static CHAR_ROM_COLOR = 'DarkKhaki';
 
-  private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.UNAVAILABLE);
+  private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.OS_CODE);
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
 
-  private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.UNAVAILABLE);
-  private kernelRomChunk: MemoryChunk = new MemoryChunk('KERNEL ROM', 0xE000, 8192, MemoryStatus.UNAVAILABLE);
+  private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.OS_CODE);
+  private kernelRomChunk: MemoryChunk = new MemoryChunk('KERNEL ROM', 0xE000, 8192, MemoryStatus.OS_CODE);
 
-  private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.UNAVAILABLE);
+  private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.CART_ROM);
 
-  private bankACartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
+  private bankACartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.CART_ROM);
 
-  private bankECartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.UNAVAILABLE);
+  private bankECartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.CART_ROM);
 
-  private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
+  private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.IO);
 
-  private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
+  private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.CHAR_ROM);
 
   private ultimaxVicBank0Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x1000, 0x3000, MemoryStatus.UNAVAILABLE);
   private ultimaxVicBank1Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x4000, 0x4000, MemoryStatus.UNAVAILABLE);
@@ -185,6 +189,7 @@ export class MemmapConfiguratorComponent implements OnInit {
       bank.insertChunk(this.kernelRomChunk);
     } else if (this.bankE == this.CART_ROM_HI) {
       bank.insertChunk(this.ultimaxVicBank3Chunk);
+      bank.insertChunk(this.bankECartRomHiChunk);
     }
 
     this.updateChart(this.vicBank3Chart, bank);
@@ -223,6 +228,10 @@ export class MemmapConfiguratorComponent implements OnInit {
       case MemoryStatus.AVAILABLE_FOR_PROGRAM_CODE: return MemmapConfiguratorComponent.AVAILABLE_FOR_CODE_COLOR;
       case MemoryStatus.AVAILABLE_FOR_PROGRAM_DATA: return MemmapConfiguratorComponent.AVAILABLE_FOR_DATA_COLOR;
       case MemoryStatus.GRAPHICS_DATA: return MemmapConfiguratorComponent.RESERVED_FOR_GRAPHICS_COLOR;
+      case MemoryStatus.IO: return MemmapConfiguratorComponent.IO_COLOR;
+      case MemoryStatus.OS_CODE: return MemmapConfiguratorComponent.OS_COLOR;
+      case MemoryStatus.CART_ROM: return MemmapConfiguratorComponent.CART_ROM_COLOR;
+      case MemoryStatus.CHAR_ROM: return MemmapConfiguratorComponent.CHAR_ROM_COLOR;
       default: return MemmapConfiguratorComponent.UNAVAILABLE_COLOR;
     }
   }
