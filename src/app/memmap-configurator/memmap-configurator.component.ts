@@ -83,8 +83,10 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.UNAVAILABLE);
 
-  private ultimaxLoChunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x1000, 0x7000, MemoryStatus.UNAVAILABLE);
-  private ultimaxHiChunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xA000, 0x3000, MemoryStatus.UNAVAILABLE);
+  private ultimaxVicBank0Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x1000, 0x3000, MemoryStatus.UNAVAILABLE);
+  private ultimaxVicBank1Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x4000, 0x4000, MemoryStatus.UNAVAILABLE);
+  private ultimaxVicBank2Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
+  private ultimaxVicBank3Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xC000, 0x1000, MemoryStatus.UNAVAILABLE);
 
   constructor() {
   }
@@ -131,7 +133,7 @@ export class MemmapConfiguratorComponent implements OnInit {
     }
 
     if (this.bankE == this.CART_ROM_HI) {
-      bank.insertChunk(this.ultimaxLoChunk);
+      bank.insertChunk(this.ultimaxVicBank0Chunk);
     }
 
     // always leave the stack alone
@@ -142,6 +144,11 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   private configureVicBank1(): void {
     var bank = new MemoryBank('VIC Bank 1', 0x4000);
+
+    if (this.bankE == this.CART_ROM_HI) {
+      bank.insertChunk(this.ultimaxVicBank1Chunk);
+    }
+
     this.updateChart(this.vicBank1Chart, bank);
   }
 
@@ -159,7 +166,7 @@ export class MemmapConfiguratorComponent implements OnInit {
     }
 
     if (this.bankE == this.CART_ROM_HI) {
-      bank.insertChunk(this.ultimaxHiChunk);
+      bank.insertChunk(this.ultimaxVicBank2Chunk);
     }
 
     this.updateChart(this.vicBank2Chart, bank);
@@ -177,7 +184,7 @@ export class MemmapConfiguratorComponent implements OnInit {
     if (this.bankE == this.KERNAL_ROM) {
       bank.insertChunk(this.kernelRomChunk);
     } else if (this.bankE == this.CART_ROM_HI) {
-      bank.insertChunk(this.bankECartRomHiChunk);
+      bank.insertChunk(this.ultimaxVicBank3Chunk);
     }
 
     this.updateChart(this.vicBank3Chart, bank);
