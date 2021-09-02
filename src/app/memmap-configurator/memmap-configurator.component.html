@@ -30,6 +30,7 @@
       <div class="rom-bank-options">
         <mat-radio-group
             id="bank8"
+            [disabled]="bankE==CART_ROM_HI"
             [(ngModel)]="bank8"
             (change)="onBank8Changed()">
             <mat-radio-button [value]="RAM">RAM</mat-radio-button>

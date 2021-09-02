@@ -155,6 +155,13 @@ describe('MemmapConfiguratorComponent', () => {
         let bankDGroup = fixture.debugElement.query(By.css('#bankD'));
         expect(bankDGroup.attributes['ng-reflect-disabled']).toBeTruthy();
       });
+
+      it('should force $8000-$9fff to CART ROM LO and disable it', async () => {
+        expect(await getBank8Value()).toBe('CART_ROM_LO');
+        fixture.detectChanges();
+        let bank8Group = fixture.debugElement.query(By.css('#bank8'));
+        expect(bank8Group.attributes['ng-reflect-disabled']).toBeTruthy();
+      });
     });
 
     it('should disable CART_ROM_HI in $E000-$FFFF when $D000-$DFFF is CHAR_ROM', async () => {
@@ -172,4 +179,6 @@ describe('MemmapConfiguratorComponent', () => {
       let bankECartRomHi = fixture.debugElement.query(By.css('#bankE_cart_rom_hi'));
       expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
     });
+
+
 });
