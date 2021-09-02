@@ -96,6 +96,10 @@ describe('MemmapConfiguratorComponent', () => {
       return await bank.getCheckedValue();
     }
 
+    async function setBank8ValueTo(value: string): Promise<void> {
+      const bank = await findBank8RadioGroup();
+    }
+
     async function setBankAValueTo(value: string): Promise<void> {
       const bank = await findBankARadioGroup();
       await bank.checkRadioButton({ label: value });
@@ -143,24 +147,12 @@ describe('MemmapConfiguratorComponent', () => {
         await setBankEValueTo('CART ROM HI');
       });
 
-      it('should make $A000-$BFFF unvailable', async () => {
-        fixture.detectChanges();
-        let bankAGroup = fixture.debugElement.query(By.css('#bankA'));
-        expect(bankAGroup).toBeNull();
-      });
-
       it('should force $D000-$DFFF to IO and disable it', async () => {
         expect(await getBankDValue()).toBe('IO');
-        fixture.detectChanges();
-        let bankDGroup = fixture.debugElement.query(By.css('#bankD'));
-        expect(bankDGroup.attributes['ng-reflect-disabled']).toBeTruthy();
       });
 
-      it('should force $8000-$9fff to CART ROM LO and disable it', async () => {
+      it('should force $8000-$9fff to CART ROM LO', async () => {
         expect(await getBank8Value()).toBe('CART_ROM_LO');
-        fixture.detectChanges();
-        let bank8Group = fixture.debugElement.query(By.css('#bank8'));
-        expect(bank8Group.attributes['ng-reflect-disabled']).toBeTruthy();
       });
     });
 
@@ -200,6 +192,27 @@ describe('MemmapConfiguratorComponent', () => {
         fixture.detectChanges();
         let bankECartRomHi = fixture.debugElement.query(By.css('#bankD_ram'));
         expect(bankECartRomHi.attributes['ng-reflect-disabled']).toBeTruthy();
+      });
+    });
+
+    xdescribe('when CART ROM LO selected', () => {
+
+      beforeEach(async () => {
+        await setBank8ValueTo('RAM');
+        await setBankAValueTo('RAM'); // enables bank E
+        await setBankEValueTo('RAM'); // enables bank D's RAM option
+        await setBankDValueTo('RAM'); // gets us to a good starting point
+
+        await setBank8ValueTo('CART ROM LO');
+      });
+
+      it('should disallow RAM in $A000-$BFFF and $D000-$DFFF', async () => {
+        expect(await getBankAValue()).not.toBe('RAM');
+        expect(await getBankDValue()).not.toBe('RAM');
+      });
+
+      it('should force KERNAL_ROM in $E000-$FFFF', async () => {
+        expect(await getBankEValue()).toBe('KERNAL ROM');
       });
     });
 });

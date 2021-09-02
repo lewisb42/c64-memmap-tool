@@ -254,6 +254,26 @@ export class MemmapConfiguratorComponent implements OnInit {
 
   onBank8Changed() {
     this.configureAllVicBanks();
+
+    if (this.bank8 == this.CART_ROM_LO) {
+      this.bankE = this.KERNAL_ROM;
+
+      if (this.bankD == this.RAM) {
+        this.bankD = this.IO;
+      }
+
+      if (this.bankA == this.RAM) {
+        this.bankA = this.BASIC_ROM;
+      }
+    }
+
+    if (this.bank8==this.RAM && this.bankE==this.CART_ROM_HI) {
+      // safe zone
+      this.bankA = this.RAM;
+      this.bankD = this.RAM;
+      this.bankE = this.RAM;
+    }
+
     this.recalculatePlaBits();
   }
 
