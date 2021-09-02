@@ -32,8 +32,8 @@
             id="bank8"
             [(ngModel)]="bank8"
             (change)="onBank8Changed()">
-            <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
-            <mat-radio-button [value]="'CART_ROM_LO'">CART ROM LO</mat-radio-button>
+            <mat-radio-button [value]="RAM">RAM</mat-radio-button>
+            <mat-radio-button [value]="CART_ROM_LO">CART ROM LO</mat-radio-button>
         </mat-radio-group>
       </div>
     </mat-grid-tile>
@@ -41,7 +41,7 @@
     <mat-grid-tile>
         <mat-grid-tile-header>Bank $A000-$BFFF</mat-grid-tile-header>
         <div class="rom-bank-options">
-          <div *ngIf="bankE=='CART_ROM_HI'; then thenBlock else elseBlock"></div>
+          <div *ngIf="bankE==CART_ROM_HI; then thenBlock else elseBlock"></div>
           <ng-template #thenBlock>
             <p>
               Not available in this configuration.
@@ -52,9 +52,9 @@
                 id="bankA"
                 [(ngModel)]="bankA"
                 (change)="onBankAChanged()">
-                <mat-radio-button [value]="'BASIC_ROM'">BASIC ROM</mat-radio-button>
-                <mat-radio-button [value]="'RAM'">RAM</mat-radio-button>
-                <mat-radio-button [value]="'CART_ROM_HI'">CART ROM HI</mat-radio-button>
+                <mat-radio-button [value]="BASIC_ROM">BASIC ROM</mat-radio-button>
+                <mat-radio-button [value]="RAM">RAM</mat-radio-button>
+                <mat-radio-button [value]="CART_ROM_HI">CART ROM HI</mat-radio-button>
             </mat-radio-group>
         </ng-template>
 
@@ -66,14 +66,14 @@
         <div class="rom-bank-options">
           <mat-radio-group
               id="bankD"
-              [disabled]="bankE=='CART_ROM_HI'"
+              [disabled]="bankE==CART_ROM_HI"
               [(ngModel)]="bankD"
               (change)="onBankDChanged()">
-              <mat-radio-button [value]="'IO'">I/O</mat-radio-button>
-              <mat-radio-button [value]="'CHAR_ROM'">CHAR ROM</mat-radio-button>
+              <mat-radio-button [value]="IO">I/O</mat-radio-button>
+              <mat-radio-button [value]="CHAR_ROM">CHAR ROM</mat-radio-button>
               <mat-radio-button
-                [disabled]="bankA=='BASIC_ROM'"
-                [value]="'RAM'">RAM</mat-radio-button>
+                [disabled]="bankA==BASIC_ROM"
+                [value]="RAM">RAM</mat-radio-button>
           </mat-radio-group>
         </div>
     </mat-grid-tile>
@@ -83,17 +83,17 @@
         <div class="rom-bank-options">
           <mat-radio-group
               id="bankE"
-              [disabled]="bankA=='BASIC_ROM'"
+              [disabled]="bankA==BASIC_ROM"
               [(ngModel)]="bankE"
               (change)="onBankEChanged()">
               <mat-radio-button
-                [value]="'KERNAL_ROM'">KERNAL ROM</mat-radio-button>
+                [value]="KERNAL_ROM">KERNAL ROM</mat-radio-button>
               <mat-radio-button
                 id='bankE_cart_rom_hi'
-                [disabled]="bankD=='CHAR_ROM'"
-                [value]="'CART_ROM_HI'">CART ROM HI</mat-radio-button>
+                [disabled]="bankD==CHAR_ROM"
+                [value]="CART_ROM_HI">CART ROM HI</mat-radio-button>
               <mat-radio-button
-                [value]="'RAM'">RAM</mat-radio-button>
+                [value]="RAM">RAM</mat-radio-button>
           </mat-radio-group>
         </div>
     </mat-grid-tile>
