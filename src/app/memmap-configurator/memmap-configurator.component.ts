@@ -69,10 +69,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   useCartRom: boolean = false;
   kernalConfig: string = this.BASIC_AND_KERNAL;
   cartRomConfig: string = this.NO_CART_ROM_HI;
-  bankDConfig: string = this.IO;
-  
-  bankMode: BankMode = BankMode.allModes()[31];
-  
+  bankDConfig: string = this.IO; 
   
   private static UNAVAILABLE_COLOR = 'red';
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
@@ -82,15 +79,6 @@ export class MemmapConfiguratorComponent implements OnInit {
   private static CART_ROM_COLOR = 'gray';
   private static IO_COLOR = 'purple';
   private static CHAR_ROM_COLOR = 'DarkKhaki';
-
-  
-
-
-
-  
-  
-  
-  
 
   constructor() {
     this.bankModesDataSource.data = BankMode.allModes().slice(-1);
@@ -376,11 +364,10 @@ export class MemmapConfiguratorComponent implements OnInit {
       }
       
       this.bankModesDataSource.data = BankMode.fromMemoryMap(bank8, bankA, bankD, bankE);
-      //this.bankModesDataSource.renderRows();
   }
   
   bankModesDataSource = new MatTableDataSource<BankMode>(); 
-  displayedColumns: string[] = ['modeNumber', 'charem' ];
+  displayedColumns: string[] = ['modeNumber', 'charem', 'hiram', 'loram', 'asInt' ];
   
   private dumpUndefinedModeInfo(): void {
     console.log("If you get this message, please include the following info in any issue ticket:")
