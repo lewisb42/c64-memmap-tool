@@ -2,11 +2,12 @@ mat-grid-tile {
   background: lightblue;
 }
 
-mat-radio-group {
+.radio-group-column-layout {
   display: flex;
   flex-direction: column;
   margin: 15px 0;
 }
+
 
 .rom-bank-options {
   display: flex;

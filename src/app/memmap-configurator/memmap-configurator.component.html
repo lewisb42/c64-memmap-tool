@@ -16,6 +16,8 @@
     <mat-grid-tile>
         <mat-grid-tile-header>VIC-II Bank</mat-grid-tile-header>
         <mat-radio-group
+            id="vic-banks"
+            class="radio-group-column-layout"
             [(ngModel)]="vicBank">
 
             <mat-radio-button [value]="0">Bank 0</mat-radio-button>
@@ -27,81 +29,79 @@
 
 
     <mat-grid-tile>
-      <mat-grid-tile-header>Bank $8000-$9FFF</mat-grid-tile-header>
-      <div class="rom-bank-options">
-        <mat-radio-group
-            id="bank8"
-            [(ngModel)]="bank8"
-            (change)="onBank8Changed()">
-            <mat-radio-button
-              [value]="RAM">RAM</mat-radio-button>
-            <mat-radio-button [value]="CART_ROM_LO">CART ROM LO</mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </mat-grid-tile>
+        <mat-grid-tile-header>Start Here: Cartridge ROM</mat-grid-tile-header>
 
-    <mat-grid-tile>
-        <mat-grid-tile-header>Bank $A000-$BFFF</mat-grid-tile-header>
-        <div class="rom-bank-options">
-          <div *ngIf="bankE==CART_ROM_HI; then thenBlock else elseBlock"></div>
-          <ng-template #thenBlock>
-            <p>
-              Not available in this configuration.
-            </p>
-          </ng-template>
-          <ng-template #elseBlock>
             <mat-radio-group
-                id="bankA"
-                [(ngModel)]="bankA"
-                (change)="onBankAChanged()">
-                <mat-radio-button [value]="BASIC_ROM">BASIC ROM</mat-radio-button>
-                <mat-radio-button
-                  [disabled]="bank8==CART_ROM_LO"
-                  [value]="RAM">RAM</mat-radio-button>
-                <mat-radio-button [value]="CART_ROM_HI">CART ROM HI</mat-radio-button>
+              id="cartRomSelector"
+              class="radio-group-column-layout"
+              [disabled]="false"
+              [(ngModel)]="useCartRom"
+              (change)="onCartRomChanged()">
+              <mat-radio-button
+                [value]="false">No Cartridge ROM
+                  </mat-radio-button>
+              <mat-radio-button
+                [value]="true">Use Cartridge ROM</mat-radio-button>
             </mat-radio-group>
-        </ng-template>
-
-        </div>
+            
+             
+            
     </mat-grid-tile>
-
+      
     <mat-grid-tile>
-        <mat-grid-tile-header>Bank $D000-$DFFF</mat-grid-tile-header>
-        <div class="rom-bank-options">
-          <mat-radio-group
-              id="bankD"
-              [disabled]="bankE==CART_ROM_HI"
-              [(ngModel)]="bankD"
-              (change)="onBankDChanged()">
-              <mat-radio-button [value]="IO">I/O</mat-radio-button>
-              <mat-radio-button [value]="CHAR_ROM">CHAR ROM</mat-radio-button>
-              <mat-radio-button
-                id="bankD_ram"
-                [disabled]="bankE==KERNAL_ROM || bank8==CART_ROM_LO"
-                [value]="RAM">RAM</mat-radio-button>
-          </mat-radio-group>
-        </div>
+      <div *ngIf="useCartRom; then useCartRomBlock else noCartRomBlock">
+            
+            </div>
+            
+            <ng-template #useCartRomBlock>
+              <mat-grid-tile-header>CART ROM HI Options</mat-grid-tile-header>
+              <mat-radio-group
+              id="cart-rom-config"
+              class="radio-group-column-layout"
+              [(ngModel)]="cartRomConfig"
+              (change)="onCartRomHiOptionsChanged()">
+                <mat-radio-button
+                  [value]="NO_CART_ROM_HI">No CART ROM HI</mat-radio-button>
+                <mat-radio-button
+                  [value]="CART_ROM_HI_BANK_A">CART ROM HI: $A000-$BFFF</mat-radio-button>
+                <mat-radio-button
+                  [value]="CART_ROM_HI_BANK_E">CART ROM HI: $E000-$FFFF</mat-radio-button>
+              </mat-radio-group>
+            </ng-template>
+            
+            <ng-template #noCartRomBlock>
+                <mat-grid-tile-header>BASIC/KERNAL Options</mat-grid-tile-header>
+                <mat-radio-group
+                id="basic-and-kernel-selection"
+                class="radio-group-column-layout"
+                [(ngModel)]="kernelConfig">
+                
+                  <mat-radio-button
+                    [value]="BASIC_AND_KERNAL">BASIC and KERNAL</mat-radio-button>
+                  <mat-radio-button
+                    [value]="KERNAL_ONLY">KERNAL only</mat-radio-button>
+                  <mat-radio-button
+                    [value]="NO_BASIC_OR_KERNAL">No BASIC or KERNAL</mat-radio-button>
+                </mat-radio-group>
+            </ng-template>
     </mat-grid-tile>
-
+    
     <mat-grid-tile>
-        <mat-grid-tile-header>Bank $E000-$FFFF</mat-grid-tile-header>
-        <div class="rom-bank-options">
-          <mat-radio-group
-              id="bankE"
-              [disabled]="bankA==BASIC_ROM || bank8==CART_ROM_LO"
-              [(ngModel)]="bankE"
-              (change)="onBankEChanged()">
-              <mat-radio-button
-                [value]="KERNAL_ROM">KERNAL ROM</mat-radio-button>
-              <mat-radio-button
-                id='bankE_cart_rom_hi'
-                [disabled]="bankD==CHAR_ROM || bankA==CART_ROM_HI"
-                [value]="CART_ROM_HI">CART ROM HI</mat-radio-button>
-              <mat-radio-button
-                [disabled]="bankA==CART_ROM_HI"
-                [value]="RAM">RAM</mat-radio-button>
-          </mat-radio-group>
-        </div>
+      <mat-grid-tile-header>$D000-$DFFF Options</mat-grid-tile-header>
+      <mat-radio-group
+        id="bankD-options"
+        class="radio-group-column-layout"
+        [disabled]="cartRomConfig==this.CART_ROM_HI_BANK_E"
+        [(ngModel)]="bankDConfig">
+        <mat-radio-button
+          [value]="IO">I/O</mat-radio-button>
+        <mat-radio-button
+          [value]="CHAR_ROM">Character ROM</mat-radio-button>
+        <mat-radio-button
+          [disabled]="!((!useCartRom)&&(kernelConfig==NO_BASIC_OR_KERNAL))"
+          [value]="RAM">RAM</mat-radio-button>
+      </mat-radio-group>
+    
     </mat-grid-tile>
 
 </mat-grid-list>
@@ -110,10 +110,10 @@
     <mat-grid-tile>
       <mat-grid-tile-header>Bank Mode(s)</mat-grid-tile-header>
       <pre>
-      Mode#: {{ bankMode.id }}
-      _CHAREN {{ bankMode.charen }}
-      _HIRAM  {{ bankMode.hiram }}
-      _LORAM  {{ bankMode.loram }}
-      As int: {{ bankMode.asInt() }} (bitwise-and with the PLA)</pre>
+      Mode#: TODO
+      _CHAREN TODO
+      _HIRAM  TODO
+      _LORAM  TODO
+      As int: TODO (bitwise-and with the PLA)</pre>
     </mat-grid-tile>
 </mat-grid-list>

@@ -44,24 +44,41 @@ export class MemmapConfiguratorComponent implements OnInit {
   public vicBank2Chart: GoogleChartInterface = this.createMemChart();
   public vicBank3Chart: GoogleChartInterface = this.createMemChart();
 
-  readonly RAM: string = 'RAM';
+  
   readonly BASIC_ROM: string = 'BASIC_ROM';
-  readonly IO: string = 'IO';
+  
   readonly KERNAL_ROM: string = 'KERNAL_ROM';
   readonly UNAVAILABLE: string = 'UNAVAILABLE';
   readonly CART_ROM_HI: string = 'CART_ROM_HI';
   readonly CART_ROM_LO: string = 'CART_ROM_LO';
-  readonly CHAR_ROM: string = 'CHAR_ROM';
+  
 
   vicBank: number = 0;
 
+  readonly CHAR_ROM: string = 'CHAR_ROM';
+  readonly IO: string = 'IO';
+  readonly RAM: string = 'RAM';
+  readonly BASIC_AND_KERNAL: string = 'BASIC_AND_KERNEL';
+  readonly KERNAL_ONLY: string = 'KERNAL_ONLY';
+  readonly NO_BASIC_OR_KERNAL: string = 'NO_BASIC_OR_KERNAL';
+  readonly NO_CART_ROM_HI: string = "NO_CART_ROM_HI";
+  readonly CART_ROM_HI_BANK_A: string = "CART_ROM_HI_BANK_A";
+  readonly CART_ROM_HI_BANK_E: string = "CART_ROM_HI_BANK_E";
+  
+  useCartRom: boolean = false;
+  kernelConfig: string = this.BASIC_AND_KERNAL;
+  cartRomConfig: string = this.NO_CART_ROM_HI;
+  bankDConfig: string = this.IO;
+  
+  bankMode: BankMode = this.calculateBankMode();
+  
+  // old fields -- to remove
   bank8: string = this.RAM;
   bankA: string = this.BASIC_ROM;
   bankD: string = this.IO;
   bankE: string = this.KERNAL_ROM;
 
-  bankMode: BankMode = this.calculateBankMode();
-
+  
   private static UNAVAILABLE_COLOR = 'red';
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
   private static AVAILABLE_FOR_DATA_COLOR = 'orange';
@@ -252,49 +269,17 @@ export class MemmapConfiguratorComponent implements OnInit {
     return [ labels, values ];
   }
 
-  onBank8Changed() {
-    if (this.bank8 == this.CART_ROM_LO &&
-        this.bankE != this.CART_ROM_HI &&
-        this.bankA == this.RAM
-      ) {
-      // safe state
-      this.bankA = this.BASIC_ROM; // implies kernel
+  onCartRomChanged() {
+    this.configureAllVicBanks();
+    this.recalculatePlaBits();
+  }
+  
+  onCartRomHiOptionsChanged() {
+    if (this.cartRomConfig == this.CART_ROM_HI_BANK_E) {
+      this.bankDConfig = this.IO;
     }
-
-    this.configureAllVicBanks();
-    this.recalculatePlaBits();
   }
 
-  onBankAChanged() {
-
-    if (this.bankA == this.BASIC_ROM) {
-      this.bankE = this.KERNAL_ROM;
-
-      if (this.bankD == this.RAM) {
-        this.bankD = this.IO;
-      }
-    }
-
-    this.configureAllVicBanks();
-    this.recalculatePlaBits();
-  }
-
-  onBankDChanged() {
-    this.configureAllVicBanks();
-    this.recalculatePlaBits();
-  }
-
-  onBankEChanged() {
-    if (this.bankE == this.KERNAL_ROM && this.bankD == this.RAM) {
-      this.bankD = this.IO;
-    } else if (this.bankE == this.CART_ROM_HI) {
-      this.bank8 = this.CART_ROM_LO;
-      this.bankD = this.IO;
-      this.bankA = this.UNAVAILABLE;
-    }
-    this.configureAllVicBanks();
-    this.recalculatePlaBits();
-  }
 
   private recalculatePlaBits(): void {
     let mode = this.calculateBankMode();
