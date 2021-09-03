@@ -253,42 +253,28 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onBank8Changed() {
-    this.configureAllVicBanks();
+    if (this.bank8 == this.CART_ROM_LO &&
+        this.bankE != this.CART_ROM_HI &&
+        this.bankA == this.RAM
+      ) {
+      // safe state
+      this.bankA = this.BASIC_ROM; // implies kernel
+    }
 
-    if (this.bank8 == this.CART_ROM_LO) {
+    this.configureAllVicBanks();
+    this.recalculatePlaBits();
+  }
+
+  onBankAChanged() {
+
+    if (this.bankA == this.BASIC_ROM) {
       this.bankE = this.KERNAL_ROM;
 
       if (this.bankD == this.RAM) {
         this.bankD = this.IO;
       }
-
-      if (this.bankA == this.RAM) {
-        this.bankA = this.BASIC_ROM;
-      }
     }
 
-    if (this.bank8==this.RAM && this.bankE==this.CART_ROM_HI) {
-      // safe zone
-      this.bankA = this.RAM;
-      this.bankD = this.RAM;
-      this.bankE = this.RAM;
-    }
-
-    this.recalculatePlaBits();
-  }
-
-  onBankAChanged() {
-    if (this.bankA == this.BASIC_ROM) {
-      this.bankE = this.KERNAL_ROM;
-
-      if (this.bankD == this.RAM) {
-        this.bankD = this.IO; // not specifically required, but safe value
-      }
-    }
-
-    if (this.bankA == this.CART_ROM_HI) {
-      this.bankE = this.KERNAL_ROM;
-    }
     this.configureAllVicBanks();
     this.recalculatePlaBits();
   }
@@ -299,14 +285,12 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onBankEChanged() {
-    if (this.bankE == this.CART_ROM_HI) {
-      this.bankA = this.UNAVAILABLE;
-      this.bankD = this.IO;
-      this.bank8 = this.CART_ROM_LO;
-    }
-
     if (this.bankE == this.KERNAL_ROM && this.bankD == this.RAM) {
       this.bankD = this.IO;
+    } else if (this.bankE == this.CART_ROM_HI) {
+      this.bank8 = this.CART_ROM_LO;
+      this.bankD = this.IO;
+      this.bankA = this.UNAVAILABLE;
     }
     this.configureAllVicBanks();
     this.recalculatePlaBits();
