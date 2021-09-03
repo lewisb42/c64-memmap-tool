@@ -71,9 +71,23 @@ describe('MemmapConfiguratorComponent', () => {
     async function findCartRomHiOptionsRadioGroup(): Promise<MatRadioGroupHarness> {
       return findRadioGroupById('cart-rom-config');
     }
+    
+    async function findBasicKernalOptionsRadioGroup(): Promise<MatRadioGroupHarness> {
+      return findRadioGroupById('basic-and-kernel-selection');
+    }
 
     async function getD000toDfffOptions(): Promise<string|null> {
       const bank = await findD000toDfffOptionsRadioGroup();
+      return await bank.getCheckedValue();
+    }
+    
+    async function getUseCartridgeRom(): Promise<string|null> {
+      const bank = await findUseCartridgeRomRadioGroup();
+      return await bank.getCheckedValue();
+    }
+    
+    async function getBasicAndKernalOptions(): Promise<string|null> {
+      const bank = await findBasicKernalOptionsRadioGroup();
       return await bank.getCheckedValue();
     }
 
@@ -97,8 +111,10 @@ describe('MemmapConfiguratorComponent', () => {
       await group.checkRadioButton({ label: 'Character ROM' });
     }
 
-    xit('should default to mode 31', async () => {
-      
+    it('should default to mode 31', async () => {
+      expect(await getUseCartridgeRom()).toBeTruthy();
+      expect(await getBasicAndKernalOptions()).toBe('BASIC_AND_KERNAL');
+      expect(await getD000toDfffOptions()).toBe('IO');
     });
 
 
@@ -108,5 +124,4 @@ describe('MemmapConfiguratorComponent', () => {
       await selectCartRomHiAtE000toFFFF();
       expect(await getD000toDfffOptions()).toBe('IO');
     });
-
 });

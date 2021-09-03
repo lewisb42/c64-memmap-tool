@@ -58,7 +58,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   readonly CHAR_ROM: string = 'CHAR_ROM';
   readonly IO: string = 'IO';
   readonly RAM: string = 'RAM';
-  readonly BASIC_AND_KERNAL: string = 'BASIC_AND_KERNEL';
+  readonly BASIC_AND_KERNAL: string = 'BASIC_AND_KERNAL';
   readonly KERNAL_ONLY: string = 'KERNAL_ONLY';
   readonly NO_BASIC_OR_KERNAL: string = 'NO_BASIC_OR_KERNAL';
   readonly NO_CART_ROM_HI: string = "NO_CART_ROM_HI";
