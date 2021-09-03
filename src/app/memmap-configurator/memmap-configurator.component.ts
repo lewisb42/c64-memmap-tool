@@ -71,12 +71,6 @@ export class MemmapConfiguratorComponent implements OnInit {
   bankDConfig: string = this.IO;
   
   bankMode: BankMode = this.calculateBankMode();
-  
-  // old fields -- to remove
-  bank8: string = this.RAM;
-  bankA: string = this.BASIC_ROM;
-  bankD: string = this.IO;
-  bankE: string = this.KERNAL_ROM;
 
   
   private static UNAVAILABLE_COLOR = 'red';
@@ -149,13 +143,7 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     // reserve the zero page if kernal in use
     // note that using basic rom implies the kernel
-    if (this.bankE == this.KERNAL_ROM) {
-      bank.insertChunk(this.zeroPageChunk);
-    }
-
-    if (this.bankE == this.CART_ROM_HI) {
-      bank.insertChunk(this.ultimaxVicBank0Chunk);
-    }
+   
 
     // always leave the stack alone
     bank.insertChunk(this.stackChunk);
@@ -166,9 +154,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank1(): void {
     var bank = new MemoryBank('VIC Bank 1', 0x4000);
 
-    if (this.bankE == this.CART_ROM_HI) {
-      bank.insertChunk(this.ultimaxVicBank1Chunk);
-    }
+    
 
     this.updateChart(this.vicBank1Chart, bank);
   }
@@ -176,19 +162,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
 
-    if (this.bank8 == this.CART_ROM_LO) {
-      bank.insertChunk(this.cartRomLoChunk);
-    }
-
-    if (this.bankA == this.BASIC_ROM) {
-      bank.insertChunk(this.basicRomChunk);
-    } else if (this.bankA == this.CART_ROM_HI) {
-      bank.insertChunk(this.bankACartRomHiChunk);
-    }
-
-    if (this.bankE == this.CART_ROM_HI) {
-      bank.insertChunk(this.ultimaxVicBank2Chunk);
-    }
+    
 
     this.updateChart(this.vicBank2Chart, bank);
   }
@@ -196,18 +170,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
 
-    if (this.bankD == this.IO) {
-      bank.insertChunk(this.ioChunk);
-    } else if (this.bankD == this.CHAR_ROM) {
-      bank.insertChunk(this.charRomChunk);
-    }
-
-    if (this.bankE == this.KERNAL_ROM) {
-      bank.insertChunk(this.kernelRomChunk);
-    } else if (this.bankE == this.CART_ROM_HI) {
-      bank.insertChunk(this.ultimaxVicBank3Chunk);
-      bank.insertChunk(this.bankECartRomHiChunk);
-    }
+    
 
     this.updateChart(this.vicBank3Chart, bank);
   }
@@ -294,21 +257,20 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   private calculateBankMode(): BankMode {
-      return BankMode.fromMemoryMap(
-        BankState[this.bank8 as keyof typeof BankState],
-        BankState[this.bankA as keyof typeof BankState],
-        BankState[this.bankD as keyof typeof BankState],
-        BankState[this.bankE as keyof typeof BankState]
-      )[0];
+      // TODO
+      return this.bankMode; // stub
+      
+      //return BankMode.fromMemoryMap(
+       // BankState[this.bank8 as keyof typeof BankState],
+       // BankState[this.bankA as keyof typeof BankState],
+       // BankState[this.bankD as keyof typeof BankState],
+       // BankState[this.bankE as keyof typeof BankState]
+      //)[0];
   }
 
   private dumpUndefinedModeInfo(): void {
     console.log("If you get this message, please include the following info in any issue ticket:")
     console.log("--- begin debug info ---");
-    console.log("Bank $8000-$9FFF: " + this.bank8);
-    console.log("Bank $A000-$BFFF: " + this.bankA);
-    console.log("Bank $D000-$DFFF: " + this.bankD);
-    console.log("Bank $E000-$FFFF: " + this.bankE);
     console.log("--- end debug info ---");
   }
 }
