@@ -173,8 +173,22 @@ export class MemmapConfiguratorComponent implements OnInit {
   
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
+    if (this.kernalConfig == this.BASIC_AND_KERNAL) {
+      bank.insertChunk(this.basicRomChunk);
+    }
 
+    if (this.cartRomConfig == this.CART_ROM_HI_BANK_E &&
+        this.useCartRom) {
+      bank.insertChunk(this.ultimaxVicBank2Chunk);
+    }
     
+    if (this.useCartRom) {
+      bank.insertChunk(this.cartRomLoChunk);
+    }
+    
+    if (this.useCartRom && this.cartRomConfig == this.CART_ROM_HI_BANK_A) {
+      bank.insertChunk(this.bankACartRomHiChunk);
+    }
 
     this.updateChart(this.vicBank2Chart, bank);
   }
