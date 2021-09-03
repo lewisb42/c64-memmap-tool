@@ -66,7 +66,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   readonly CART_ROM_HI_BANK_E: string = "CART_ROM_HI_BANK_E";
   
   useCartRom: boolean = false;
-  kernelConfig: string = this.BASIC_AND_KERNAL;
+  kernalConfig: string = this.BASIC_AND_KERNAL;
   cartRomConfig: string = this.NO_CART_ROM_HI;
   bankDConfig: string = this.IO;
   
@@ -77,7 +77,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
   private static AVAILABLE_FOR_DATA_COLOR = 'orange';
   private static RESERVED_FOR_GRAPHICS_COLOR = 'blue';
-  private static OS_COLOR = 'yellow'; // used for both basic and kernel roms (incl. zero page)
+  private static OS_COLOR = 'yellow'; // used for both basic and kernal roms (incl. zero page)
   private static CART_ROM_COLOR = 'gray';
   private static IO_COLOR = 'purple';
   private static CHAR_ROM_COLOR = 'DarkKhaki';
@@ -86,7 +86,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
 
   private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.OS_CODE);
-  private kernelRomChunk: MemoryChunk = new MemoryChunk('KERNEL ROM', 0xE000, 8192, MemoryStatus.OS_CODE);
+  private kernalRomChunk: MemoryChunk = new MemoryChunk('KERNAL ROM', 0xE000, 8192, MemoryStatus.OS_CODE);
 
   private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.CART_ROM);
 
@@ -138,12 +138,15 @@ export class MemmapConfiguratorComponent implements OnInit {
     ];
   }
 
+
+  
+
   private configureVicBank0(): void {
     var bank = new MemoryBank('VIC Bank 0', 0);
-
+    
     // reserve the zero page if kernal in use
-    // note that using basic rom implies the kernel
-   
+    // note that using basic rom implies the kernal
+    
 
     // always leave the stack alone
     bank.insertChunk(this.stackChunk);
@@ -154,6 +157,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private configureVicBank1(): void {
     var bank = new MemoryBank('VIC Bank 1', 0x4000);
 
+    
     
 
     this.updateChart(this.vicBank1Chart, bank);
@@ -233,16 +237,45 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onCartRomChanged() {
+    if (this.useCartRom) {
+      this.cartRomConfig = this.NO_CART_ROM_HI;
+    }
+    // puts it in a good default state no matter
+    // whether cart rom is used or not
+    this.kernalConfig = this.BASIC_AND_KERNAL;
+    this.bankDConfig = this.IO;
+    
     this.configureAllVicBanks();
     this.recalculatePlaBits();
   }
   
   onCartRomHiOptionsChanged() {
+    if (this.useCartRom) {
+      if (this.cartRomConfig == this.CART_ROM_HI_BANK_A) {
+        this.kernalConfig = this.KERNAL_ONLY;
+      } else if (this.cartRomConfig == this.NO_CART_ROM_HI) {
+        this.kernalConfig = this.BASIC_AND_KERNAL;
+      } else {
+        this.kernalConfig = this.NO_BASIC_OR_KERNAL;
+      }
+    }
+    
     if (this.cartRomConfig == this.CART_ROM_HI_BANK_E) {
       this.bankDConfig = this.IO;
     }
+    this.configureAllVicBanks();
+    this.recalculatePlaBits();
+  }
+  
+  onBasicKernalOptionsChanged() {
+    this.configureAllVicBanks();
+    this.recalculatePlaBits();
   }
 
+  onD000ToDfffOptionsChanged() {
+    this.configureAllVicBanks();
+    this.recalculatePlaBits();
+  }
 
   private recalculatePlaBits(): void {
     let mode = this.calculateBankMode();

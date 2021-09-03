@@ -72,9 +72,10 @@
             <ng-template #noCartRomBlock>
                 <mat-grid-tile-header>BASIC/KERNAL Options</mat-grid-tile-header>
                 <mat-radio-group
-                id="basic-and-kernel-selection"
+                id="basic-and-kernal-selection"
                 class="radio-group-column-layout"
-                [(ngModel)]="kernelConfig">
+                [(ngModel)]="kernalConfig"
+                (change)="onBasicKernalOptionsChanged()">
                 
                   <mat-radio-button
                     [value]="BASIC_AND_KERNAL">BASIC and KERNAL</mat-radio-button>
@@ -92,13 +93,14 @@
         id="bankD-options"
         class="radio-group-column-layout"
         [disabled]="cartRomConfig==this.CART_ROM_HI_BANK_E"
-        [(ngModel)]="bankDConfig">
+        [(ngModel)]="bankDConfig"
+        (change)="onD000ToDfffOptionsChanged()">
         <mat-radio-button
           [value]="IO">I/O</mat-radio-button>
         <mat-radio-button
           [value]="CHAR_ROM">Character ROM</mat-radio-button>
         <mat-radio-button
-          [disabled]="!((!useCartRom)&&(kernelConfig==NO_BASIC_OR_KERNAL))"
+          [disabled]="!((!useCartRom)&&(kernalConfig==NO_BASIC_OR_KERNAL))"
           [value]="RAM">RAM</mat-radio-button>
       </mat-radio-group>
     

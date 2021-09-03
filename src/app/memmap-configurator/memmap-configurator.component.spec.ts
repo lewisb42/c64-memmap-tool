@@ -73,7 +73,7 @@ describe('MemmapConfiguratorComponent', () => {
     }
     
     async function findBasicKernalOptionsRadioGroup(): Promise<MatRadioGroupHarness> {
-      return findRadioGroupById('basic-and-kernel-selection');
+      return findRadioGroupById('basic-and-kernal-selection');
     }
 
     async function getD000toDfffOptions(): Promise<string|null> {
