@@ -3,6 +3,7 @@ import { GoogleChartInterface, GoogleChartWrapper } from 'ng2-google-charts';
 import { MemoryChunk, MemoryStatus } from '../models/memory-chunk';
 import { MemoryBank } from '../models/memory-bank';
 import { BankMode, BankState } from '../models/bank-mode'
+import {MatTableDataSource} from '@angular/material/table';
 
 function toAddress(x: number, offset:number): string {
   let baseHex = (x + offset).toString(16).toUpperCase();
@@ -92,6 +93,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   
 
   constructor() {
+    this.bankModesDataSource.data = BankMode.allModes().slice(-1);
   }
 
   ngOnInit(): void {
@@ -296,7 +298,7 @@ export class MemmapConfiguratorComponent implements OnInit {
     this.bankDConfig = this.IO;
     
     this.configureAllVicBanks();
-    this.recalculatePlaBits();
+    this.filterBankModes();
   }
   
   onCartRomHiOptionsChanged() {
@@ -314,29 +316,17 @@ export class MemmapConfiguratorComponent implements OnInit {
       this.bankDConfig = this.IO;
     }
     this.configureAllVicBanks();
-    this.recalculatePlaBits();
+    this.filterBankModes();
   }
   
   onBasicKernalOptionsChanged() {
     this.configureAllVicBanks();
-    this.recalculatePlaBits();
+    this.filterBankModes();
   }
 
   onD000ToDfffOptionsChanged() {
     this.configureAllVicBanks();
-    this.recalculatePlaBits();
-  }
-
-  private recalculatePlaBits(): void {
-    let mode = this.calculateBankMode();
-    if (mode == undefined) {
-      // this *shouldn't* happen, but has been known
-      // to do so. I think I got it debugged, but
-      // submit a ticket if this happens
-      this.dumpUndefinedModeInfo();
-      return;
-    }
-    this.bankMode = mode;
+    this.filterBankModes();
   }
 
   private findBankDState(): BankState {
@@ -348,8 +338,8 @@ export class MemmapConfiguratorComponent implements OnInit {
       return BankState.RAM;
     }
   }
-
-  private calculateBankMode(): BankMode {
+  
+  private filterBankModes() {
       let bank8: BankState;
       let bankA: BankState;
       let bankD: BankState;
@@ -385,9 +375,13 @@ export class MemmapConfiguratorComponent implements OnInit {
         }
       }
       
-      return BankMode.fromMemoryMap(bank8, bankA, bankD, bankE)[0];
+      this.bankModesDataSource.data = BankMode.fromMemoryMap(bank8, bankA, bankD, bankE);
+      //this.bankModesDataSource.renderRows();
   }
-
+  
+  bankModesDataSource = new MatTableDataSource<BankMode>(); 
+  displayedColumns: string[] = ['modeNumber', 'charem' ];
+  
   private dumpUndefinedModeInfo(): void {
     console.log("If you get this message, please include the following info in any issue ticket:")
     console.log("--- begin debug info ---");

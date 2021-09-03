@@ -12,7 +12,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatDividerModule} from '@angular/material/divider';
-
+import { MatTableModule } from '@angular/material/table'
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
@@ -32,7 +32,8 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     MatRadioModule,
     MatSlideToggleModule,
     MatDividerModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
