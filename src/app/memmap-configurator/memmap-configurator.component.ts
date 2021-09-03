@@ -135,7 +135,6 @@ export class MemmapConfiguratorComponent implements OnInit {
     var bank = new MemoryBank('VIC Bank 0', 0);
     
     // reserve the zero page if kernal in use
-    // note that using basic rom implies the kernal
     if (this.kernalConfig == this.BASIC_AND_KERNAL ||
         this.kernalConfig == this.KERNAL_ONLY) {
         bank.insertChunk(this.zeroPageChunk);
@@ -157,6 +156,11 @@ export class MemmapConfiguratorComponent implements OnInit {
   private ultimaxVicBank1Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x4000, 0x4000, MemoryStatus.UNAVAILABLE);
   private configureVicBank1(): void {
     var bank = new MemoryBank('VIC Bank 1', 0x4000);
+    
+    if (this.cartRomConfig == this.CART_ROM_HI_BANK_E &&
+        this.useCartRom) {
+      bank.insertChunk(this.ultimaxVicBank1Chunk);
+    }
     
     this.updateChart(this.vicBank1Chart, bank);
   }
