@@ -112,10 +112,10 @@
     <mat-grid-tile>
       <mat-grid-tile-header>Bank Mode(s)</mat-grid-tile-header>
       <pre>
-      Mode#: TODO
-      _CHAREN TODO
-      _HIRAM  TODO
-      _LORAM  TODO
-      As int: TODO (bitwise-and with the PLA)</pre>
+      Mode#: {{ bankMode.id }}
+      _CHAREN {{ bankMode.charen }}
+      _HIRAM  {{ bankMode.hiram }}
+      _LORAM  {{ bankMode.loram }}
+      As int: {{ bankMode.asInt() }} (bitwise-and with the PLA)</pre>
     </mat-grid-tile>
 </mat-grid-list>

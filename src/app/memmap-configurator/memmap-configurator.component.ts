@@ -70,8 +70,8 @@ export class MemmapConfiguratorComponent implements OnInit {
   cartRomConfig: string = this.NO_CART_ROM_HI;
   bankDConfig: string = this.IO;
   
-  bankMode: BankMode = this.calculateBankMode();
-
+  bankMode: BankMode = BankMode.allModes()[31];
+  
   
   private static UNAVAILABLE_COLOR = 'red';
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
@@ -339,16 +339,53 @@ export class MemmapConfiguratorComponent implements OnInit {
     this.bankMode = mode;
   }
 
+  private findBankDState(): BankState {
+    if (this.bankDConfig == this.IO) {
+      return BankState.IO;
+    } else if (this.bankDConfig == this.CHAR_ROM) {
+      return  BankState.CHAR_ROM;
+    } else {
+      return BankState.RAM;
+    }
+  }
+
   private calculateBankMode(): BankMode {
-      // TODO
-      return this.bankMode; // stub
+      let bank8: BankState;
+      let bankA: BankState;
+      let bankD: BankState;
+      let bankE: BankState;
       
-      //return BankMode.fromMemoryMap(
-       // BankState[this.bank8 as keyof typeof BankState],
-       // BankState[this.bankA as keyof typeof BankState],
-       // BankState[this.bankD as keyof typeof BankState],
-       // BankState[this.bankE as keyof typeof BankState]
-      //)[0];
+      if (this.useCartRom) {
+        bank8 = BankState.CART_ROM_LO;
+        if (this.cartRomConfig == this.CART_ROM_HI_BANK_A) {
+          bankA = BankState.CART_ROM_HI;
+          bankE = BankState.KERNAL_ROM;
+          bankD = this.findBankDState();
+        } else if (this.cartRomConfig == this.NO_CART_ROM_HI) {
+          bankA = BankState.BASIC_ROM;
+          bankE = BankState.KERNAL_ROM;
+          bankD = this.findBankDState();
+        } else { // CART_ROM_HI_BANK_E
+          bankA = BankState.UNAVAILABLE;
+          bankE = BankState.CART_ROM_HI;
+          bankD = BankState.IO;
+        }
+      } else {
+        bank8 = BankState.RAM;
+        bankD = this.findBankDState();
+        if (this.kernalConfig == this.BASIC_AND_KERNAL) {
+          bankA = BankState.BASIC_ROM;
+          bankE = BankState.KERNAL_ROM;
+        } else if (this.kernalConfig == this.KERNAL_ONLY) {
+          bankA = BankState.RAM;
+          bankE = BankState.KERNAL_ROM;
+        } else { // NO_BASIC_OR_KERNAL
+          bankA = BankState.RAM;
+          bankE = BankState.RAM;
+        }
+      }
+      
+      return BankMode.fromMemoryMap(bank8, bankA, bankD, bankE)[0];
   }
 
   private dumpUndefinedModeInfo(): void {

@@ -195,5 +195,5 @@ export class BankMode {
             new BankMode(0,
                 Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ZERO, Bit.ZERO,
                 BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM, BankState.RAM)
-        ];
+        ].reverse();
 }
