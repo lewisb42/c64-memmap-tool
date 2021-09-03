@@ -112,37 +112,37 @@
     <mat-grid-tile>
       <mat-grid-tile-header>Bank Mode(s)</mat-grid-tile-header>
       
-      <table mat-table 
+      <mat-table 
         [dataSource]="bankModesDataSource"
         class="mat-elevation-z8">
       
         <ng-container matColumnDef="modeNumber">
-          <th mat-header-cell *matHeaderCellDef> Mode# </th>
-          <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+          <mat-header-cell *matHeaderCellDef> Mode# </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
         </ng-container>
         
         <ng-container matColumnDef="charem">
-          <th mat-header-cell *matHeaderCellDef> CHAREN </th>
-          <td mat-cell *matCellDef="let element"> {{ element.charen }} </td>
+          <mat-header-cell *matHeaderCellDef> CHAREN </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.charen }} </mat-cell>
         </ng-container>
         
         <ng-container matColumnDef="hiram">
-          <th mat-header-cell *matHeaderCellDef> HIRAM </th>
-          <td mat-cell *matCellDef="let element"> {{ element.hiram }} </td>
+          <mat-header-cell *matHeaderCellDef> HIRAM </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.hiram }} </mat-cell>
         </ng-container>
         
         <ng-container matColumnDef="loram">
-          <th mat-header-cell *matHeaderCellDef> LORAM </th>
-          <td mat-cell *matCellDef="let element"> {{ element.loram }} </td>
+          <mat-header-cell *matHeaderCellDef> LORAM </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.loram }} </mat-cell>
         </ng-container>
         
         <ng-container matColumnDef="asInt">
-          <th mat-header-cell *matHeaderCellDef> As int </th>
-          <td mat-cell *matCellDef="let element"> {{ element.asInt() }} </td>
+          <mat-header-cell *matHeaderCellDef> As int </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.asInt() }} </mat-cell>
         </ng-container>
       
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
     </mat-grid-tile>
 </mat-grid-list>
