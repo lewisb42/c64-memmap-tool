@@ -82,26 +82,14 @@ export class MemmapConfiguratorComponent implements OnInit {
   private static IO_COLOR = 'purple';
   private static CHAR_ROM_COLOR = 'DarkKhaki';
 
-  private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x000, 256, MemoryStatus.OS_CODE);
-  private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
+  
 
-  private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.OS_CODE);
-  private kernalRomChunk: MemoryChunk = new MemoryChunk('KERNAL ROM', 0xE000, 8192, MemoryStatus.OS_CODE);
 
-  private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.CART_ROM);
 
-  private bankACartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.CART_ROM);
-
-  private bankECartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.CART_ROM);
-
-  private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.IO);
-
-  private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.CHAR_ROM);
-
-  private ultimaxVicBank0Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x1000, 0x3000, MemoryStatus.UNAVAILABLE);
-  private ultimaxVicBank1Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x4000, 0x4000, MemoryStatus.UNAVAILABLE);
-  private ultimaxVicBank2Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
-  private ultimaxVicBank3Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xC000, 0x1000, MemoryStatus.UNAVAILABLE);
+  
+  
+  
+  
 
   constructor() {
   }
@@ -139,30 +127,46 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
 
-  
-
+  // chunks relevant to Vic Bank 0
+  private zeroPageChunk: MemoryChunk = new MemoryChunk('zero page', 0x0000, 256, MemoryStatus.OS_CODE);
+  private stackChunk: MemoryChunk = new MemoryChunk('stack page', 0x0100, 256, MemoryStatus.UNAVAILABLE);
+  private ultimaxVicBank0Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x1000, 0x3000, MemoryStatus.UNAVAILABLE);
   private configureVicBank0(): void {
     var bank = new MemoryBank('VIC Bank 0', 0);
     
     // reserve the zero page if kernal in use
     // note that using basic rom implies the kernal
+    if (this.kernalConfig == this.BASIC_AND_KERNAL ||
+        this.kernalConfig == this.KERNAL_ONLY) {
+        bank.insertChunk(this.zeroPageChunk);
+    }
     
+    if (this.cartRomConfig == this.CART_ROM_HI_BANK_E &&
+        this.useCartRom) {
+      bank.insertChunk(this.ultimaxVicBank0Chunk);
+    }
 
     // always leave the stack alone
     bank.insertChunk(this.stackChunk);
 
     this.updateChart(this.vicBank0Chart, bank);
   }
-
+  
+  
+  // chunks relevant to vic bank 1
+  private ultimaxVicBank1Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x4000, 0x4000, MemoryStatus.UNAVAILABLE);
   private configureVicBank1(): void {
     var bank = new MemoryBank('VIC Bank 1', 0x4000);
-
     
-    
-
     this.updateChart(this.vicBank1Chart, bank);
   }
 
+  //chunks relevant to vic bank 2
+  private basicRomChunk: MemoryChunk = new MemoryChunk('BASIC ROM', 0xA000, 8192, MemoryStatus.OS_CODE);
+  private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.CART_ROM);
+  private bankACartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.CART_ROM);
+  private ultimaxVicBank2Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
+  
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
 
@@ -171,6 +175,13 @@ export class MemmapConfiguratorComponent implements OnInit {
     this.updateChart(this.vicBank2Chart, bank);
   }
 
+  // chunks relevant to vic bank 3
+  private ultimaxVicBank3Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xC000, 0x1000, MemoryStatus.UNAVAILABLE);
+  private kernalRomChunk: MemoryChunk = new MemoryChunk('KERNAL ROM', 0xE000, 8192, MemoryStatus.OS_CODE);
+  private bankECartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.CART_ROM);
+  private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.IO);
+  private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.CHAR_ROM);
+  
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
 
