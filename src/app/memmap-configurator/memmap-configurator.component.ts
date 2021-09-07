@@ -45,8 +45,8 @@ export class MemmapConfiguratorComponent implements OnInit {
   public vicBank2Chart: GoogleChartInterface = this.createMemChart();
   public vicBank3Chart: GoogleChartInterface = this.createMemChart();
 
-  readonly SCREEN_RAM_LOCATIONS: number[] = [ 0, 16, 32, 48, 64, 80, 96, 112, 128, 144,
-                                    160, 176, 192, 208, 224, 240 ];
+  readonly SCREEN_RAM_LOCATIONS: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                                              11, 12, 13, 14, 15 ];
 
   readonly CHAR_RAM_LOCATIONS: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 
@@ -74,7 +74,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   kernalConfig: string = this.BASIC_AND_KERNAL;
   cartRomConfig: string = this.NO_CART_ROM_HI;
   bankDConfig: string = this.IO;
-  screenRamLocation: number = 16;
+  screenRamLocation: number = 1;
   charsetRamLocation: number = 2; // default for vic bank 0
 
   private static UNAVAILABLE_COLOR = 'red';
