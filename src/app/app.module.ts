@@ -14,7 +14,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table'
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
-
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     MatSlideToggleModule,
     MatDividerModule,
     Ng2GoogleChartsModule,
-    MatTableModule
+    MatTableModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

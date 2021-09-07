@@ -3,7 +3,7 @@ import { GoogleChartInterface, GoogleChartWrapper } from 'ng2-google-charts';
 import { MemoryChunk, MemoryStatus } from '../models/memory-chunk';
 import { MemoryBank } from '../models/memory-bank';
 import { BankMode, BankState } from '../models/bank-mode'
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 
 function toAddress(x: number, offset:number): string {
   let baseHex = (x + offset).toString(16).toUpperCase();
