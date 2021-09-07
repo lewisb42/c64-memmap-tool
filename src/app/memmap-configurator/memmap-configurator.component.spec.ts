@@ -67,11 +67,11 @@ describe('MemmapConfiguratorComponent', () => {
     async function findUseCartridgeRomRadioGroup(): Promise<MatRadioGroupHarness> {
       return findRadioGroupById('cartRomSelector');
     }
-    
+
     async function findCartRomHiOptionsRadioGroup(): Promise<MatRadioGroupHarness> {
       return findRadioGroupById('cart-rom-config');
     }
-    
+
     async function findBasicKernalOptionsRadioGroup(): Promise<MatRadioGroupHarness> {
       return findRadioGroupById('basic-and-kernal-selection');
     }
@@ -80,12 +80,12 @@ describe('MemmapConfiguratorComponent', () => {
       const bank = await findD000toDfffOptionsRadioGroup();
       return await bank.getCheckedValue();
     }
-    
+
     async function getUseCartridgeRom(): Promise<string|null> {
       const bank = await findUseCartridgeRomRadioGroup();
       return await bank.getCheckedValue();
     }
-    
+
     async function getBasicAndKernalOptions(): Promise<string|null> {
       const bank = await findBasicKernalOptionsRadioGroup();
       return await bank.getCheckedValue();
@@ -95,17 +95,17 @@ describe('MemmapConfiguratorComponent', () => {
       const group = await findUseCartridgeRomRadioGroup();
       await group.checkRadioButton({ label: 'Use Cartridge ROM' });
     }
-    
+
     async function selectCartRomHiAtE000toFFFF(): Promise<void> {
       const group = await findCartRomHiOptionsRadioGroup();
       await group.checkRadioButton({ label: 'CART ROM HI: $E000-$FFFF' });
     }
-    
+
     async function selectIO(): Promise<void> {
       const group = await findD000toDfffOptionsRadioGroup();
       await group.checkRadioButton({ label: 'IO' });
     }
-    
+
     async function selectCharRom(): Promise<void> {
       const group = await findD000toDfffOptionsRadioGroup();
       await group.checkRadioButton({ label: 'Character ROM' });
