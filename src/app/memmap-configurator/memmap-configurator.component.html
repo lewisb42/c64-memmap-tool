@@ -12,20 +12,8 @@
 <google-chart
   [data]="vicBank3Chart"></google-chart>
 
-<mat-grid-list cols="5" rowHeight="190px" id="controls-area">
-    <mat-grid-tile>
-        <mat-grid-tile-header>VIC-II Bank</mat-grid-tile-header>
-        <mat-radio-group
-            id="vic-banks"
-            class="radio-group-column-layout"
-            [(ngModel)]="vicBank">
+<mat-grid-list cols="3" rowHeight="150px" id="controls-area">
 
-            <mat-radio-button [value]="0">Bank 0</mat-radio-button>
-            <mat-radio-button [value]="1">Bank 1</mat-radio-button>
-            <mat-radio-button [value]="2">Bank 2</mat-radio-button>
-            <mat-radio-button [value]="3">Bank 3</mat-radio-button>
-        </mat-radio-group>
-    </mat-grid-tile>
 
 
     <mat-grid-tile>
@@ -43,16 +31,67 @@
               <mat-radio-button
                 [value]="true">Use Cartridge ROM</mat-radio-button>
             </mat-radio-group>
-            
-             
-            
+
+
+
     </mat-grid-tile>
-      
+
+    <mat-grid-tile rowspan="3">
+        <mat-grid-tile-header>VIC-II Bank</mat-grid-tile-header>
+        <mat-radio-group
+            id="vic-banks"
+            class="radio-group-column-layout"
+            [(ngModel)]="vicBank">
+
+            <mat-radio-button [value]="0">Bank 0</mat-radio-button>
+            <mat-radio-button [value]="1">Bank 1</mat-radio-button>
+            <mat-radio-button [value]="2">Bank 2</mat-radio-button>
+            <mat-radio-button [value]="3">Bank 3</mat-radio-button>
+        </mat-radio-group>
+    </mat-grid-tile>
+
+    <mat-grid-tile rowspan="3">
+      <mat-grid-tile-header>Bank Mode(s)</mat-grid-tile-header>
+
+      <mat-table
+        [dataSource]="bankModesDataSource"
+        class="mat-elevation-z8">
+
+        <ng-container matColumnDef="modeNumber">
+          <mat-header-cell *matHeaderCellDef> Mode# </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="charem">
+          <mat-header-cell *matHeaderCellDef> CHAREN </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.charen }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="hiram">
+          <mat-header-cell *matHeaderCellDef> HIRAM </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.hiram }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="loram">
+          <mat-header-cell *matHeaderCellDef> LORAM </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.loram }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="asInt">
+          <mat-header-cell *matHeaderCellDef> As int </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.asInt() }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-grid-tile>
+
     <mat-grid-tile>
       <div *ngIf="useCartRom; then useCartRomBlock else noCartRomBlock">
-            
+
             </div>
-            
+
             <ng-template #useCartRomBlock>
               <mat-grid-tile-header>CART ROM HI Options</mat-grid-tile-header>
               <mat-radio-group
@@ -68,7 +107,7 @@
                   [value]="CART_ROM_HI_BANK_E">CART ROM HI: $E000-$FFFF</mat-radio-button>
               </mat-radio-group>
             </ng-template>
-            
+
             <ng-template #noCartRomBlock>
                 <mat-grid-tile-header>BASIC/KERNAL Options</mat-grid-tile-header>
                 <mat-radio-group
@@ -76,7 +115,7 @@
                 class="radio-group-column-layout"
                 [(ngModel)]="kernalConfig"
                 (change)="onBasicKernalOptionsChanged()">
-                
+
                   <mat-radio-button
                     [value]="BASIC_AND_KERNAL">BASIC and KERNAL</mat-radio-button>
                   <mat-radio-button
@@ -86,7 +125,7 @@
                 </mat-radio-group>
             </ng-template>
     </mat-grid-tile>
-    
+
     <mat-grid-tile>
       <mat-grid-tile-header>$D000-$DFFF Options</mat-grid-tile-header>
       <mat-radio-group
@@ -103,46 +142,8 @@
           [disabled]="!((!useCartRom)&&(kernalConfig==NO_BASIC_OR_KERNAL))"
           [value]="RAM">RAM</mat-radio-button>
       </mat-radio-group>
-    
+
     </mat-grid-tile>
 
-</mat-grid-list>
 
-<mat-grid-list cols="1" rowHeight="200px" id="output-area">
-    <mat-grid-tile>
-      <mat-grid-tile-header>Bank Mode(s)</mat-grid-tile-header>
-      
-      <mat-table 
-        [dataSource]="bankModesDataSource"
-        class="mat-elevation-z8">
-      
-        <ng-container matColumnDef="modeNumber">
-          <mat-header-cell *matHeaderCellDef> Mode# </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
-        </ng-container>
-        
-        <ng-container matColumnDef="charem">
-          <mat-header-cell *matHeaderCellDef> CHAREN </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.charen }} </mat-cell>
-        </ng-container>
-        
-        <ng-container matColumnDef="hiram">
-          <mat-header-cell *matHeaderCellDef> HIRAM </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.hiram }} </mat-cell>
-        </ng-container>
-        
-        <ng-container matColumnDef="loram">
-          <mat-header-cell *matHeaderCellDef> LORAM </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.loram }} </mat-cell>
-        </ng-container>
-        
-        <ng-container matColumnDef="asInt">
-          <mat-header-cell *matHeaderCellDef> As int </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.asInt() }} </mat-cell>
-        </ng-container>
-      
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-    </mat-grid-tile>
 </mat-grid-list>
