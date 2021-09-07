@@ -45,14 +45,14 @@ export class MemmapConfiguratorComponent implements OnInit {
   public vicBank2Chart: GoogleChartInterface = this.createMemChart();
   public vicBank3Chart: GoogleChartInterface = this.createMemChart();
 
-  
+
   readonly BASIC_ROM: string = 'BASIC_ROM';
-  
+
   readonly KERNAL_ROM: string = 'KERNAL_ROM';
   readonly UNAVAILABLE: string = 'UNAVAILABLE';
   readonly CART_ROM_HI: string = 'CART_ROM_HI';
   readonly CART_ROM_LO: string = 'CART_ROM_LO';
-  
+
 
   vicBank: number = 0;
 
@@ -65,12 +65,12 @@ export class MemmapConfiguratorComponent implements OnInit {
   readonly NO_CART_ROM_HI: string = "NO_CART_ROM_HI";
   readonly CART_ROM_HI_BANK_A: string = "CART_ROM_HI_BANK_A";
   readonly CART_ROM_HI_BANK_E: string = "CART_ROM_HI_BANK_E";
-  
+
   useCartRom: boolean = false;
   kernalConfig: string = this.BASIC_AND_KERNAL;
   cartRomConfig: string = this.NO_CART_ROM_HI;
-  bankDConfig: string = this.IO; 
-  
+  bankDConfig: string = this.IO;
+
   private static UNAVAILABLE_COLOR = 'red';
   private static AVAILABLE_FOR_CODE_COLOR = 'green';
   private static AVAILABLE_FOR_DATA_COLOR = 'orange';
@@ -123,13 +123,13 @@ export class MemmapConfiguratorComponent implements OnInit {
   private ultimaxVicBank0Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x1000, 0x3000, MemoryStatus.UNAVAILABLE);
   private configureVicBank0(): void {
     var bank = new MemoryBank('VIC Bank 0', 0);
-    
+
     // reserve the zero page if kernal in use
     if (this.kernalConfig == this.BASIC_AND_KERNAL ||
         this.kernalConfig == this.KERNAL_ONLY) {
         bank.insertChunk(this.zeroPageChunk);
     }
-    
+
     if (this.cartRomConfig == this.CART_ROM_HI_BANK_E &&
         this.useCartRom) {
       bank.insertChunk(this.ultimaxVicBank0Chunk);
@@ -140,18 +140,18 @@ export class MemmapConfiguratorComponent implements OnInit {
 
     this.updateChart(this.vicBank0Chart, bank);
   }
-  
-  
+
+
   // chunks relevant to vic bank 1
   private ultimaxVicBank1Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0x4000, 0x4000, MemoryStatus.UNAVAILABLE);
   private configureVicBank1(): void {
     var bank = new MemoryBank('VIC Bank 1', 0x4000);
-    
+
     if (this.cartRomConfig == this.CART_ROM_HI_BANK_E &&
         this.useCartRom) {
       bank.insertChunk(this.ultimaxVicBank1Chunk);
     }
-    
+
     this.updateChart(this.vicBank1Chart, bank);
   }
 
@@ -160,7 +160,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private cartRomLoChunk: MemoryChunk = new MemoryChunk("CART ROM LO", 0x8000, 0x2000, MemoryStatus.CART_ROM);
   private bankACartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xA000, 0x2000, MemoryStatus.CART_ROM);
   private ultimaxVicBank2Chunk: MemoryChunk = new MemoryChunk("Unavailable - Ultimax Mode", 0xA000, 0x2000, MemoryStatus.UNAVAILABLE);
-  
+
   private configureVicBank2(): void {
     var bank = new MemoryBank('VIC Bank 2', 0x8000);
     if (this.kernalConfig == this.BASIC_AND_KERNAL) {
@@ -171,11 +171,11 @@ export class MemmapConfiguratorComponent implements OnInit {
         this.useCartRom) {
       bank.insertChunk(this.ultimaxVicBank2Chunk);
     }
-    
+
     if (this.useCartRom) {
       bank.insertChunk(this.cartRomLoChunk);
     }
-    
+
     if (this.useCartRom && this.cartRomConfig == this.CART_ROM_HI_BANK_A) {
       bank.insertChunk(this.bankACartRomHiChunk);
     }
@@ -189,7 +189,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   private bankECartRomHiChunk: MemoryChunk = new MemoryChunk("CART ROM HI", 0xE000, 0x2000, MemoryStatus.CART_ROM);
   private ioChunk: MemoryChunk = new MemoryChunk("I/O", 0xD000, 0x1000, MemoryStatus.IO);
   private charRomChunk: MemoryChunk = new MemoryChunk("CHAR ROM", 0xD000, 0x1000, MemoryStatus.CHAR_ROM);
-  
+
   private configureVicBank3(): void {
     var bank = new MemoryBank('VIC Bank 3', 0xC000);
 
@@ -197,21 +197,21 @@ export class MemmapConfiguratorComponent implements OnInit {
         this.useCartRom) {
       bank.insertChunk(this.ultimaxVicBank3Chunk);
     }
-    
+
     if (this.kernalConfig == this.BASIC_AND_KERNAL ||
         this.kernalConfig == this.KERNAL_ONLY) {
       bank.insertChunk(this.kernalRomChunk);
     }
-    
+
     if (this.cartRomConfig == this.CART_ROM_HI_BANK_E &&
         this.useCartRom) {
       bank.insertChunk(this.bankECartRomHiChunk);
     }
-    
+
     if (this.bankDConfig == this.IO) {
       bank.insertChunk(this.ioChunk);
     }
-    
+
     if (this.bankDConfig == this.CHAR_ROM) {
       bank.insertChunk(this.charRomChunk);
     }
@@ -277,18 +277,16 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   onCartRomChanged() {
-    if (this.useCartRom) {
-      this.cartRomConfig = this.NO_CART_ROM_HI;
-    }
     // puts it in a good default state no matter
     // whether cart rom is used or not
+    this.cartRomConfig = this.NO_CART_ROM_HI;
     this.kernalConfig = this.BASIC_AND_KERNAL;
     this.bankDConfig = this.IO;
-    
+
     this.configureAllVicBanks();
     this.filterBankModes();
   }
-  
+
   onCartRomHiOptionsChanged() {
     if (this.useCartRom) {
       if (this.cartRomConfig == this.CART_ROM_HI_BANK_A) {
@@ -299,14 +297,14 @@ export class MemmapConfiguratorComponent implements OnInit {
         this.kernalConfig = this.NO_BASIC_OR_KERNAL;
       }
     }
-    
+
     if (this.cartRomConfig == this.CART_ROM_HI_BANK_E) {
       this.bankDConfig = this.IO;
     }
     this.configureAllVicBanks();
     this.filterBankModes();
   }
-  
+
   onBasicKernalOptionsChanged() {
     this.configureAllVicBanks();
     this.filterBankModes();
@@ -326,13 +324,13 @@ export class MemmapConfiguratorComponent implements OnInit {
       return BankState.RAM;
     }
   }
-  
+
   private filterBankModes() {
       let bank8: BankState;
       let bankA: BankState;
       let bankD: BankState;
       let bankE: BankState;
-      
+
       if (this.useCartRom) {
         bank8 = BankState.CART_ROM_LO;
         if (this.cartRomConfig == this.CART_ROM_HI_BANK_A) {
@@ -362,13 +360,13 @@ export class MemmapConfiguratorComponent implements OnInit {
           bankE = BankState.RAM;
         }
       }
-      
+
       this.bankModesDataSource.data = BankMode.fromMemoryMap(bank8, bankA, bankD, bankE);
   }
-  
-  bankModesDataSource = new MatTableDataSource<BankMode>(); 
+
+  bankModesDataSource = new MatTableDataSource<BankMode>();
   displayedColumns: string[] = ['modeNumber', 'charem', 'hiram', 'loram', 'asInt' ];
-  
+
   private dumpUndefinedModeInfo(): void {
     console.log("If you get this message, please include the following info in any issue ticket:")
     console.log("--- begin debug info ---");
