@@ -49,6 +49,21 @@
               <mat-option [value]="2">Bank 2</mat-option>
               <mat-option [value]="3">Bank 3</mat-option>
           </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+          <div>
+          <mat-select
+            id="screen-ram-location"
+            [(ngModel)]="screenRamLocation">
+
+            <mat-option
+              *ngFor="let a of SCREEN_RAM_LOCATIONS; index as i"
+              [value]="a">
+              {{ a }}
+            </mat-option>
+          </mat-select>
+          </div>
         </mat-form-field>
     </mat-grid-tile>
 
