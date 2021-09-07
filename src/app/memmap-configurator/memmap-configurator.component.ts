@@ -48,6 +48,8 @@ export class MemmapConfiguratorComponent implements OnInit {
   readonly SCREEN_RAM_LOCATIONS: number[] = [ 0, 16, 32, 48, 64, 80, 96, 112, 128, 144,
                                     160, 176, 192, 208, 224, 240 ];
 
+  readonly CHAR_RAM_LOCATIONS: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
+
   readonly BASIC_ROM: string = 'BASIC_ROM';
 
   readonly KERNAL_ROM: string = 'KERNAL_ROM';
@@ -73,6 +75,7 @@ export class MemmapConfiguratorComponent implements OnInit {
   cartRomConfig: string = this.NO_CART_ROM_HI;
   bankDConfig: string = this.IO;
   screenRamLocation: number = 16;
+  charsetRamLocation: number = 2; // default for vic bank 0
 
   private static UNAVAILABLE_COLOR = 'red';
   private static AVAILABLE_FOR_CODE_COLOR = 'green';

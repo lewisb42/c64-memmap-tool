@@ -37,11 +37,11 @@
     </mat-grid-tile>
 
     <mat-grid-tile rowspan="3">
-        <mat-grid-tile-header>VIC-II Bank</mat-grid-tile-header>
+        <mat-grid-tile-header>VIC-II Options</mat-grid-tile-header>
         <mat-form-field appearance="fill">
+          <mat-label>VIC-II Bank</mat-label>
           <mat-select
               id="vic-banks"
-              class="radio-group-column-layout"
               [(ngModel)]="vicBank">
 
               <mat-option [value]="0">Bank 0</mat-option>
@@ -52,7 +52,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-          <div>
+          <mat-label>Screen RAM at:</mat-label>
           <mat-select
             id="screen-ram-location"
             [(ngModel)]="screenRamLocation">
@@ -63,7 +63,20 @@
               {{ a }} (${{ (vicBank*16384 + a*64).toString(16) }})
             </mat-option>
           </mat-select>
-          </div>
+        </mat-form-field>
+
+        <mat-form-field  appearance="fill">
+          <mat-label>Character set at:</mat-label>
+          <mat-select
+            id="charset-ram-location"
+            [(ngModel)]="charsetRamLocation">
+
+            <mat-option
+              *ngFor="let c of CHAR_RAM_LOCATIONS; index as i"
+              [value]="c">
+              {{ c }} (${{ (vicBank*16384 + c*2048).toString(16) }})
+            </mat-option>
+          </mat-select>
         </mat-form-field>
     </mat-grid-tile>
 
