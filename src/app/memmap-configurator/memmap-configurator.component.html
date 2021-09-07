@@ -60,7 +60,7 @@
             <mat-option
               *ngFor="let a of SCREEN_RAM_LOCATIONS; index as i"
               [value]="a">
-              {{ a }}
+              {{ a }} ({{ vicBank*16384 + a*64 }})
             </mat-option>
           </mat-select>
           </div>
