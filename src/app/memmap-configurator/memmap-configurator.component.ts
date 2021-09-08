@@ -49,6 +49,7 @@ export class MemmapConfiguratorComponent implements OnInit {
                                               11, 12, 13, 14, 15 ];
 
   readonly CHAR_RAM_LOCATIONS: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
+  readonly SPRITE_NUMBERS: number[] = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 
   readonly BASIC_ROM: string = 'BASIC_ROM';
 

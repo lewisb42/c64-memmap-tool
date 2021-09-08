@@ -12,7 +12,7 @@
 <google-chart
   [data]="vicBank3Chart"></google-chart>
 
-<mat-grid-list cols="3" rowHeight="150px" id="controls-area">
+<mat-grid-list cols="4" rowHeight="150px" id="controls-area">
 
 
 
@@ -21,7 +21,7 @@
 
             <mat-radio-group
               id="cartRomSelector"
-              class="radio-group-column-layout"
+              class="options-group-column-layout"
               [disabled]="false"
               [(ngModel)]="useCartRom"
               (change)="onCartRomChanged()">
@@ -38,46 +38,59 @@
 
     <mat-grid-tile rowspan="3">
         <mat-grid-tile-header>VIC-II Options</mat-grid-tile-header>
-        <mat-form-field appearance="fill">
-          <mat-label>VIC-II Bank</mat-label>
-          <mat-select
-              id="vic-banks"
-              [(ngModel)]="vicBank">
+        <div class="options-group-column-layout">
+          <mat-form-field appearance="fill">
+            <mat-label>VIC-II Bank</mat-label>
+            <mat-select
+                id="vic-banks"
+                [(ngModel)]="vicBank">
 
-              <mat-option [value]="0">Bank 0</mat-option>
-              <mat-option [value]="1">Bank 1</mat-option>
-              <mat-option [value]="2">Bank 2</mat-option>
-              <mat-option [value]="3">Bank 3</mat-option>
-          </mat-select>
-      </mat-form-field>
+                <mat-option [value]="0">Bank 0</mat-option>
+                <mat-option [value]="1">Bank 1</mat-option>
+                <mat-option [value]="2">Bank 2</mat-option>
+                <mat-option [value]="3">Bank 3</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      <mat-form-field appearance="fill">
-          <mat-label>Screen RAM at:</mat-label>
-          <mat-select
-            id="screen-ram-location"
-            [(ngModel)]="screenRamLocation">
+          <mat-form-field appearance="fill">
+              <mat-label>Screen RAM at:</mat-label>
+              <mat-select
+                id="screen-ram-location"
+                [(ngModel)]="screenRamLocation">
 
-            <mat-option
-              *ngFor="let a of SCREEN_RAM_LOCATIONS; index as i"
-              [value]="a">
-              {{ a }} (${{ (vicBank*16384 + a*1024).toString(16) }})
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+                <mat-option
+                  *ngFor="let a of SCREEN_RAM_LOCATIONS; index as i"
+                  [value]="a">
+                  {{ a }} (${{ (vicBank*16384 + a*1024).toString(16) }})
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-        <mat-form-field  appearance="fill">
-          <mat-label>Character set at:</mat-label>
-          <mat-select
-            id="charset-ram-location"
-            [(ngModel)]="charsetRamLocation">
+            <mat-form-field  appearance="fill">
+              <mat-label>Character set at:</mat-label>
+              <mat-select
+                id="charset-ram-location"
+                [(ngModel)]="charsetRamLocation">
 
-            <mat-option
-              *ngFor="let c of CHAR_RAM_LOCATIONS; index as i"
-              [value]="c">
-              {{ c }} (${{ (vicBank*16384 + c*2048).toString(16) }})
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+                <mat-option
+                  *ngFor="let c of CHAR_RAM_LOCATIONS; index as i"
+                  [value]="c">
+                  {{ c }} (${{ (vicBank*16384 + c*2048).toString(16) }})
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile rowspan="3">
+      <mat-grid-tile-header>Sprite Pointer Addresses</mat-grid-tile-header>
+        <div>
+          <ul>
+            <li *ngFor="let s of SPRITE_NUMBERS; index as i">
+              Sprite {{s}} Pointer:
+            </li>
+          </ul>
+        </div>
     </mat-grid-tile>
 
     <mat-grid-tile rowspan="3">
@@ -126,7 +139,7 @@
               <mat-grid-tile-header>CART ROM HI Options</mat-grid-tile-header>
               <mat-radio-group
               id="cart-rom-config"
-              class="radio-group-column-layout"
+              class="options-group-column-layout"
               [(ngModel)]="cartRomConfig"
               (change)="onCartRomHiOptionsChanged()">
                 <mat-radio-button
@@ -142,7 +155,7 @@
                 <mat-grid-tile-header>BASIC/KERNAL Options</mat-grid-tile-header>
                 <mat-radio-group
                 id="basic-and-kernal-selection"
-                class="radio-group-column-layout"
+                class="options-group-column-layout"
                 [(ngModel)]="kernalConfig"
                 (change)="onBasicKernalOptionsChanged()">
 
@@ -160,7 +173,7 @@
       <mat-grid-tile-header>$D000-$DFFF Options</mat-grid-tile-header>
       <mat-radio-group
         id="bankD-options"
-        class="radio-group-column-layout"
+        class="options-group-column-layout"
         [disabled]="cartRomConfig==this.CART_ROM_HI_BANK_E"
         [(ngModel)]="bankDConfig"
         (change)="onD000ToDfffOptionsChanged()">
