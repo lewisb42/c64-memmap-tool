@@ -61,7 +61,7 @@
                 <mat-option
                   *ngFor="let a of SCREEN_RAM_LOCATIONS; index as i"
                   [value]="a">
-                  {{ a }} (${{ (vicBank*16384 + a*1024).toString(16) }})
+                  {{ a }} ({{ calcScreenRamLocationAsHex(a) }})
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -75,7 +75,7 @@
                 <mat-option
                   *ngFor="let c of CHAR_RAM_LOCATIONS; index as i"
                   [value]="c">
-                  {{ c }} (${{ (vicBank*16384 + c*2048).toString(16) }})
+                  {{ c }} ({{ calcCharacterRamLocationAsHex(c) }})
                 </mat-option>
               </mat-select>
             </mat-form-field>

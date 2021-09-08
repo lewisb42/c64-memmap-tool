@@ -108,11 +108,19 @@ export class MemmapConfiguratorComponent implements OnInit {
     return toAddress(address, 0);
   }
 
-  // charRamLocation: the location value see by the VIC-II, e.g.,
+  // charRamLocation: the location value see by the VIC-II, i.e.,
   // the number given by bits 1-3 of register 53272
   // (see: https://www.c64-wiki.com/wiki/53272)
   calcCharacterRamLocationAsHex(charRamLocation: number): string {
     let address = this.vicBank * MemoryBank.SIZE + charRamLocation * 2048;
+    return toAddress(address, 0);
+  }
+
+  // screenRamLocation: the location value seen by the VIC-II, i.e.,
+  // the number given by bits 4-7 of register 53272
+  // (see: https://www.c64-wiki.com/wiki/53272)
+  calcScreenRamLocationAsHex(screenRamLocation: number): string {
+    let address = this.vicBank * MemoryBank.SIZE + screenRamLocation * 1024;
     return toAddress(address, 0);
   }
 
