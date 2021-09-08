@@ -104,7 +104,15 @@ export class MemmapConfiguratorComponent implements OnInit {
   }
 
   calcSpritePointerAsHex(spriteNumber: number): string {
-    let address = (this.vicBank*MemoryBank.SIZE + this.screenRamLocation*1024) + 1016 + spriteNumber;
+    let address = (this.vicBank * MemoryBank.SIZE + this.screenRamLocation * 1024) + 1016 + spriteNumber;
+    return toAddress(address, 0);
+  }
+
+  // charRamLocation: the location value see by the VIC-II, e.g.,
+  // the number given by bits 1-3 of register 53272
+  // (see: https://www.c64-wiki.com/wiki/53272)
+  calcCharacterRamLocationAsHex(charRamLocation: number): string {
+    let address = this.vicBank * MemoryBank.SIZE + charRamLocation * 2048;
     return toAddress(address, 0);
   }
 
