@@ -87,7 +87,7 @@
         <div>
           <ul>
             <li *ngFor="let s of SPRITE_NUMBERS; index as i">
-              Sprite {{s}}: ${{ ((vicBank*16384 + screenRamLocation*1024) + 1016 + s).toString(16) }}
+              Sprite {{s}}: {{ calcSpritePointerAsHex(s) }}
             </li>
           </ul>
         </div>

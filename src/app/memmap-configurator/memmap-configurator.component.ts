@@ -103,6 +103,11 @@ export class MemmapConfiguratorComponent implements OnInit {
     this.configureVicBank3();
   }
 
+  calcSpritePointerAsHex(spriteNumber: number): string {
+    let address = (this.vicBank*MemoryBank.SIZE + this.screenRamLocation*1024) + 1016 + spriteNumber;
+    return toAddress(address, 0);
+  }
+
   private configureChart(chart:GoogleChartInterface, bankNumber:number): void {
     let startAddr = bankNumber * MemoryBank.SIZE;
     chart.options['hAxis'] = {
